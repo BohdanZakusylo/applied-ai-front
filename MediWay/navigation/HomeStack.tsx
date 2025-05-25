@@ -1,4 +1,5 @@
 //used only for displaying and navigatiion for Home Screens
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Test2 from '../screens/Test2';
 

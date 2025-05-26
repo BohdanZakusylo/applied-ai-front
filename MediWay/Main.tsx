@@ -5,8 +5,8 @@ import SplashScreen from "./screens/SplashScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 
 const Main = () => {
-    const [isReady, setIsReady] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // This will be managed by auth context later
+    const [isReady, setIsReady] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(true); // This will be managed by auth context later
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
 

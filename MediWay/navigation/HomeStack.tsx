@@ -2,10 +2,10 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Test2 from '../screens/Test2';
+import Faq from '../screens/Faq';
 import Test3 from '../screens/Test3';
 import Test4 from '../screens/test4';
-import Test5 from '../screens/Test5';
+import Profile from '../screens/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,9 +44,9 @@ const HomeStack = () => {
             })}
         >
             <Tab.Screen name="Home" component={Test2} />
-            <Tab.Screen name="Test3" component={Test3} />
+            <Tab.Screen name="FAQ" component={Test3} />
             <Tab.Screen name="Test4" component={Test4} />
-            <Tab.Screen name="Test5" component={Test5} />
+            <Tab.Screen name="Profile" component={Test5} />
         </Tab.Navigator>
     );
 };

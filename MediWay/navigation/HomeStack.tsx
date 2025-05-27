@@ -43,10 +43,10 @@ const HomeStack = () => {
                 headerShown: false,
             })}
         >
-            <Tab.Screen name="Home" component={Test2} />
-            <Tab.Screen name="FAQ" component={Test3} />
+            <Tab.Screen name="Home" component={Test3} />
+            <Tab.Screen name="FAQ" component={Faq} />
             <Tab.Screen name="Test4" component={Test4} />
-            <Tab.Screen name="Profile" component={Test5} />
+            <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
     );
 };

@@ -1,15 +1,16 @@
-//used only for displaying and navigatiion for Home Screens
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Test2 from '../screens/Test2';
+import WorkInProgress from '../screens/WorkInProgress/WorkInProgress';
+import TabsStack from './TabsStack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 function HomeStack() {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Test2" component={Test2} />
-        </Tab.Navigator>
+        <Stack.Navigator initialRouteName="Tabs" screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Tabs" component={TabsStack} />
+            <Stack.Screen name="WorkInProgress" component={WorkInProgress} />
+        </Stack.Navigator>
     );
-};
+}
 
 export default HomeStack;

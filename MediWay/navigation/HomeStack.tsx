@@ -4,6 +4,7 @@ import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreenStack from './HomeScreenStack';
 import ChatBotScreen from '../screens/ChatBot/ChatBotScreen';
+import FaqScreen from '../screens/FaQ/FaqScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +16,7 @@ const HomeStack = () => {
                     let icon;
                     if (route.name === 'Home') {
                         icon = require('../assets/images/bottom-tabs/bottom-home.png');
-                    } else if (route.name === 'Test3') {
+                    } else if (route.name === 'FaQ') {
                         icon = require('../assets/images/bottom-tabs/bottom-faq.png');
                     } else if (route.name === 'Chat') {
                         icon = require('../assets/images/bottom-tabs/bottom-chat.png');
@@ -42,7 +43,7 @@ const HomeStack = () => {
             })}
         >
             <Tab.Screen name="Home" component={HomeScreenStack} />
-            {/* <Tab.Screen name="FAQ" component={Faq} /> */}
+            <Tab.Screen name="FaQ" component={FaqScreen} />
             <Tab.Screen name="Chat" component={ChatBotScreen} />
             {/* <Tab.Screen name="Profile" component={Profile} /> */}
         </Tab.Navigator>

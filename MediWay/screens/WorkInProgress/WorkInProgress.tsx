@@ -10,7 +10,7 @@ const WorkInProgress = () => {
     const navigation = useNavigation();
 
     const navigateHome: () => void = () => {
-        (navigation as any).navigate('Tabs');
+        (navigation as any).goBack();
     };
 
     return (

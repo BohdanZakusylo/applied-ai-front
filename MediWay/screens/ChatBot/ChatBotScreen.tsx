@@ -20,6 +20,7 @@ const ChatBotScreen = () => {
 
     const addMessage = (message: MessageProp) => {
         setMessages(prevMessages => [...prevMessages, message]);
+        setInputText("");
     };
 
     const renderItem = ({ item }: { item: MessageProp }) => (

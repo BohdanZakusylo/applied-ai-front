@@ -17,11 +17,11 @@ const Home = () => {
     const SUBMIT: ImageURISource = require('../../assets/images/home_submit.png');
 
     const navigatePolicy: () => void = () => {
-        navigation.navigate('WorkInProgress');
+        (navigation as any).navigate('WorkInProgress');
     };
 
     const navigateChat: () => void = () => {
-        navigation.navigate('WorkInProgress');
+        (navigation as any).navigate('WorkInProgress');
     };
 
     const TILES: HomeNavigationTileProps[] = [
@@ -60,19 +60,19 @@ const Home = () => {
                     data={TILES}
                     renderItem={(tile) =>
                         <HomeNavigationTile
-                        key={'NavigationButton' + tile.index}
-                        imageSource={tile.item.imageSource}
-                        label={tile.item.label}
-                        onPress={tile.item.onPress}
-                        color={tile.item.color}
-                        borderColor={tile.item.borderColor}
+                            key={'NavigationButton' + tile.index}
+                            imageSource={tile.item.imageSource}
+                            label={tile.item.label}
+                            onPress={tile.item.onPress}
+                            color={tile.item.color}
+                            borderColor={tile.item.borderColor}
                         />
                     }
                     numColumns={2}
                     columnWrapperStyle={styles.row}
                 />
             </View>
-            <Button buttonProps={{onPress: navigateChat}} label="Chat with me for more help" />
+            <Button buttonProps={{ onPress: navigateChat }} label="Chat with me for more help" />
         </View>
     );
 };

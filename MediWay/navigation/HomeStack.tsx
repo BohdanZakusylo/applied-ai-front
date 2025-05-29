@@ -2,7 +2,8 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Test2 from '../screens/Test2';
+import HomeScreenStack from './HomeScreenStack';
+import ChatBotScreen from '../screens/ChatBot/ChatBotScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,13 +14,13 @@ const HomeStack = () => {
                 tabBarIcon: ({ focused, size }) => {
                     let icon;
                     if (route.name === 'Home') {
-                        icon = require('../images/bottom-tabs/bottom-home.png');
+                        icon = require('../assets/images/bottom-tabs/bottom-home.png');
                     } else if (route.name === 'Test3') {
-                        icon = require('../images/bottom-tabs/bottom-faq.png');
-                    } else if (route.name === 'Test4') {
-                        icon = require('../images/bottom-tabs/bottom-chat.png');
+                        icon = require('../assets/images/bottom-tabs/bottom-faq.png');
+                    } else if (route.name === 'Chat') {
+                        icon = require('../assets/images/bottom-tabs/bottom-chat.png');
                     } else if (route.name === 'Test5') {
-                        icon = require('../images/bottom-tabs/bottom-profile.png');
+                        icon = require('../assets/images/bottom-tabs/bottom-profile.png');
                     }
 
                     return (
@@ -40,9 +41,9 @@ const HomeStack = () => {
                 headerShown: false,
             })}
         >
-            <Tab.Screen name="Home" component={Test2} />
+            <Tab.Screen name="Home" component={HomeScreenStack} />
             {/* <Tab.Screen name="FAQ" component={Faq} /> */}
-            {/* <Tab.Screen name="Test4" component={Test4} /> */}
+            <Tab.Screen name="Chat" component={ChatBotScreen} />
             {/* <Tab.Screen name="Profile" component={Profile} /> */}
         </Tab.Navigator>
     );

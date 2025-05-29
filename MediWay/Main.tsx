@@ -3,8 +3,8 @@ import HomeStack from './navigation/HomeStack';
 import GetStartedStack from './navigation/GetStartedStack';
 
 const Main = () => {
-    const isReady = false;
-    const isLoggedIn = false;
+    const isReady = true;
+    const isLoggedIn = true;
 
     return (
         <>

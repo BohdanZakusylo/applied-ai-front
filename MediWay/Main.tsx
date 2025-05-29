@@ -1,6 +1,6 @@
-import AuthStack from "./navigation/AuthStack";
-import HomeStack from "./navigation/HomeStack";
-import GetStartedStack from "./navigation/GetStartedStack";
+import AuthStack from './navigation/AuthStack';
+import HomeStack from './navigation/HomeStack';
+import GetStartedStack from './navigation/GetStartedStack';
 
 const Main = () => {
     const isReady = false;

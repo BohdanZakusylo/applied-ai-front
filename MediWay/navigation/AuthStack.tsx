@@ -9,7 +9,7 @@ function AuthStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="MoreInfo" component={MoreInfo} />
+            <Stack.Screen name="MoreInfo" component={MoreInfo} options={{headerShown: false}} />
         </Stack.Navigator>
     );
 };

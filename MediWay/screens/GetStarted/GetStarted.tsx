@@ -18,7 +18,6 @@ const GetStarted = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.headerText}>get started</Text>
                 
                 <Image 
                     source={require('../../assets/images/logo.png')} 
@@ -72,12 +71,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
     },
-    headerText: {
-        fontSize: 16,
-        color: '#333333',
-        alignSelf: 'flex-start',
-        marginBottom: 20,
-    },
     logo: {
         width: 200,
         height: 60,
@@ -85,14 +78,14 @@ const styles = StyleSheet.create({
     },
     illustration: {
         width: '100%',
-        height: 300,
+        height: 400,
         marginVertical: 20,
     },
     tagline: {
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: '500',
         textAlign: 'center',
-        marginBottom: 30,
+        marginBottom: 90,
         color: '#333333',
         lineHeight: 24,
     },
@@ -101,13 +94,13 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         gap: 20,
-        marginBottom: 20,
+        marginBottom: 60,
     },
     getStartedButton: {
-        backgroundColor: '#00FFAA',
-        paddingVertical: 12,
+        backgroundColor: '#29B0FF',
+        paddingVertical: 16,
         paddingHorizontal: 24,
-        borderRadius: 25,
+        borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -123,7 +116,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     loginButtonText: {
-        color: '#00FFAA',
+        color: '#29B0FF',
         fontWeight: 'bold',
         fontSize: 16,
     },

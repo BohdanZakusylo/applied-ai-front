@@ -8,11 +8,12 @@ const Main = () => {
 
     return (
         <>
-            {isReady ? (
+        <GetStartedStack />
+            {/* {isReady ? (
                 isLoggedIn ? <HomeStack /> : <AuthStack />
             ) : (
                 <GetStartedStack />
-            )}
+            )} */}
         </>
     );
 };

@@ -89,7 +89,6 @@ function AuthStack({ onBack, onLoginSuccess, initialRoute = 'Login' }: AuthStack
                     />
                 )}
             </Stack.Screen>
-            <Stack.Screen name="MoreInfo" component={MoreInfo} options={{headerShown: false}} />
         </Stack.Navigator>
     );
 };

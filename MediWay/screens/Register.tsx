@@ -87,7 +87,23 @@ const Register: React.FC<RegisterProps> = ({
           { text: 'OK', onPress: onRegisterSuccess },
         ]);
       } else {
-        Alert.alert('Registration Failed', data.detail || 'Registration failed');
+        // Handle specific error cases
+        if (response.status === 409) {
+          Alert.alert(
+            'Email Already Registered', 
+            'An account with this email address already exists. Please use a different email or try logging in instead.',
+            [
+              { text: 'OK', style: 'default' },
+              { text: 'Go to Login', onPress: onLoginPress, style: 'default' }
+            ]
+          );
+        } else if (response.status === 422) {
+          Alert.alert('Validation Error', data.detail || 'Please check your input and try again');
+        } else if (response.status === 400) {
+          Alert.alert('Error', data.detail || 'Please fill in all required fields');
+        } else {
+          Alert.alert('Registration Failed', data.detail || 'Registration failed. Please try again.');
+        }
       }
     } catch (error) {
       Alert.alert('Error', 'Network error. Please try again.');

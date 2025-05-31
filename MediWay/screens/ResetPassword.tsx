@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import Button from '../components/Button/Button';
 import { COLORS } from '../assets/constants';
@@ -126,10 +127,12 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
+            <Image
+                source={require('../assets/images/logo.png')}
+                style={styles.logo}
+                resizeMode="contain"
+              />
             <Text style={styles.title}>Reset Password</Text>
-            <Text style={styles.subtitle}>
-              Enter the 6-digit code sent to {email} and your new password
-            </Text>
           </View>
 
           <View style={styles.form}>
@@ -222,10 +225,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
+  logo: {
+        width: 200,
+        height: 200,
+        marginBottom: -30,
+      },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.TERTIARY,
+    color: COLORS.BLACK,
     marginBottom: 16,
   },
   subtitle: {

@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import Button from '../components/Button/Button';
 import { COLORS } from '../assets/constants';
@@ -74,8 +75,12 @@ const Login: React.FC<LoginProps> = ({
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
-            <Text style={styles.title}>Welcome to MediWay</Text>
-            <Text style={styles.subtitle}>Login to your account</Text>
+            <Image
+              source={require('../assets/images/logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <Text style={styles.title}>Login here</Text>
           </View>
 
           <View style={styles.form}>
@@ -125,9 +130,9 @@ const Login: React.FC<LoginProps> = ({
             />
 
             <View style={styles.registerContainer}>
-              <Text style={styles.registerText}>Don't have an account? </Text>
+              <Text style={styles.registerText}>If you don't have an account yet,{' '}</Text>
               <TouchableOpacity onPress={onRegisterPress}>
-                <Text style={styles.registerLink}>Sign Up</Text>
+                <Text style={styles.registerLink}>Register here</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -154,15 +159,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
+  logo: {
+      width: 200,
+      height: 200,
+      marginBottom: -30,
+    },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.TERTIARY,
+    color: COLORS.BLACK,
     marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#00000080',
   },
   form: {
     width: '100%',
@@ -185,11 +191,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.WHITE,
   },
   forgotPassword: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     marginBottom: 30,
   },
   forgotPasswordText: {
-    color: COLORS.TERTIARY,
+    color: COLORS.BLACK,
     fontSize: 14,
     fontWeight: '500',
   },

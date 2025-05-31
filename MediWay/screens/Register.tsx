@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import Button from '../components/Button/Button';
 import { COLORS } from '../assets/constants';
@@ -103,8 +104,12 @@ const Register: React.FC<RegisterProps> = ({
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
-            <Text style={styles.title}>Create Account</Text>
-            <Text style={styles.subtitle}>Join MediWay today</Text>
+            <Image
+              source={require('../assets/images/logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <Text style={styles.title}>Register here</Text>
           </View>
 
           <View style={styles.form}>
@@ -202,9 +207,9 @@ const Register: React.FC<RegisterProps> = ({
             />
 
             <View style={styles.loginContainer}>
-              <Text style={styles.loginText}>Already have an account? </Text>
+              <Text style={styles.loginText}>If you already have an account </Text>
               <TouchableOpacity onPress={onLoginPress}>
-                <Text style={styles.loginLink}>Login</Text>
+                <Text style={styles.loginLink}>Login here</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -231,10 +236,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: -30,
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.TERTIARY,
+    color: COLORS.BLACK,
     marginBottom: 8,
   },
   subtitle: {

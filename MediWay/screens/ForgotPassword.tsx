@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import Button from '../components/Button/Button';
 import { COLORS } from '../assets/constants';
@@ -77,10 +78,12 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
-            <Text style={styles.title}>Forgot Password</Text>
-            <Text style={styles.subtitle}>
-              Enter your email address and we'll send you a 6-digit code to reset your password
-            </Text>
+            <Image
+              source={require('../assets/images/logo.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <Text style={styles.title}>Reset your Password</Text>
           </View>
 
           <View style={styles.form}>
@@ -108,7 +111,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
             />
 
             <View style={styles.loginContainer}>
-              <Text style={styles.loginText}>Remember your password? </Text>
+              <Text style={styles.loginText}>Remembered your password? </Text>
               <TouchableOpacity onPress={onLoginPress}>
                 <Text style={styles.loginLink}>Back to Login</Text>
               </TouchableOpacity>
@@ -137,10 +140,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: -30,
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: COLORS.TERTIARY,
+    color: COLORS.BLACK,
     marginBottom: 16,
   },
   subtitle: {

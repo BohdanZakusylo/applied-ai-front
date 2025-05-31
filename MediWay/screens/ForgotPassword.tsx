@@ -15,50 +15,53 @@ import Button from '../components/Button/Button';
 import { COLORS } from '../assets/constants';
 import { StyleSheet } from 'react-native';
 
-interface LoginProps {
+interface ForgotPasswordProps {
   onBack?: () => void;
-  onLoginSuccess?: () => void;
-  onRegisterPress?: () => void;
-  onForgotPasswordPress?: () => void;
+  onLoginPress?: () => void;
+  onCodeSent?: (email: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({
   onBack,
-  onLoginSuccess,
-  onRegisterPress,
-  onForgotPasswordPress,
+  onLoginPress,
+  onCodeSent,
 }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert('Error', 'Please fill in all fields');
+  const handleSendCode = async () => {
+    if (!email.trim()) {
+      Alert.alert('Error', 'Please enter your email address');
       return;
     }
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/v1/auth/login', {
+      const response = await fetch('http://localhost:8000/api/v1/auth/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email.trim(),
-          password: password,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert('Success', 'Login successful', [
-          { text: 'OK', onPress: onLoginSuccess },
-        ]);
+        Alert.alert(
+          'Code Sent',
+          'A 6-digit reset code has been sent to your email. Check your inbox and enter the code.',
+          [
+            {
+              text: 'OK',
+              onPress: () => onCodeSent?.(email.trim()),
+            },
+          ]
+        );
       } else {
-        Alert.alert('Login Failed', data.detail || 'Invalid credentials');
+        Alert.alert('Error', data.detail || 'Failed to send reset code');
       }
     } catch (error) {
       Alert.alert('Error', 'Network error. Please try again.');
@@ -80,12 +83,12 @@ const Login: React.FC<LoginProps> = ({
               style={styles.logo}
               resizeMode="contain"
             />
-            <Text style={styles.title}>Login here</Text>
+            <Text style={styles.title}>Reset your Password</Text>
           </View>
 
           <View style={styles.form}>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Email</Text>
+              <Text style={styles.label}>Email Address</Text>
               <TextInput
                 style={styles.input}
                 value={email}
@@ -98,41 +101,19 @@ const Login: React.FC<LoginProps> = ({
               />
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Enter your password"
-                placeholderTextColor="#00000060"
-                secureTextEntry
-                autoCapitalize="none"
-                autoCorrect={false}
-                spellCheck={false}
-                textContentType="password"
-                passwordRules=""
-                autoComplete="current-password"
-              />
-            </View>
-
-            <TouchableOpacity onPress={onForgotPasswordPress} style={styles.forgotPassword}>
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-            </TouchableOpacity>
-
             <Button
-              label={loading ? 'Logging in...' : 'Login'}
+              label={loading ? 'Sending Code...' : 'Send Reset Code'}
               buttonProps={{
-                onPress: handleLogin,
+                onPress: handleSendCode,
                 disabled: loading,
                 style: loading && styles.disabledButton,
               }}
             />
 
-            <View style={styles.registerContainer}>
-              <Text style={styles.registerText}>If you don't have an account yet,{' '}</Text>
-              <TouchableOpacity onPress={onRegisterPress}>
-                <Text style={styles.registerLink}>Register here</Text>
+            <View style={styles.loginContainer}>
+              <Text style={styles.loginText}>Remembered your password? </Text>
+              <TouchableOpacity onPress={onLoginPress}>
+                <Text style={styles.loginLink}>Back to Login</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -160,21 +141,27 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   logo: {
-      width: 200,
-      height: 200,
-      marginBottom: -30,
-    },
+    width: 200,
+    height: 200,
+    marginBottom: -30,
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: COLORS.BLACK,
-    marginBottom: 8,
+    marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#00000080',
+    textAlign: 'center',
+    lineHeight: 24,
   },
   form: {
     width: '100%',
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 30,
   },
   label: {
     fontSize: 16,
@@ -190,32 +177,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: COLORS.WHITE,
   },
-  forgotPassword: {
-    alignSelf: 'flex-start',
-    marginBottom: 30,
-  },
-  forgotPasswordText: {
-    color: COLORS.BLACK,
-    fontSize: 14,
-    fontWeight: '500',
-  },
   disabledButton: {
     opacity: 0.6,
   },
-  registerContainer: {
+  loginContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 20,
   },
-  registerText: {
+  loginText: {
     fontSize: 14,
     color: '#00000080',
   },
-  registerLink: {
+  loginLink: {
     fontSize: 14,
     color: COLORS.TERTIARY,
     fontWeight: '500',
   },
 });
 
-export default Login;
+export default ForgotPassword; 

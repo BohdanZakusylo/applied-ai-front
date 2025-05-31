@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../screens/Login';
+import MoreInfo from '../screens/MoreInfo/MoreInfo'
 import Register from '../screens/Register';
 import ForgotPassword from '../screens/ForgotPassword';
 import ResetPassword from '../screens/ResetPassword';
@@ -88,6 +89,7 @@ function AuthStack({ onBack, onLoginSuccess, initialRoute = 'Login' }: AuthStack
                     />
                 )}
             </Stack.Screen>
+            <Stack.Screen name="MoreInfo" component={MoreInfo} options={{headerShown: false}} />
         </Stack.Navigator>
     );
 };

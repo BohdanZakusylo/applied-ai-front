@@ -1,16 +1,31 @@
+import React, { useState } from 'react';
 import AuthStack from './navigation/AuthStack';
 import HomeStack from './navigation/HomeStack';
 import GetStartedStack from './navigation/GetStartedStack';
 
 const Main = () => {
-    const isReady = true;
-    const isLoggedIn = true;
+    const [isReady, setIsReady] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Set to false to see auth screens
+
+    const handleLoginSuccess = () => {
+        setIsLoggedIn(true);
+    };
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+    };
 
     return (
         <>
-        <GetStartedStack />
-            {/* {isReady ? (
-                isLoggedIn ? <HomeStack /> : <AuthStack />
+            {isReady ? (
+                isLoggedIn ? (
+                    <HomeStack />
+                ) : (
+                    <AuthStack 
+                        onLoginSuccess={handleLoginSuccess}
+                        initialRoute="Login"
+                    />
+                )
             ) : (
                 <GetStartedStack />
             )} */}

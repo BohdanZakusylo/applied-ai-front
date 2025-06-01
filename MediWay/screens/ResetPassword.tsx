@@ -1,0 +1,284 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Image,
+} from 'react-native';
+import Button from '../components/Button/Button';
+import { COLORS } from '../assets/constants';
+import { StyleSheet } from 'react-native';
+
+interface ResetPasswordProps {
+  email: string;
+  onBack?: () => void;
+  onPasswordResetSuccess?: () => void;
+  onResendCode?: () => void;
+}
+
+const ResetPassword: React.FC<ResetPasswordProps> = ({
+  email,
+  onBack,
+  onPasswordResetSuccess,
+  onResendCode,
+}) => {
+  const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const validateForm = () => {
+    if (!code.trim()) {
+      Alert.alert('Error', 'Please enter the 6-digit code');
+      return false;
+    }
+
+    if (code.trim().length !== 6) {
+      Alert.alert('Error', 'Code must be 6 digits');
+      return false;
+    }
+
+    if (!newPassword) {
+      Alert.alert('Error', 'Please enter a new password');
+      return false;
+    }
+
+    if (newPassword.length < 8) {
+      Alert.alert('Error', 'Password must be at least 8 characters long');
+      return false;
+    }
+
+    if (newPassword !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleResetPassword = async () => {
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          code: code.trim(),
+          new_password: newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert(
+          'Success',
+          'Your password has been reset successfully!',
+          [
+            {
+              text: 'OK',
+              onPress: onPasswordResetSuccess,
+            },
+          ]
+        );
+      } else {
+        // Handle specific error cases
+        if (response.status === 400) {
+          const errorMessage = data.detail || 'Invalid or expired code';
+          if (errorMessage.includes('expired')) {
+            Alert.alert(
+              'Code Expired',
+              'Your reset code has expired. Please request a new one.',
+              [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Resend Code', onPress: onResendCode },
+              ]
+            );
+          } else {
+            Alert.alert('Invalid Code', 'The code you entered is incorrect. Please try again.');
+          }
+        } else {
+          Alert.alert('Error', data.detail || 'Failed to reset password');
+        }
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.header}>
+            <Image
+                source={require('../assets/images/logo.png')}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            <Text style={styles.title}>Reset Password</Text>
+          </View>
+
+          <View style={styles.form}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>6-Digit Code</Text>
+              <TextInput
+                style={styles.input}
+                value={code}
+                onChangeText={setCode}
+                placeholder="Enter 6-digit code"
+                placeholderTextColor="#00000060"
+                keyboardType="numeric"
+                maxLength={6}
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>New Password</Text>
+              <TextInput
+                style={styles.input}
+                value={newPassword}
+                onChangeText={setNewPassword}
+                placeholder="Enter new password (8+ characters)"
+                placeholderTextColor="#00000060"
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                spellCheck={false}
+                textContentType="newPassword"
+                passwordRules=""
+                autoComplete="new-password"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Confirm New Password</Text>
+              <TextInput
+                style={styles.input}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                placeholder="Confirm new password"
+                placeholderTextColor="#00000060"
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                spellCheck={false}
+                textContentType="newPassword"
+                passwordRules=""
+                autoComplete="new-password"
+              />
+            </View>
+
+            <Button
+              label={loading ? 'Resetting Password...' : 'Reset Password'}
+              buttonProps={{
+                onPress: handleResetPassword,
+                disabled: loading,
+                style: loading && styles.disabledButton,
+              }}
+            />
+
+            <View style={styles.resendContainer}>
+              <Text style={styles.resendText}>Didn't receive the code? </Text>
+              <TouchableOpacity onPress={onResendCode}>
+                <Text style={styles.resendLink}>Resend Code</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.WHITE,
+  },
+  keyboardView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  logo: {
+        width: 200,
+        height: 200,
+        marginBottom: -30,
+      },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: COLORS.BLACK,
+    marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#00000080',
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  form: {
+    width: '100%',
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: COLORS.BLACK,
+    marginBottom: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#00000030',
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+    backgroundColor: COLORS.WHITE,
+  },
+  disabledButton: {
+    opacity: 0.6,
+  },
+  resendContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  resendText: {
+    fontSize: 14,
+    color: '#00000080',
+  },
+  resendLink: {
+    fontSize: 14,
+    color: COLORS.TERTIARY,
+    fontWeight: '500',
+  },
+});
+
+export default ResetPassword; 

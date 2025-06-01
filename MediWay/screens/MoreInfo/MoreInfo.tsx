@@ -4,7 +4,13 @@ import Button from '../../components/Button/Button';
 
 const LOGO = require('../../assets/images/logo.png');
 
-export default function MoreInfo({ navigation }: { navigation: any }) {
+interface MoreInfoProps {
+    navigation: any;
+    onLoginPress?: () => void;
+    onRegisterPress?: () => void;
+}
+
+export default function MoreInfo({ navigation, onLoginPress, onRegisterPress }: MoreInfoProps) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={LOGO} style={styles.logo} resizeMode="contain" />
@@ -40,12 +46,18 @@ export default function MoreInfo({ navigation }: { navigation: any }) {
         <View style={styles.buttonContainer}>
           <Button
             label="Get started"
-            buttonProps={{ onPress: () => navigation.navigate('Register'), style: styles.primaryButton }}
+            buttonProps={{ 
+              onPress: () => onRegisterPress ? onRegisterPress() : navigation.navigate('Register'), 
+              style: styles.primaryButton 
+            }}
             textProps={{ style: styles.primaryButtonText }}
           />
           <Button
             label="Login"
-            buttonProps={{ onPress: () => navigation.navigate('Login'), style: styles.secondaryButton }}
+            buttonProps={{ 
+              onPress: () => onLoginPress ? onLoginPress() : navigation.navigate('Login'), 
+              style: styles.secondaryButton 
+            }}
             textProps={{ style: styles.secondaryButtonText }}
           />
         </View>

@@ -2,17 +2,31 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const GetStarted = () => {
+interface GetStartedProps {
+    onLoginPress?: () => void;
+    onRegisterPress?: () => void;
+}
+
+const GetStarted = ({ onLoginPress, onRegisterPress }: GetStartedProps) => {
     const navigation = useNavigation();
 
     const handleGetStarted = () => {
-        // Navigate to registration or next onboarding screen
-        (navigation as any).navigate('Login');
+        // Navigate to registration
+        if (onRegisterPress) {
+            onRegisterPress();
+        }
     };
 
     const handleLogin = () => {
         // Navigate to login screen
-        (navigation as any).navigate('Login');
+        if (onLoginPress) {
+            onLoginPress();
+        }
+    };
+
+    const handleWhyAccount = () => {
+        // Navigate to MoreInfo screen
+        (navigation as any).navigate('MoreInfo');
     };
 
     return (
@@ -52,7 +66,10 @@ const GetStarted = () => {
                     </TouchableOpacity>
                 </View>
                 
-                <TouchableOpacity style={styles.helpTextContainer}>
+                <TouchableOpacity 
+                    style={styles.helpTextContainer}
+                    onPress={handleWhyAccount}
+                >
                     <Text style={styles.helpText}>Why do I need an account?</Text>
                 </TouchableOpacity>
             </View>
@@ -85,7 +102,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '500',
         textAlign: 'center',
-        marginBottom: 90,
+        marginBottom: 40,
         color: '#333333',
         lineHeight: 24,
     },
@@ -94,7 +111,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         gap: 20,
-        marginBottom: 60,
+        marginBottom: 20,
     },
     getStartedButton: {
         backgroundColor: '#29B0FF',
@@ -121,8 +138,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     helpTextContainer: {
-        marginTop: 'auto',
-        marginBottom: 20,
+        marginTop: 20,
+        marginBottom: 40,
     },
     helpText: {
         color: '#666666',

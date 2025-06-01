@@ -2,9 +2,16 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import GetStarted from '../screens/GetStarted/GetStarted';
 import SplashScreen from '../screens/SplashScreen/SplashScreen';
+import MoreInfo from '../screens/MoreInfo/MoreInfo';
+
 const Stack = createStackNavigator();
 
-function GetStartedStack() {
+interface GetStartedStackProps {
+    onLoginPress?: () => void;
+    onRegisterPress?: () => void;
+}
+
+function GetStartedStack({ onLoginPress, onRegisterPress }: GetStartedStackProps) {
     return (
         <Stack.Navigator
             screenOptions={{
@@ -12,7 +19,24 @@ function GetStartedStack() {
             }}
         >
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
-            <Stack.Screen name="GetStarted" component={GetStarted} />
+            <Stack.Screen name="GetStarted">
+                {(props) => (
+                    <GetStarted 
+                        {...props} 
+                        onLoginPress={onLoginPress}
+                        onRegisterPress={onRegisterPress}
+                    />
+                )}
+            </Stack.Screen>
+            <Stack.Screen name="MoreInfo">
+                {(props) => (
+                    <MoreInfo 
+                        {...props} 
+                        onLoginPress={onLoginPress}
+                        onRegisterPress={onRegisterPress}
+                    />
+                )}
+            </Stack.Screen>
         </Stack.Navigator>
     );
 };

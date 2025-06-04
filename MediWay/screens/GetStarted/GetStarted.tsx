@@ -1,27 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../contexts/AuthContext';
 
-interface GetStartedProps {
-    onLoginPress?: () => void;
-    onRegisterPress?: () => void;
-}
-
-const GetStarted = ({ onLoginPress, onRegisterPress }: GetStartedProps) => {
+const GetStarted = () => {
     const navigation = useNavigation();
+    const { dispatch } = useContext(AuthContext);
 
     const handleGetStarted = () => {
-        // Navigate to registration
-        if (onRegisterPress) {
-            onRegisterPress();
-        }
+        dispatch({ type: 'SET_INITIAL_ROUTE', payload: 'Register' });
+        dispatch({ type: 'SET_READY', payload: true });
     };
 
     const handleLogin = () => {
-        // Navigate to login screen
-        if (onLoginPress) {
-            onLoginPress();
-        }
+        dispatch({ type: 'SET_INITIAL_ROUTE', payload: 'Login' });
+        dispatch({ type: 'SET_READY', payload: true });
     };
 
     const handleWhyAccount = () => {
@@ -32,41 +25,40 @@ const GetStarted = ({ onLoginPress, onRegisterPress }: GetStartedProps) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                
-                <Image 
-                    source={require('../../assets/images/logo.png')} 
-                    style={styles.logo} 
+                <Image
+                    source={require('../../assets/images/logo.png')}
+                    style={styles.logo}
                     resizeMode="contain"
                 />
-                
-                <Image 
-                    source={require('../../assets/images/getStartedImage.png')} 
-                    style={styles.illustration} 
+
+                <Image
+                    source={require('../../assets/images/getStartedImage.png')}
+                    style={styles.illustration}
                     resizeMode="contain"
                 />
-                
+
                 <Text style={styles.tagline}>
-                    A clear path through the{"\n"}
+                    A clear path through the{'\n'}
                     medical system
                 </Text>
-                
+
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity 
-                        style={styles.getStartedButton} 
+                    <TouchableOpacity
+                        style={styles.getStartedButton}
                         onPress={handleGetStarted}
                     >
                         <Text style={styles.getStartedButtonText}>Get started</Text>
                     </TouchableOpacity>
-                    
-                    <TouchableOpacity 
-                        style={styles.loginButton} 
+
+                    <TouchableOpacity
+                        style={styles.loginButton}
                         onPress={handleLogin}
                     >
                         <Text style={styles.loginButtonText}>Login</Text>
                     </TouchableOpacity>
                 </View>
-                
-                <TouchableOpacity 
+
+                <TouchableOpacity
                     style={styles.helpTextContainer}
                     onPress={handleWhyAccount}
                 >

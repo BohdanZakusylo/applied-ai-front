@@ -1,47 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import AuthStack from './navigation/AuthStack';
 import HomeStack from './navigation/HomeStack';
 import GetStartedStack from './navigation/GetStartedStack';
+import { AuthContext } from './contexts/AuthContext';
 
 const Main = () => {
-    const [isReady, setIsReady] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Set to false to see auth screens
-    const [initialAuthRoute, setInitialAuthRoute] = useState('Login');
-
-    const handleLoginSuccess = () => {
-        setIsLoggedIn(true);
-    };
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-    };
-
-    const handleGoToLogin = () => {
-        setInitialAuthRoute('Login');
-        setIsReady(true); 
-    };
-
-    const handleGoToRegister = () => {
-        setInitialAuthRoute('Register');
-        setIsReady(true); 
-    };
+    const { state: { loggedIn, ready } } = useContext(AuthContext);
 
     return (
         <>
-            {isReady ? (
-                isLoggedIn ? (
+            {ready ? (
+                loggedIn ? (
                     <HomeStack />
                 ) : (
-                    <AuthStack 
-                        onLoginSuccess={handleLoginSuccess}
-                        initialRoute={initialAuthRoute}
-                    />
+                    <AuthStack />
                 )
             ) : (
-                <GetStartedStack 
-                    onLoginPress={handleGoToLogin}
-                    onRegisterPress={handleGoToRegister}
-                />
+                <GetStartedStack />
             )}
         </>
     );

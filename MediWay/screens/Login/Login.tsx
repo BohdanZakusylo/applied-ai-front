@@ -37,7 +37,6 @@ const LoginScreen: React.FC<LoginProps> = ({
     };
 
     const handleLogin = async () => {
-        onLoginSuccess();
         if (!email.trim() || !password.trim()) {
             Alert.alert('Error', 'Please fill in all fields');
             return;

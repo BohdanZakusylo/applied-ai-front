@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../assets/constants';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F0FF', // Light purple background from screenshot
+        backgroundColor: COLORS.BACKGROUND, // Light purple background from screenshot
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -18,13 +19,13 @@ export default StyleSheet.create({
     },
     loadingBar: {
         height: 4,
-        backgroundColor: '#E0E0E0', // Light gray background for loading bar
+        backgroundColor: COLORS.LIGHT_GRAY, // Light gray background for loading bar
         borderRadius: 2,
         overflow: 'hidden',
     },
     loadingFill: {
         height: '100%',
-        backgroundColor: '#29B0FF', // Green color for the loading fill (matching the design)
+        backgroundColor: COLORS.SECONDARY_LIGHT, // Green color for the loading fill (matching the design)
         borderRadius: 2,
     },
 });

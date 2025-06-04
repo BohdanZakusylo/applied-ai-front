@@ -30,7 +30,7 @@ const Home = () => {
             label: 'View My Insurance Policy',
             onPress: navigatePolicy,
             color: COLORS.HOME_BUTTON_SECONDARY,
-            borderColor: COLORS.SECONDARY_LIGHT,
+            borderColor: COLORS.SECONDARY_DARK,
         },
         {
             imageSource: COVERAGE,
@@ -47,7 +47,7 @@ const Home = () => {
             label: 'Submit a Claim or Get Help',
             onPress: navigatePolicy,
             color: COLORS.HOME_BUTTON_SECONDARY,
-            borderColor: COLORS.SECONDARY_LIGHT,
+            borderColor: COLORS.SECONDARY_DARK,
         },
     ];
 

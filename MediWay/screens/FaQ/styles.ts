@@ -1,13 +1,15 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../assets/constants';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.BACKGROUND,
         padding: 20,
     },
     contentContainer: {
         flexGrow: 1,
+        paddingBottom: 20,
     },
     logo: {
         width: '100%',
@@ -20,16 +22,18 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 16,
+        color: COLORS.BLACK,
     },
     sectionTitle: {
         fontSize: 22,
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 8,
+        color: COLORS.BLACK,
     },
     faqItem: {
         borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        borderBottomColor: COLORS.LIGHT_GRAY,
         paddingBottom: 8,
         marginBottom: 8,
     },
@@ -42,19 +46,20 @@ export default StyleSheet.create({
         fontSize: 18,
         flex: 1,
         marginRight: 8,
+        color: COLORS.BLACK,
     },
     answerContainer: {
-        backgroundColor: '#f1fafd',
+        backgroundColor: COLORS.SECONDARY_EXTRA_LIGHT,
         marginTop: 8,
         padding: 10,
         borderLeftWidth: 2,
-        borderLeftColor: '#88c4f3',
+        borderLeftColor: COLORS.SECONDARY_LIGHT,
         borderRadius: 4,
         overflow: 'visible',
     },
     answerText: {
         fontSize: 18,
-        color: '#333',
+        color: COLORS.GRAY,
     },
     chevron: {
         width: 20,

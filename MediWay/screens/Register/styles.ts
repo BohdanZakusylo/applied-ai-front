@@ -4,7 +4,7 @@ import { COLORS } from '../../assets/constants';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: COLORS.BACKGROUND,
     },
     keyboardView: {
         flex: 1,
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     },
     subtitle: {
         fontSize: 16,
-        color: '#00000080',
+        color: COLORS.GRAY,
     },
     form: {
         width: '100%',
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: '#00000030',
+        borderColor: COLORS.GRAY,
         borderRadius: 12,
         padding: 16,
         fontSize: 16,
@@ -63,7 +63,7 @@ export default StyleSheet.create({
     },
     loginText: {
         fontSize: 14,
-        color: '#00000080',
+        color: COLORS.GRAY,
     },
     loginLink: {
         fontSize: 14,

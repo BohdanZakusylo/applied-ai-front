@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import ChatMessage, { ChatMessageProp } from '../../components/ChatMessage/ChatMessage';
 import styles from './styles';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 
 const ChatBot = () => {
     const [messages, setMessages] = useState<ChatMessageProp[]>([{ id: '1', text: 'Hi, how can I help you?', isIncoming: true }]);
@@ -28,7 +29,7 @@ const ChatBot = () => {
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
+                    <TouchableOpacity hitSlop={BASE_HIT_SLOP}>
                         <Image source={require('../../assets/images/chat-bot/chat-menu.png')} style={styles.headerIcon} />
                     </TouchableOpacity>
                     <View style={styles.profileIcon}>
@@ -56,7 +57,7 @@ const ChatBot = () => {
                         if (inputText) {
                             addMessage({ id: String(messages.length + 1), text: inputText, isIncoming: false });
                         }
-                    }} style={styles.sendButton}>
+                    }} hitSlop={BASE_HIT_SLOP} style={styles.sendButton}>
                         <Image source={require('../../assets/images/chat-bot/send.png')} style={styles.sendIcon} />
                     </TouchableOpacity>
                 </View>

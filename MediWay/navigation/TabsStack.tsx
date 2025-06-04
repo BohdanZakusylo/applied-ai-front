@@ -1,45 +1,44 @@
-//used only for displaying and navigatiion for Home Screens
-import { Image } from 'react-native';
+import { Image, ImageSourcePropType } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import Faq from '../screens/FaQ/Faq';
 import ChatBot from '../screens/ChatBot/ChatBot';
+import { COLORS } from '../assets/constants';
 
 const Tab = createBottomTabNavigator();
+
+const ICONS: Record<string, ImageSourcePropType> = {
+    Home: require('../assets/images/bottom-tabs/bottom-home.png'),
+    FaQ: require('../assets/images/bottom-tabs/bottom-faq.png'),
+    Chat: require('../assets/images/bottom-tabs/bottom-chat.png'),
+    Profile: require('../assets/images/bottom-tabs/bottom-profile.png'),
+    Default: require('../assets/images/bottom-tabs/bottom-profile.png'),
+};
 
 const TabsStack = () => {
     return (
         <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, size }) => {
-                    let icon;
-                    if (route.name === 'Home') {
-                        icon = require('../assets/images/bottom-tabs/bottom-home.png');
-                    } else if (route.name === 'FaQ') {
-                        icon = require('../assets/images/bottom-tabs/bottom-faq.png');
-                    } else if (route.name === 'Chat') {
-                        icon = require('../assets/images/bottom-tabs/bottom-chat.png');
-                    } else if (route.name === 'Test5') {
-                        icon = require('../assets/images/bottom-tabs/bottom-profile.png');
-                    }
+            screenOptions={({ route }) => {
+                const icon = route.name in ICONS ? ICONS[route.name] : ICONS.Default;
 
-                    return (
+                return {
+                    tabBarIcon: ({ focused, size }) => (
                         <Image
                             source={icon}
                             style={{
                                 width: size,
                                 height: size,
-                                tintColor: focused ? '#00FFAA' : '#444',
+                                tintColor: focused ? COLORS.PRIMARY_DARK : COLORS.GRAY,
                             }}
                             resizeMode="contain"
                         />
-                    );
-                },
-                tabBarLabelStyle: { fontSize: 12 },
-                tabBarActiveTintColor: '#00FFAA',
-                tabBarInactiveTintColor: '#444',
-                headerShown: false,
-            })}
+                    ),
+                    tabBarLabelStyle: { fontSize: 12 },
+                    tabBarActiveTintColor: COLORS.PRIMARY_DARK,
+                    tabBarInactiveTintColor: COLORS.GRAY,
+                    headerShown: false,
+                };
+            }}
         >
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="FaQ" component={Faq} />

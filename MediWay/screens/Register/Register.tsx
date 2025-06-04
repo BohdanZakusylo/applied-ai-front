@@ -14,6 +14,7 @@ import {
 import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
+import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 
 interface RegisterProps {
     onBack?: () => void;
@@ -139,7 +140,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                                 value={formData.name}
                                 onChangeText={(value) => handleInputChange('name', value)}
                                 placeholder="Enter your full name"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 autoCapitalize="words"
                             />
                         </View>
@@ -151,7 +152,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                                 value={formData.email}
                                 onChangeText={(value) => handleInputChange('email', value)}
                                 placeholder="Enter your email"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -165,7 +166,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                                 value={formData.password}
                                 onChangeText={(value) => handleInputChange('password', value)}
                                 placeholder="Enter your password (8+ characters)"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -183,7 +184,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                                 value={formData.confirmPassword}
                                 onChangeText={(value) => handleInputChange('confirmPassword', value)}
                                 placeholder="Confirm your password"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -201,7 +202,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                                 value={formData.insuranceProvider}
                                 onChangeText={(value) => handleInputChange('insuranceProvider', value)}
                                 placeholder="e.g., Zilveren Kruis, VGZ (optional)"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                             />
                         </View>
 
@@ -212,7 +213,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                                 value={formData.generalPractitioner}
                                 onChangeText={(value) => handleInputChange('generalPractitioner', value)}
                                 placeholder="Your GP name (optional)"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                             />
                         </View>
 
@@ -227,7 +228,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
 
                         <View style={styles.loginContainer}>
                             <Text style={styles.loginText}>If you already have an account </Text>
-                            <TouchableOpacity onPress={onLoginPress}>
+                            <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onLoginPress}>
                                 <Text style={styles.loginLink}>Login here</Text>
                             </TouchableOpacity>
                         </View>

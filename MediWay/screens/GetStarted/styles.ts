@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '../../assets/constants';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: COLORS.BACKGROUND,
     },
     content: {
         flex: 1,
@@ -26,7 +27,7 @@ export default StyleSheet.create({
         fontWeight: '500',
         textAlign: 'center',
         marginBottom: 40,
-        color: '#333333',
+        color: COLORS.GRAY,
         lineHeight: 24,
     },
     buttonContainer: {
@@ -37,7 +38,7 @@ export default StyleSheet.create({
         marginBottom: 20,
     },
     getStartedButton: {
-        backgroundColor: '#29B0FF',
+        backgroundColor: COLORS.TERTIARY,
         paddingVertical: 16,
         paddingHorizontal: 24,
         borderRadius: 15,
@@ -45,18 +46,20 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     getStartedButtonText: {
-        color: '#FFFFFF',
+        color: COLORS.WHITE,
         fontWeight: 'bold',
         fontSize: 16,
     },
     loginButton: {
+        backgroundColor: COLORS.WHITE,
         paddingVertical: 12,
         paddingHorizontal: 24,
+        borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'center',
     },
     loginButtonText: {
-        color: '#29B0FF',
+        color: COLORS.TERTIARY,
         fontWeight: 'bold',
         fontSize: 16,
     },
@@ -65,7 +68,7 @@ export default StyleSheet.create({
         marginBottom: 40,
     },
     helpText: {
-        color: '#666666',
+        color: COLORS.GRAY,
         fontSize: 14,
         textDecorationLine: 'underline',
     },

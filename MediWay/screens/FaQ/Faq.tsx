@@ -11,6 +11,7 @@ import {
     ImageSourcePropType,
 } from 'react-native';
 import styles from './styles';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental &&
@@ -71,6 +72,7 @@ const Faq = () => {
                         return (
                             <View key={key} style={styles.faqItem}>
                                 <TouchableOpacity
+                                    hitSlop={BASE_HIT_SLOP}
                                     onPress={() => toggleItem(key)}
                                     style={styles.questionContainer}
                                     activeOpacity={0.7}

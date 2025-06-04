@@ -31,7 +31,7 @@ export default StyleSheet.create({
     },
     subtitle: {
         fontSize: 16,
-        color: '#00000080',
+        color: COLORS.GRAY,
         textAlign: 'center',
         lineHeight: 24,
     },
@@ -49,7 +49,7 @@ export default StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: '#00000030',
+        borderColor: COLORS.GRAY,
         borderRadius: 12,
         padding: 16,
         fontSize: 16,
@@ -65,7 +65,7 @@ export default StyleSheet.create({
     },
     resendText: {
         fontSize: 14,
-        color: '#00000080',
+        color: COLORS.GRAY,
     },
     resendLink: {
         fontSize: 14,

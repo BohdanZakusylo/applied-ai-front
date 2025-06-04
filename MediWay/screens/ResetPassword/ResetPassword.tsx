@@ -14,6 +14,7 @@ import {
 import Button from '../../components/Button/Button';
 import { ENDPOINTS } from '../../assets/api';
 import styles from './styles';
+import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 
 interface ResetPasswordProps {
     email: string;
@@ -142,7 +143,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                                 value={code}
                                 onChangeText={setCode}
                                 placeholder="Enter 6-digit code"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 keyboardType="numeric"
                                 maxLength={6}
                                 autoCapitalize="none"
@@ -156,7 +157,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                                 value={newPassword}
                                 onChangeText={setNewPassword}
                                 placeholder="Enter new password (8+ characters)"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -174,7 +175,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                                 value={confirmPassword}
                                 onChangeText={setConfirmPassword}
                                 placeholder="Confirm new password"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -196,7 +197,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
 
                         <View style={styles.resendContainer}>
                             <Text style={styles.resendText}>Didn't receive the code? </Text>
-                            <TouchableOpacity onPress={onResendCode}>
+                            <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onResendCode}>
                                 <Text style={styles.resendLink}>Resend Code</Text>
                             </TouchableOpacity>
                         </View>

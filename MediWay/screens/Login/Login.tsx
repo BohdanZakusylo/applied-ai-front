@@ -14,6 +14,7 @@ import {
 import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
+import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 
 interface LoginProps {
     onBack?: () => void;
@@ -36,6 +37,7 @@ const LoginScreen: React.FC<LoginProps> = ({
     };
 
     const handleLogin = async () => {
+        onLoginSuccess();
         if (!email.trim() || !password.trim()) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
@@ -94,7 +96,7 @@ const LoginScreen: React.FC<LoginProps> = ({
                                 value={email}
                                 onChangeText={setEmail}
                                 placeholder="Enter your email"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -108,7 +110,7 @@ const LoginScreen: React.FC<LoginProps> = ({
                                 value={password}
                                 onChangeText={setPassword}
                                 placeholder="Enter your password"
-                                placeholderTextColor="#00000060"
+                                placeholderTextColor={COLORS.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -119,7 +121,7 @@ const LoginScreen: React.FC<LoginProps> = ({
                             />
                         </View>
 
-                        <TouchableOpacity onPress={onForgotPasswordPress} style={styles.forgotPassword}>
+                        <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onForgotPasswordPress} style={styles.forgotPassword}>
                             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                         </TouchableOpacity>
 
@@ -134,7 +136,7 @@ const LoginScreen: React.FC<LoginProps> = ({
 
                         <View style={styles.registerContainer}>
                             <Text style={styles.registerText}>If you don't have an account yet,{' '}</Text>
-                            <TouchableOpacity onPress={onRegisterPress}>
+                            <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onRegisterPress}>
                                 <Text style={styles.registerLink}>Register here</Text>
                             </TouchableOpacity>
                         </View>

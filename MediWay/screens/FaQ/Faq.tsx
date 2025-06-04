@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     View,
     Text,
     TouchableOpacity,
-    StyleSheet,
     LayoutAnimation,
     UIManager,
     Platform,
@@ -11,6 +10,7 @@ import {
     Image,
     ImageSourcePropType,
 } from 'react-native';
+import styles from './styles';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental &&
@@ -48,7 +48,7 @@ const FAQ_DATA = [
     },
 ];
 
-const FaqScreen = () => {
+const Faq = () => {
     const [expanded, setExpanded] = useState<string | null>(null);
 
     const toggleItem = (key: string) => {
@@ -57,7 +57,7 @@ const FaqScreen = () => {
     };
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.container}>
+        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
             <Image source={LOGO} style={styles.logo} resizeMode="contain" />
             <Text style={styles.title}>Frequently Asked Questions</Text>
 
@@ -83,8 +83,8 @@ const FaqScreen = () => {
                                     </Text>
                                     {
                                         isOpen ?
-                                            <Image source={chevronUp} style={{ width: 20, height: 20 }} /> :
-                                            <Image source={chevronDown} style={{ width: 20, height: 20 }} />
+                                            <Image source={chevronUp} style={styles.chevron} /> :
+                                            <Image source={chevronDown} style={styles.chevron} />
                                     }
                                 </TouchableOpacity>
 
@@ -104,59 +104,4 @@ const FaqScreen = () => {
     );
 };
 
-export default FaqScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        padding: 20,
-    },
-    logo: {
-        width: '100%',
-        height: 96,
-        marginTop: 32,
-        marginBottom: 16,
-    },
-    title: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 16,
-    },
-    sectionTitle: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 8,
-    },
-    faqItem: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        paddingBottom: 8,
-        marginBottom: 8,
-    },
-    questionContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    questionText: {
-        fontSize: 18,
-        flex: 1,
-        marginRight: 8,
-    },
-    answerContainer: {
-        backgroundColor: '#f1fafd',
-        marginTop: 8,
-        padding: 10,
-        borderLeftWidth: 2,
-        borderLeftColor: '#88c4f3',
-        borderRadius: 4,
-        overflow: 'visible',
-    },
-    answerText: {
-        fontSize: 18,
-        color: '#333',
-    },
-});
+export default Faq;

@@ -11,10 +11,9 @@ import {
     ScrollView,
     Image,
 } from 'react-native';
-import Button from '../components/Button/Button';
-import { COLORS } from '../assets/constants';
-import { StyleSheet } from 'react-native';
-import { AuthContext } from '../contexts/AuthContext';
+import Button from '../../components/Button/Button';
+import { AuthContext } from '../../contexts/AuthContext';
+import styles from './styles';
 
 interface LoginProps {
     onBack?: () => void;
@@ -22,7 +21,7 @@ interface LoginProps {
     onForgotPasswordPress?: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({
+const LoginScreen: React.FC<LoginProps> = ({
     onRegisterPress,
     onForgotPasswordPress,
 }) => {
@@ -80,7 +79,7 @@ const Login: React.FC<LoginProps> = ({
                 <ScrollView contentContainerStyle={styles.scrollContent}>
                     <View style={styles.header}>
                         <Image
-                            source={require('../assets/images/logo.png')}
+                            source={require('../../assets/images/logo.png')}
                             style={styles.logo}
                             resizeMode="contain"
                         />
@@ -146,80 +145,4 @@ const Login: React.FC<LoginProps> = ({
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.WHITE,
-    },
-    keyboardView: {
-        flex: 1,
-    },
-    scrollContent: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        padding: 20,
-    },
-    header: {
-        alignItems: 'center',
-        marginBottom: 40,
-    },
-    logo: {
-        width: 200,
-        height: 200,
-        marginBottom: -30,
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: COLORS.BLACK,
-        marginBottom: 8,
-    },
-    form: {
-        width: '100%',
-    },
-    inputContainer: {
-        marginBottom: 20,
-    },
-    label: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: COLORS.BLACK,
-        marginBottom: 8,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#00000030',
-        borderRadius: 12,
-        padding: 16,
-        fontSize: 16,
-        backgroundColor: COLORS.WHITE,
-    },
-    forgotPassword: {
-        alignSelf: 'flex-start',
-        marginBottom: 30,
-    },
-    forgotPasswordText: {
-        color: COLORS.BLACK,
-        fontSize: 14,
-        fontWeight: '500',
-    },
-    disabledButton: {
-        opacity: 0.6,
-    },
-    registerContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 20,
-    },
-    registerText: {
-        fontSize: 14,
-        color: '#00000080',
-    },
-    registerLink: {
-        fontSize: 14,
-        color: COLORS.TERTIARY,
-        fontWeight: '500',
-    },
-});
-
-export default Login;
+export default LoginScreen;

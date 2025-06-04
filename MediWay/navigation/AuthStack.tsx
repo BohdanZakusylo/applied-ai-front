@@ -1,10 +1,10 @@
 //used only for displaying and navigation for Login/SignUp/ForgotPassword
 import React, { useContext, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../screens/Login';
-import Register from '../screens/Register';
-import ForgotPassword from '../screens/ForgotPassword';
-import ResetPassword from '../screens/ResetPassword';
+import Login from '../screens/Login/Login';
+import Register from '../screens/Register/Register';
+import ForgotPassword from '../screens/ForgotPassword/ForgotPassword';
+import ResetPassword from '../screens/ResetPassword/ResetPassword';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Stack = createStackNavigator();

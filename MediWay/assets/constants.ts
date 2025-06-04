@@ -9,6 +9,7 @@ export const COLORS: Record<string, ColorValue> = {
     BACKGROUND: 'F6EEF3',
 
     WHITE: '#FFFFFF',
+    LIGHT_GRAY: '#D3D3D3',
     BLACK: '#000000',
 
     HOME_BUTTON_PRIMARY: '#DEF7E7',

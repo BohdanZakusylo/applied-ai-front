@@ -20,6 +20,10 @@ const Home = () => {
         (navigation as any).navigate('WorkInProgress');
     };
 
+    const navigateNearbyGP: () => void = () => {
+        (navigation as any).navigate('NearbyGP');
+    };
+
     const navigateChat: () => void = () => {
         (navigation as any).navigate('WorkInProgress');
     };
@@ -39,8 +43,8 @@ const Home = () => {
         },
         {
             imageSource: CLINICS,
-            label: 'Find Clinics My Insurance Covers',
-            onPress: navigatePolicy,
+            label: 'Find nearby General Practitioners',
+            onPress: navigateNearbyGP,
         },
         {
             imageSource: SUBMIT,

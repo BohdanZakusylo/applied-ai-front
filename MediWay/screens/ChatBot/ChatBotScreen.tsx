@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     View,
     Text,
@@ -13,19 +13,69 @@ import {
 import { COLORS } from '../../assets/constants';
 import { MessageProp } from '../../assets/interfaces';
 import Message from './Message';
+import SHA256 from 'crypto-js/sha256';
+import { ChatResponse } from '../../assets/interfaces';
+import { ActivityIndicator } from 'react-native';
 
 const ChatBotScreen = () => {
     const [messages, setMessages] = useState<MessageProp[]>([{ id: "1", text: "Hi, how can I help you?", isIncoming: true }]);
     const [inputText, setInputText] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const flatListRef = useRef<FlatList>(null); // FlatList ref
 
     const addMessage = (message: MessageProp) => {
-        setMessages(prevMessages => [...prevMessages, message]);
+        setMessages(prevMessages => {
+            const updated = [...prevMessages, message];
+
+            setTimeout(() => {
+                flatListRef.current?.scrollToEnd({ animated: true });
+            }, 100);
+
+            return updated;
+        });
         setInputText("");
     };
-
     const renderItem = ({ item }: { item: MessageProp }) => (
         <Message id={item.id} isIncoming={item.isIncoming} text={item.text} />
     );
+
+    const askMessage = async () => {
+        setInputText("");
+        addMessage({ id: SHA256(Date.now().toString()).toString(), text: inputText, isIncoming: false })
+
+        setIsLoading(true);
+        const data: ChatResponse | null = await fetchAIAnswer();
+
+        if (data) {
+            addMessage({ id: SHA256(data.timestamp).toString(), text: data.response, isIncoming: true })
+        }
+        else {
+            addMessage({ id: SHA256(Date.now().toString()).toString(), text: "An error occured", isIncoming: true })
+        }
+    }
+
+    const fetchAIAnswer = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/api/v1/chat/message", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer <ur token>"
+                },
+                body: JSON.stringify({ message: inputText })
+            });
+
+            const data = await response.json();
+            return data ?? null;
+        } catch (error) {
+            console.error("Fetch failed", error);
+            return null;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -49,6 +99,7 @@ const ChatBotScreen = () => {
 
                 {messages.length == 0 ? <Text style={[styles.messagesContainer]}>Empty</Text> :
                     <FlatList
+                        ref={flatListRef}
                         data={messages}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
@@ -62,18 +113,30 @@ const ChatBotScreen = () => {
                         placeholder="Empty"
                         placeholderTextColor="#ccc"
                         onChangeText={setInputText}
+                        value={inputText}
                     />
-                    <TouchableOpacity onPress={() => {
-                        if (inputText) {
-                            addMessage({ id: String(messages.length + 1), text: inputText, isIncoming: false })
-                        }
-                    }} style={styles.sendButton}>
-                        <Image source={require("../../assets/images/chat-bot/send.png")} style={{
-                            width: 26,
-                            height: 26,
-                            resizeMode: 'contain',
-                        }} />
-                    </TouchableOpacity>
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="#333" style={{ padding: 8 }} />
+                    ) : (
+                        <TouchableOpacity
+                            onPress={async () => {
+                                if (inputText.trim()) {
+                                    await askMessage();
+                                }
+                            }}
+                            style={styles.sendButton}
+                        >
+                            <Image
+                                source={require("../../assets/images/chat-bot/send.png")}
+                                style={{
+                                    width: 26,
+                                    height: 26,
+                                    resizeMode: 'contain',
+                                }}
+                            />
+                        </TouchableOpacity>
+                    )}
+
                 </View>
             </View>
         </SafeAreaView>

@@ -15,6 +15,7 @@ import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { secureStorage } from '../../storage/storage';
 
 interface LoginProps {
     onBack?: () => void;
@@ -57,7 +58,8 @@ const LoginScreen: React.FC<LoginProps> = ({
 
             const data = await response.json();
 
-            if (response.ok) {
+            if (response.ok && data.access_token) {
+                secureStorage.set("jwt", data.access_token);
                 Alert.alert('Success', 'Login successful', [
                     { text: 'OK', onPress: onLoginSuccess },
                 ]);

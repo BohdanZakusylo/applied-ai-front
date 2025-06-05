@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import {
     View,
     Text,
@@ -14,13 +14,31 @@ import ChatMessage, { ChatMessageProp, ChatResponse } from '../../components/Cha
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 import { ENDPOINTS } from '../../assets/api';
+import { secureStorage } from '../../storage/storage';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const ChatBot = () => {
     const [messages, setMessages] = useState<ChatMessageProp[]>([{ id: '1', text: 'Hi, how can I help you?', isIncoming: true }]);
     const [inputText, setInputText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const flatListRef = useRef<FlatList>(null); // FlatList ref
+    const jwt = useRef<string>("");
+    const flatListRef = useRef<FlatList>(null);
+
+    const { dispatch } = useContext(AuthContext);
+
+    useEffect(() => {
+        const dbJWT = secureStorage.getString("jwt");
+
+        console.log(secureStorage.getAllKeys());
+        console.log(dbJWT);
+        if (dbJWT) {
+            jwt.current = dbJWT;
+        }
+        else {
+            dispatch({ type: 'SET_LOGGED_IN', payload: false });
+        }
+    }, [])
 
     const addMessage = (message: ChatMessageProp) => {
         setMessages(prevMessages => {
@@ -60,12 +78,13 @@ const ChatBot = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer <ur token>"
+                    "Authorization": `Bearer ${jwt.current}`
                 },
                 body: JSON.stringify({ message: inputText })
             });
 
             const data = await response.json();
+
             return data ?? null;
         } catch (error) {
             console.error("Fetch failed", error);

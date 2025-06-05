@@ -1,4 +1,4 @@
-const API_DOMAIN = 'http://192.168.228.167:8000';
+const API_DOMAIN = 'http://localhost:8000';
 
 const ENDPOINTS = {
     forgotPassword: `${API_DOMAIN}/api/v1/auth/forgot-password`,

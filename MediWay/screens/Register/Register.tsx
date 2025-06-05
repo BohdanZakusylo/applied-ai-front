@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { use, useContext, useState } from 'react';
 import {
     View,
     Text,
@@ -15,6 +15,7 @@ import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { useNavigation } from '@react-navigation/native';
 
 interface RegisterProps {
     onBack?: () => void;
@@ -37,8 +38,10 @@ const RegisterScreen: React.FC<RegisterProps> = ({
 
     const { dispatch } = useContext(AuthContext);
 
+    const navigation = useNavigation();
+
     const onRegisterSuccess = () => {
-        dispatch({ type: 'SET_LOGGED_IN', payload: true });
+        (navigation as any).navigate("Login");
     };
 
     const handleInputChange = (field: string, value: string) => {

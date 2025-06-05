@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'rea
 import { AuthContext } from '../../contexts/AuthContext';
 import { secureStorage } from '../../services/storage/storage';
 import EditModal from '../../components/Modal/EditModal';
+import { ENDPOINTS } from '../../assets/api';
 
 const USER = require('../../assets/images/User.png');
 const EDIT = require('../../assets/images/EditButton.png');
@@ -36,10 +37,8 @@ const Profile = () => {
   }, [])
 
   const fetchUser = async () => {
-    console.log("fetch start");
-
     try {
-      const response = await fetch("http://172.27.112.1:8000/api/v1/users/profile", {
+      const response = await fetch(ENDPOINTS.userProfile, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -65,7 +64,7 @@ const Profile = () => {
 
   const updateUserProfile = async (updatedFields: Record<string, string>) => {
   try {
-    const response = await fetch("http://172.27.112.1:8000/api/v1/users/profile", {
+    const response = await fetch(ENDPOINTS.userProfile, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

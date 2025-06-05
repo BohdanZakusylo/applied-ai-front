@@ -1,19 +1,51 @@
+import { Image, ImageSourcePropType } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home/Home';
-import Test2 from '../screens/Test2';
-import { Image } from 'react-native';
+import HomeStack from './HomeStack';
+import Faq from '../screens/FaQ/Faq';
+import ChatBot from '../screens/ChatBot/ChatBot';
+import { COLORS } from '../assets/constants';
 
 const Tab = createBottomTabNavigator();
 
-function TabsStack() {
-    const HOME_ICON = require('../assets/images/navigation_home.png');
+const ICONS: Record<string, ImageSourcePropType> = {
+    Home: require('../assets/images/bottom-tabs/bottom-home.png'),
+    FaQ: require('../assets/images/bottom-tabs/bottom-faq.png'),
+    Chat: require('../assets/images/bottom-tabs/bottom-chat.png'),
+    Profile: require('../assets/images/bottom-tabs/bottom-profile.png'),
+    Default: require('../assets/images/bottom-tabs/bottom-profile.png'),
+};
 
+const TabsStack = () => {
     return (
-        <Tab.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
-            <Tab.Screen name="Home" component={Home} options={{tabBarIcon: () => <Image source={HOME_ICON} style={{width: 20}} resizeMode='contain' />}} />
-            <Tab.Screen name="Test2" component={Test2} />
+        <Tab.Navigator
+            screenOptions={({ route }) => {
+                const icon = route.name in ICONS ? ICONS[route.name] : ICONS.Default;
+
+                return {
+                    tabBarIcon: ({ focused, size }) => (
+                        <Image
+                            source={icon}
+                            style={{
+                                width: size,
+                                height: size,
+                                tintColor: focused ? COLORS.PRIMARY_DARK : COLORS.GRAY,
+                            }}
+                            resizeMode="contain"
+                        />
+                    ),
+                    tabBarLabelStyle: { fontSize: 12 },
+                    tabBarActiveTintColor: COLORS.PRIMARY_DARK,
+                    tabBarInactiveTintColor: COLORS.GRAY,
+                    headerShown: false,
+                };
+            }}
+        >
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="FaQ" component={Faq} />
+            <Tab.Screen name="Chat" component={ChatBot} />
+            {/* <Tab.Screen name="Profile" component={Profile} /> */}
         </Tab.Navigator>
     );
-}
+};
 
 export default TabsStack;

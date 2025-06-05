@@ -1,30 +1,28 @@
-import React, { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
     View,
     Text,
     TextInput,
     TouchableOpacity,
-    StyleSheet,
-    ScrollView,
     SafeAreaView,
     Image,
-    FlatList
+    FlatList,
 } from 'react-native';
-import { COLORS } from '../../assets/constants';
-import { MessageProp } from '../../assets/interfaces';
-import Message from './Message';
 import SHA256 from 'crypto-js/sha256';
-import { ChatResponse } from '../../assets/interfaces';
 import { ActivityIndicator } from 'react-native';
+import ChatMessage, { ChatMessageProp, ChatResponse } from '../../components/ChatMessage/ChatMessage';
+import styles from './styles';
+import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { ENDPOINTS } from '../../assets/api';
 
-const ChatBotScreen = () => {
-    const [messages, setMessages] = useState<MessageProp[]>([{ id: "1", text: "Hi, how can I help you?", isIncoming: true }]);
-    const [inputText, setInputText] = useState<string>("");
+const ChatBot = () => {
+    const [messages, setMessages] = useState<ChatMessageProp[]>([{ id: '1', text: 'Hi, how can I help you?', isIncoming: true }]);
+    const [inputText, setInputText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const flatListRef = useRef<FlatList>(null); // FlatList ref
 
-    const addMessage = (message: MessageProp) => {
+    const addMessage = (message: ChatMessageProp) => {
         setMessages(prevMessages => {
             const updated = [...prevMessages, message];
 
@@ -34,10 +32,11 @@ const ChatBotScreen = () => {
 
             return updated;
         });
-        setInputText("");
+        setInputText('');
     };
-    const renderItem = ({ item }: { item: MessageProp }) => (
-        <Message id={item.id} isIncoming={item.isIncoming} text={item.text} />
+
+    const renderItem = ({ item }: { item: ChatMessageProp }) => (
+        <ChatMessage id={item.id} isIncoming={item.isIncoming} text={item.text} />
     );
 
     const askMessage = async () => {
@@ -57,7 +56,7 @@ const ChatBotScreen = () => {
 
     const fetchAIAnswer = async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/v1/chat/message", {
+            const response = await fetch(ENDPOINTS.chatMessage, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,47 +75,38 @@ const ChatBotScreen = () => {
         }
     };
 
-
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
-                        <Image source={require("../../assets/images/chat-bot/chat-menu.png")} style={{
-                            width: 24,
-                            height: 24,
-                            resizeMode: 'contain',
-                        }} />
+                    <TouchableOpacity hitSlop={BASE_HIT_SLOP}>
+                        <Image source={require('../../assets/images/chat-bot/chat-menu.png')} style={styles.headerIcon} />
                     </TouchableOpacity>
                     <View style={styles.profileIcon}>
-                        <Image source={require("../../assets/images/chat-bot/profile.png")} style={{
-                            width: 24,
-                            height: 24,
-                            resizeMode: 'contain',
-                        }} />
+                        <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
                     </View>
                 </View>
 
-                {messages.length == 0 ? <Text style={[styles.messagesContainer]}>Empty</Text> :
+                {messages.length === 0 ? <Text style={[styles.messagesContainer]}>Empty</Text> :
                     <FlatList
                         ref={flatListRef}
                         data={messages}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
                         contentContainerStyle={styles.messagesContainer}
-                        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+                        ItemSeparatorComponent={() => <View style={styles.separator} />}
                     />}
 
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
                         placeholder="Empty"
-                        placeholderTextColor="#ccc"
+                        placeholderTextColor={COLORS.LIGHT_GRAY}
                         onChangeText={setInputText}
                         value={inputText}
                     />
                     {isLoading ? (
-                        <ActivityIndicator size="small" color="#333" style={{ padding: 8 }} />
+                        <ActivityIndicator size="small" color={COLORS.GRAY} style={{ padding: 8 }} />
                     ) : (
                         <TouchableOpacity
                             onPress={async () => {
@@ -125,6 +115,7 @@ const ChatBotScreen = () => {
                                 }
                             }}
                             style={styles.sendButton}
+                            hitSlop={BASE_HIT_SLOP}
                         >
                             <Image
                                 source={require("../../assets/images/chat-bot/send.png")}
@@ -136,61 +127,10 @@ const ChatBotScreen = () => {
                             />
                         </TouchableOpacity>
                     )}
-
                 </View>
             </View>
         </SafeAreaView>
     );
 };
 
-export default ChatBotScreen;
-
-const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: COLORS.backgroundColor,
-    },
-    container: {
-        flex: 1,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-    },
-    profileIcon: {
-        backgroundColor: '#d3d3d3',
-        padding: 8,
-        borderRadius: 999,
-    },
-    messagesContainer: {
-        flexGrow: 1,
-        justifyContent: 'flex-end',
-        padding: 16,
-    },
-    outgoingText: {
-        color: '#000',
-    },
-    inputContainer: {
-        flexDirection: 'row',
-        padding: 12,
-        borderTopWidth: 1,
-        borderColor: 'black',
-        alignItems: 'center',
-    },
-    input: {
-        flex: 1,
-        backgroundColor: '#f4f4f4',
-        padding: 10,
-        borderRadius: 8,
-        marginRight: 10,
-        color: '#000',
-    },
-    sendButton: {
-        padding: 8,
-    },
-    empty: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-});
+export default ChatBot;

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'rea
 const USER = require('../../assets/images/User.png');
 const EDIT = require('../../assets/images/EditButton.png');
 
-const ProfileScreen = () => {
+const Profile = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [insuranceProvider, setInsuranceProvider] = useState();
@@ -92,7 +92,7 @@ const ProfileScreen = () => {
   );
 }
 
-export default ProfileScreen;
+export default Profile;
 
 const styles = StyleSheet.create({
   container: {

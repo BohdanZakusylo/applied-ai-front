@@ -1,15 +1,24 @@
+import React, { useContext } from 'react';
 import AuthStack from './navigation/AuthStack';
-import HomeStack from './navigation/HomeStack';
+import TabsStack from './navigation/TabsStack';
 import GetStartedStack from './navigation/GetStartedStack';
+import { AuthContext } from './contexts/AuthContext';
+import { StatusBar } from 'react-native';
 
 const Main = () => {
-    const isReady = true;
-    const isLoggedIn = true;
+    const { state: { loggedIn, ready } } = useContext(AuthContext);
 
     return (
         <>
-            {isReady ? (
-                isLoggedIn ? <HomeStack /> : <AuthStack />
+            <StatusBar
+                barStyle="dark-content"
+            />
+            {ready ? (
+                loggedIn ? (
+                    <TabsStack />
+                ) : (
+                    <AuthStack />
+                )
             ) : (
                 <GetStartedStack />
             )}

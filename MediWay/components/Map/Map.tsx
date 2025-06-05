@@ -4,6 +4,7 @@ import { BASE_HIT_SLOP } from '../../assets/constants';
 import Geolocation, { GeolocationResponse, GeolocationError } from '@react-native-community/geolocation';
 import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
+import MapView from 'react-native-maps';
 
 export type MapProps = {
 
@@ -45,6 +46,15 @@ const Map = (props: MapProps) => {
     return (
         <View>
             <Text>{location.coords.longitude} long {location.coords.latitude} lat</Text>
+            <MapView
+                style={styles.map}
+                initialRegion={{
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                }}
+            />
         </View>
     );
 };

@@ -14,7 +14,7 @@ import ChatMessage, { ChatMessageProp, ChatResponse } from '../../components/Cha
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 import { ENDPOINTS } from '../../assets/api';
-import { secureStorage } from '../../storage/storage';
+import { secureStorage } from '../../services/storage/storage';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const ChatBot = () => {

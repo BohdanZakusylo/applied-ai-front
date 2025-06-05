@@ -15,7 +15,7 @@ import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
-import { secureStorage } from '../../storage/storage';
+import { secureStorage } from '../../services/storage/storage';
 
 interface LoginProps {
     onBack?: () => void;

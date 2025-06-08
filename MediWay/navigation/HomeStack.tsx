@@ -6,7 +6,7 @@ import NearbyGP from '../screens/NearbyGP/NearbyGP';
 const Stack = createStackNavigator();
 
 const HomeStack = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='HomeScreen'>
         <Stack.Screen name="HomeScreen" component={Home} />
         <Stack.Screen name="NearbyGP" component={NearbyGP} />
         <Stack.Screen name="WorkInProgress" component={WorkInProgress} />

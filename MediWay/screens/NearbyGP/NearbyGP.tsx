@@ -4,7 +4,7 @@ import styles from './styles';
 import Map, { MapRef } from '../../components/Map/Map';
 import MapButton from '../../components/MapButton/MapButton';
 import { LatLng, MapMarkerProps } from 'react-native-maps';
-import { getDistanceBetween, getNearbyGPs } from '../../services/location/location';
+import { getCrudeDistanceBetween, getDistanceBetween, getNearbyGPs } from '../../services/location/location';
 import Geolocation, { GeolocationError, GeolocationResponse } from '@react-native-community/geolocation';
 import { GooglePlaceResponse, GooglePlaceResult } from '../../services/location/locationTypes';
 import { CustomMapMarkerProps } from '../../components/MapMarker/MapMarker';
@@ -35,7 +35,11 @@ export default function NearbyGP() {
         getCurrentPosition();
         if (location && markers.length < 1) {
             getNearbyGPs(location).then((response: GooglePlaceResponse) => {
-                setMarkers(response.results.map((result: GooglePlaceResult) => ({
+                setMarkers(response.results.sort(
+                    (a: GooglePlaceResult, b: GooglePlaceResult) => 
+                        getCrudeDistanceBetween({ latitude: a.geometry.location.lat, longitude: a.geometry.location.lng }, location) -
+                        getCrudeDistanceBetween({ latitude: b.geometry.location.lat, longitude: b.geometry.location.lng }, location)
+                ).map((result: GooglePlaceResult) => ({
                     coordinate: { latitude: result.geometry.location.lat, longitude: result.geometry.location.lng },
                     title: result.name,
                     description: result.vicinity,
@@ -43,7 +47,7 @@ export default function NearbyGP() {
                 })));
             })
         }
-    }, [markers]);
+    }, [location, markers]);
 
     return (
         <View style={styles.container}>
@@ -58,7 +62,7 @@ export default function NearbyGP() {
                 </View>
 
                 <ScrollView style={styles.buttons} contentContainerStyle={styles.buttonsContainer}>
-                    {markers.map((marker: CustomMapMarkerProps, index: number) =>
+                    {markers.length > 0 ? markers.map((marker: CustomMapMarkerProps, index: number) =>
                         <MapButton
                             key={index}
                             address={marker.description || ''}
@@ -68,7 +72,7 @@ export default function NearbyGP() {
                             selected={selectedMarker === index}
                             onPress={() => onMarkerSelected(index)}
                         />
-                    )}
+                    ) : <Text>No doctors found nearby...</Text>}
                 </ScrollView>
             </View>
 

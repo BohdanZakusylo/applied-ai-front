@@ -2,6 +2,14 @@ import { LatLng } from "react-native-maps";
 import { GOOGLE_MAPS_API_KEY } from '@env';
 import { GooglePlaceResponse } from "./locationTypes";
 
+const ROUGH_KM_PER_DEGREE: number = 111;
+
+export const getCrudeDistanceBetween = (a: LatLng, b: LatLng) => {
+    const dx = (b.latitude - a.latitude) * ROUGH_KM_PER_DEGREE;
+    const dy = (b.longitude - a.longitude) * ROUGH_KM_PER_DEGREE;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
 export const getDistanceBetween = async (a: LatLng, b: LatLng) => {
     const params: Record<string, string> = {
         origins: `${a.latitude},${a.longitude}`,

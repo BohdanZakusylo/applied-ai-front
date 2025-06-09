@@ -56,7 +56,7 @@ const Home = () => {
     return (
         <View style={styles.screen}>
             <Image source={LOGO} style={styles.logo} resizeMode="contain" />
-            <Text style={styles.intro}>Hi {user.name}, how can I help you today?</Text>
+            <Text style={styles.intro}>Hi {user!.name}, how can I help you today?</Text>
             <View style={styles.tiles}>
                 <FlatList
                     data={TILES}

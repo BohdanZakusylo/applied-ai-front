@@ -16,6 +16,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 import { useNavigation } from '@react-navigation/native';
+import { ENDPOINTS } from '../../assets/api';
 
 interface RegisterProps {
     onBack?: () => void;
@@ -72,7 +73,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
 
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:8000/api/v1/auth/register', {
+            const response = await fetch(ENDPOINTS.register, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

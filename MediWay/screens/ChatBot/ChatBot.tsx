@@ -159,7 +159,7 @@ const ChatBot = () => {
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Empty"
+                        placeholder="Send a message..."
                         placeholderTextColor={COLORS.LIGHT_GRAY}
                         onChangeText={setInputText}
                         value={inputText}
@@ -170,7 +170,9 @@ const ChatBot = () => {
                     ) : (
                         <TouchableOpacity
                             onPress={async () => {
-                                await askMessage();
+                                if (inputText.trim()) {
+                                    await askMessage();
+                                }
                             }}
                             style={styles.sendButton}
                             hitSlop={BASE_HIT_SLOP}

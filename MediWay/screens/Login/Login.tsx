@@ -16,6 +16,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 import { secureStorage } from '../../services/storage/storage';
+import { ENDPOINTS } from '../../assets/api';
+import { UserContext } from '../../contexts/UserContext';
 
 interface LoginProps {
     onBack?: () => void;
@@ -32,6 +34,7 @@ const LoginScreen: React.FC<LoginProps> = ({
     const [loading, setLoading] = useState(false);
 
     const { dispatch } = useContext(AuthContext);
+    const { dispatch: userDispatch } = useContext(UserContext);
 
     const onLoginSuccess = () => {
         dispatch({ type: 'SET_LOGGED_IN', payload: true });
@@ -45,7 +48,7 @@ const LoginScreen: React.FC<LoginProps> = ({
 
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:8000/api/v1/auth/login', {
+            const response = await fetch(ENDPOINTS.login, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,6 +63,8 @@ const LoginScreen: React.FC<LoginProps> = ({
 
             if (response.ok && data.access_token) {
                 secureStorage.set("jwt", data.access_token);
+                let user = await fetchUser(data.access_token);
+                userDispatch({ type: 'SET_USER', payload: user });
                 Alert.alert('Success', 'Login successful', [
                     { text: 'OK', onPress: onLoginSuccess },
                 ]);
@@ -72,6 +77,23 @@ const LoginScreen: React.FC<LoginProps> = ({
             setLoading(false);
         }
     };
+
+    const fetchUser = async (jwt: string) => {
+      try {
+        const response = await fetch(ENDPOINTS.userProfile, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${jwt}`
+          }
+        });
+
+        const data = await response.json();
+        return data.user;
+      } catch (err) {
+      console.error("Fetch failed:", err);
+      }
+    }
 
     return (
         <SafeAreaView style={styles.container}>

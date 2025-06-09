@@ -1,10 +1,11 @@
-export interface Profile {
-    email: string;
-}
-
 export interface User {
-    username: string;
-    profile: Profile;
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    insurance_provider: string;
+    general_practitioner: string;
+    medical_information: string;
 }
 
 export interface AuthState {

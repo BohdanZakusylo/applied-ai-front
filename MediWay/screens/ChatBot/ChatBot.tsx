@@ -79,6 +79,13 @@ const ChatBot = () => {
         return true;
     }
 
+    const sanitizeMessage = (message: string): string => {
+        return message
+            .replace(/[\u0000-\u001F\u007F]/g, '')
+            .replace(/[\u202E]/g, '')
+            .trim();
+    }
+
     const askMessage = async () => {
         if (isSending) {
             return;
@@ -89,13 +96,13 @@ const ChatBot = () => {
         }
 
         setInputText("");
-        addMessage({ id: SHA256(Date.now().toString()).toString(), text: inputText, isIncoming: false })
+        addMessage({ id: SHA256(Date.now().toString()).toString(), text: sanitizeMessage(inputText), isIncoming: false })
 
         setIsLoading(true);
         const data: ChatResponse | null = await fetchAIAnswer();
 
         if (data) {
-            addMessage({ id: SHA256(data.timestamp).toString(), text: data.response, isIncoming: true })
+            addMessage({ id: SHA256(data.timestamp).toString(), text: sanitizeMessage(data.response), isIncoming: true })
         }
         else {
             addMessage({ id: SHA256(Date.now().toString()).toString(), text: "An error occured", isIncoming: true })

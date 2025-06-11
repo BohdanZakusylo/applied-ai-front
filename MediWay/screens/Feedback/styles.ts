@@ -9,8 +9,9 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    height: 60,
-    marginBottom: 16,
+    width: '100%',
+    height: 96,
+    marginTop: 32,
   },
   title: {
     fontSize: 20,

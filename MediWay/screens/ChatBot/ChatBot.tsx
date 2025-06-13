@@ -16,6 +16,7 @@ import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 import { ENDPOINTS } from '../../assets/api';
 import { secureStorage } from '../../services/storage/storage';
 import { AuthContext } from '../../contexts/AuthContext';
+import DownloadSummaryButton from '../../components/DownloadSummaryButton/DownloadSummaryButton';
 
 const ChatBot = () => {
     const [messages, setMessages] = useState<ChatMessageProp[]>([{ id: '1', text: 'Hi, how can I help you?', isIncoming: true }]);
@@ -73,6 +74,11 @@ const ChatBot = () => {
     }
 
     const fetchAIAnswer = async () => {
+        return {
+            response: "Test message",
+            message_id: SHA256(Date.now().toString()).toString(),
+            timestamp: new Date().toDateString(),
+        }
         try {
             const response = await fetch(ENDPOINTS.chatMessage, {
                 method: "POST",
@@ -124,6 +130,7 @@ const ChatBot = () => {
                         onChangeText={setInputText}
                         value={inputText}
                     />
+                    <DownloadSummaryButton chatHistory={messages} />
                     {isLoading ? (
                         <ActivityIndicator size="small" color={COLORS.GRAY} style={{ padding: 8 }} />
                     ) : (

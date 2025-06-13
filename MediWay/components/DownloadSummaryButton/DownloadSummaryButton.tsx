@@ -4,7 +4,11 @@ import { ChatMessageProp } from '../ChatMessage/ChatMessage';
 import { BASE_HIT_SLOP } from '../../assets/constants';
 import { downloadPdf } from '../../services/download/pdfDownload';
 
-const ChatMessage = (chatHistory: ChatMessageProp[]) => {
+export type DownloadSummaryButtonProps = {
+    chatHistory: ChatMessageProp[];
+}
+
+const DownloadSummaryButton = ({ chatHistory }: DownloadSummaryButtonProps) => {
     const onDownload = async () => {
         const filename = new Date().toDateString();
         const htmlContent = `
@@ -41,4 +45,4 @@ const ChatMessage = (chatHistory: ChatMessageProp[]) => {
     );
 };
 
-export default ChatMessage;
+export default DownloadSummaryButton;

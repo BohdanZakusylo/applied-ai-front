@@ -1,7 +1,6 @@
-import { LatLng } from "react-native-maps";
-import { GOOGLE_MAPS_API_KEY } from '@env';
+import { LatLng } from "react-native-maps"
 import { GooglePlaceResponse } from "./locationTypes";
-
+import { GOOGLE_MAPS_API_KEY } from "@env";
 const ROUGH_KM_PER_DEGREE: number = 111;
 
 export const getCrudeDistanceBetween = (a: LatLng, b: LatLng) => {

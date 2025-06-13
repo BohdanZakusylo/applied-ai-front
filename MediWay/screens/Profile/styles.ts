@@ -67,4 +67,22 @@ export default StyleSheet.create({
     width: 18,
     height: 18,
   },
+  logoutButton: {
+    backgroundColor: 'red',
+    marginTop: 20,
+    marginHorizontal: 40,
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingInline: 60
+  },
+
+  logoutButtonText: {
+    color: 'white',
+    fontSize: 17,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  }
 });

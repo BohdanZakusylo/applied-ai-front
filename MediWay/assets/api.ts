@@ -1,4 +1,4 @@
-const API_DOMAIN = 'http://172.27.112.1:8000';
+const API_DOMAIN = 'http://localhost:8000';
 
 const ENDPOINTS = {
     forgotPassword: `${API_DOMAIN}/api/v1/auth/forgot-password`,
@@ -7,6 +7,7 @@ const ENDPOINTS = {
     userProfile: `${API_DOMAIN}/api/v1/users/profile`,
     register: `${API_DOMAIN}/api/v1/auth/register`,
     login: `${API_DOMAIN}/api/v1/auth/login`,
+    logout: `${API_DOMAIN}/api/v1/auth/logout`,
 };
 
 export { API_DOMAIN, ENDPOINTS };

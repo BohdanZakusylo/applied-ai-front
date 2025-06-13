@@ -23,18 +23,18 @@ const Profile = () => {
   const { dispatch } = useContext(AuthContext);
 
   useEffect(() => {
-      const dbJWT = secureStorage.getString("jwt");
+    const dbJWT = secureStorage.getString("jwt");
 
-      console.log(secureStorage.getAllKeys());
-      console.log(dbJWT);
-      if (dbJWT) {
-          jwt.current = dbJWT;
-      }
-      else {
-          dispatch({ type: 'SET_LOGGED_IN', payload: false });
-      }
+    console.log(secureStorage.getAllKeys());
+    console.log(dbJWT);
+    if (dbJWT) {
+      jwt.current = dbJWT;
+    }
+    else {
+      dispatch({ type: 'SET_LOGGED_IN', payload: false });
+    }
 
-      fetchUser();
+    fetchUser();
   }, [])
 
   const fetchUser = async () => {
@@ -64,23 +64,41 @@ const Profile = () => {
   };
 
   const updateUserProfile = async (updatedFields: Record<string, string>) => {
-  try {
-    const response = await fetch(ENDPOINTS.userProfile, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt.current}`
-      },
-      body: JSON.stringify(updatedFields)
-    });
+    try {
+      const response = await fetch(ENDPOINTS.userProfile, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${jwt.current}`
+        },
+        body: JSON.stringify(updatedFields)
+      });
 
-    const data = await response.json();
-    console.log("Update response:", data);
-    fetchUser();
-  } catch (err) {
-    console.error("Update failed:", err);
+      const data = await response.json();
+      console.log("Update response:", data);
+      fetchUser();
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
+  };
+
+  const hadleLogout = async () => {
+    try {
+      const response = await fetch(ENDPOINTS.logout, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${jwt.current}`
+        },
+      });
+
+      const data = await response.json();
+      secureStorage.delete("jwt");
+      dispatch({ type: 'SET_LOGGED_IN', payload: false });
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
   }
-};
 
 
   return (
@@ -128,6 +146,15 @@ const Profile = () => {
             <Text style={styles.value}>{medicalInformation}</Text>
           </View>
         </View>
+
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={() => {
+            hadleLogout();
+          }}
+        >
+          <Text style={styles.logoutButtonText}>LOGOUT</Text>
+        </TouchableOpacity>
       </ScrollView>
 
       <EditModal

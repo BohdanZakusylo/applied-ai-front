@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from './styles';
 import {
   View,
@@ -15,6 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../assets/constants';
 import Button from '../../components/Button/Button';
 import { ENDPOINTS } from '../../assets/api';
+import { AuthContext } from '../../contexts/AuthContext';
+import { secureStorage } from '../../services/storage/storage';
 
 const Feedback = () => {
   const navigation = useNavigation();
@@ -31,6 +33,22 @@ const Feedback = () => {
 
   type FeedbackType = 'general' | 'bug' | 'feature' | 'issue';
   const [feedbackType, setFeedbackType] = useState<FeedbackType>('general');
+
+  const jwt = useRef<string>("");
+  const { dispatch } = useContext(AuthContext);
+
+  useEffect(() => {
+        const dbJWT = secureStorage.getString("jwt");
+  
+        console.log(secureStorage.getAllKeys());
+        console.log(dbJWT);
+        if (dbJWT) {
+            jwt.current = dbJWT;
+        }
+        else {
+            dispatch({ type: 'SET_LOGGED_IN', payload: false });
+        }
+    }, [])
 
   const handleSend = async () => {
     if (!feedback.trim()) {
@@ -50,6 +68,7 @@ const Feedback = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${jwt.current}`
         },
         body: JSON.stringify({
           category: categoryMap[feedbackType],

@@ -27,7 +27,11 @@ const Home = () => {
     };
 
     const navigateChat: () => void = () => {
-        (navigation as any).navigate('WorkInProgress');
+        (navigation as any).navigate('ChatScreen');
+    };
+
+    const navigateFeedback: () => void = () => {
+        (navigation as any).navigate("FeedbackScreen");
     };
 
     const TILES: HomeNavigationTileProps[] = [
@@ -50,8 +54,8 @@ const Home = () => {
         },
         {
             imageSource: SUBMIT,
-            label: 'Submit a Claim or Get Help',
-            onPress: navigatePolicy,
+            label: 'Submit your feedback',
+            onPress: navigateFeedback,
             color: COLORS.HOME_BUTTON_SECONDARY,
             borderColor: COLORS.SECONDARY_DARK,
         },

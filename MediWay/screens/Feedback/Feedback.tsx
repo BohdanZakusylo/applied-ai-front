@@ -8,16 +8,17 @@ import {
   TouchableOpacity,
   StyleSheet,
   Pressable,
+  Alert,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../assets/constants';
 import Button from '../../components/Button/Button';
+import { ENDPOINTS } from '../../assets/api';
 
 const Feedback = () => {
   const navigation = useNavigation();
 
-  const [feedbackType, setFeedbackType] = useState('general');
   const [feedback, setFeedback] = useState('');
   const [email, setEmail] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -28,11 +29,50 @@ const Feedback = () => {
     { label: 'Something Didn’t Work as Expected', value: 'issue' },
   ]);
 
-  const handleSend = () => {
-    // TODO: Add send functionality
-    console.log({ feedbackType, feedback, email });
-    // maybe show a toast or navigate
+  type FeedbackType = 'general' | 'bug' | 'feature' | 'issue';
+  const [feedbackType, setFeedbackType] = useState<FeedbackType>('general');
+
+  const handleSend = async () => {
+    if (!feedback.trim()) {
+      Alert.alert("Please enter your feedback before sending.");
+      return;
+    }
+
+    const categoryMap: Record<FeedbackType, string> = {
+      general: "General Feedback",
+      bug: "Bug Report",
+      feature: "Feature Suggestion",
+      issue: "Something didn’t work as expected",
+    };
+
+    try {
+      const response = await fetch(ENDPOINTS.userFeedback, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category: categoryMap[feedbackType],
+          message: feedback,
+          email: email || null,
+        }),
+      });
+
+      if (response.ok) {
+        Alert.alert("Thanks for your feedback!");
+        setFeedback('');
+        setEmail('');
+        setFeedbackType('general');
+      } else {
+        const data = await response.json();
+        Alert.alert(`Error: ${data.detail || 'Something went wrong.'}`);
+      }
+    } catch (error) {
+      console.error("Feedback error:", error);
+      Alert.alert("Couldn't send feedback. Please try again later.");
+    }
   };
+
 
   const handleGoBack = () => {
     (navigation as any).navigate('Home');

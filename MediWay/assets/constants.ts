@@ -51,6 +51,9 @@ export const DARK_COLORS: Record<string, ColorValue> = {
     HOME_BUTTON_SECONDARY: '#253540', // Dark blue-gray
 };
 
+// Export COLORS interface for typing
+export type AppColors = typeof LIGHT_COLORS;
+
 // Current app theme - exported as COLORS to maintain compatibility with existing code
 // Default to light theme
 export const COLORS = LIGHT_COLORS;

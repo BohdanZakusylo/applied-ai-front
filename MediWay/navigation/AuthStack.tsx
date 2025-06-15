@@ -6,6 +6,7 @@ import Register from '../screens/Register/Register';
 import ForgotPassword from '../screens/ForgotPassword/ForgotPassword';
 import ResetPassword from '../screens/ResetPassword/ResetPassword';
 import { AuthContext } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Stack = createStackNavigator();
 
@@ -15,11 +16,24 @@ interface AuthStackProps {
 
 function AuthStack({ onBack }: AuthStackProps) {
     const [resetEmail, setResetEmail] = useState<string>('');
-
     const { state: { initialRoute } } = useContext(AuthContext);
+    const { colors, isDarkMode } = useTheme();
 
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRoute}>
+        <Stack.Navigator 
+            screenOptions={{ 
+                headerShown: false,
+                // Apply theme-aware styling to any headers that might be shown
+                headerStyle: {
+                    backgroundColor: String(colors.PRIMARY_DARK),
+                },
+                headerTintColor: String(colors.WHITE),
+                // Apply theme-aware styling to cards
+                cardStyle: {
+                    backgroundColor: String(colors.BACKGROUND)
+                }
+            }} 
+            initialRouteName={initialRoute}>
             <Stack.Screen name="Login">
                 {(props) => (
                     <Login

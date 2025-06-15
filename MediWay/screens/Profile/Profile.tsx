@@ -4,6 +4,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { secureStorage } from '../../services/storage/storage';
 import EditModal from '../../components/Modal/EditModal';
 import { ENDPOINTS } from '../../assets/api';
+import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './styles';
 
 const USER = require('../../assets/images/User.png');
@@ -21,6 +23,7 @@ const Profile = () => {
 
   const jwt = useRef<string>("");
   const { dispatch } = useContext(AuthContext);
+  const { colors } = useTheme();
 
   useEffect(() => {
       const dbJWT = secureStorage.getString("jwt");
@@ -127,6 +130,16 @@ const Profile = () => {
             <Text style={styles.label}>Medical Information</Text>
             <Text style={styles.value}>{medicalInformation}</Text>
           </View>
+        </View>
+
+        {/* App Preferences Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>App Preferences</Text>
+          </View>
+          
+          {/* Theme Toggle */}
+          <ThemeToggle label="Dark Mode" />
         </View>
       </ScrollView>
 

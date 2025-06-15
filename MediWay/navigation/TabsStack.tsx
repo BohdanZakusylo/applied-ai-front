@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import Faq from '../screens/FaQ/Faq';
 import ChatBot from '../screens/ChatBot/ChatBot';
+import Profile from '../screens/Profile/Profile';
 import { COLORS } from '../assets/constants';
 
 const Tab = createBottomTabNavigator();
@@ -43,7 +44,7 @@ const TabsStack = () => {
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="FaQ" component={Faq} />
             <Tab.Screen name="Chat" component={ChatBot} />
-            {/* <Tab.Screen name="Profile" component={Profile} /> */}
+            <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
     );
 };

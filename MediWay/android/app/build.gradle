@@ -2,6 +2,10 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+def apikeyPropertiesFile = rootProject.file("../.env")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -87,6 +91,8 @@ android {
 
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", "true"
         buildConfigField "boolean", "IS_HERMES_ENABLED", "true"
+
+        manifestPlaceholders = [ANDROID_GEO_API_KEY: apikeyProperties['GOOGLE_MAPS_API_KEY']]
     }
     signingConfigs {
         debug {

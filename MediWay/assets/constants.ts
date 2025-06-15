@@ -7,7 +7,7 @@ export const COLORS: Record<string, ColorValue> = {
     SECONDARY_LIGHT: '#29B0FF',
     SECONDARY_DARK: '#0077B6',
     TERTIARY: '#00B9C1',
-    BACKGROUND: 'F6EEF3',
+    BACKGROUND: '#F6EEF3',
 
     WHITE: '#FFFFFF',
     LIGHT_GRAY: '#D3D3D3',

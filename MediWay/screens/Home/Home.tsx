@@ -4,11 +4,11 @@ import HomeNavigationTile, { HomeNavigationTileProps } from '../../components/Ho
 import { COLORS } from '../../assets/constants';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 const Home = () => {
     const navigation = useNavigation();
-
-    const DISPLAY_NAME: string = '[Name]';
 
     const LOGO: ImageSourcePropType = require('../../assets/images/logo.png');
     const INSURANCE_POLICY: ImageURISource = require('../../assets/images/home_insurance_policy.png');
@@ -16,8 +16,14 @@ const Home = () => {
     const CLINICS: ImageURISource = require('../../assets/images/home_clinics.png');
     const SUBMIT: ImageURISource = require('../../assets/images/home_submit.png');
 
+    const { state: user } = useContext(UserContext);
+
     const navigatePolicy: () => void = () => {
         (navigation as any).navigate('WorkInProgress');
+    };
+
+    const navigateNearbyGP: () => void = () => {
+        (navigation as any).navigate('NearbyGP');
     };
 
     const navigateChat: () => void = () => {
@@ -39,8 +45,8 @@ const Home = () => {
         },
         {
             imageSource: CLINICS,
-            label: 'Find Clinics My Insurance Covers',
-            onPress: navigatePolicy,
+            label: 'Find nearby General Practitioners',
+            onPress: navigateNearbyGP,
         },
         {
             imageSource: SUBMIT,
@@ -54,7 +60,7 @@ const Home = () => {
     return (
         <View style={styles.screen}>
             <Image source={LOGO} style={styles.logo} resizeMode="contain" />
-            <Text style={styles.intro}>Hi {DISPLAY_NAME}, how can I help you today?</Text>
+            <Text style={styles.intro}>Hi {user!.name}, how can I help you today?</Text>
             <View style={styles.tiles}>
                 <FlatList
                     data={TILES}

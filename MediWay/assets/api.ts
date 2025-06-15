@@ -7,6 +7,7 @@ const ENDPOINTS = {
     userProfile: `${API_DOMAIN}/api/v1/users/profile`,
     register: `${API_DOMAIN}/api/v1/auth/register`,
     login: `${API_DOMAIN}/api/v1/auth/login`,
+    userFeedback: `${API_DOMAIN}/api/v1/feedback`,
 };
 
 export { API_DOMAIN, ENDPOINTS };

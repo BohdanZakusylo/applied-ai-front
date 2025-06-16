@@ -14,6 +14,10 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         padding: 16,
     },
+    headerButtons: {
+        flexDirection: 'row',
+        gap: 4,
+    },
     headerIcon: {
         width: 24,
         height: 24,

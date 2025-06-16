@@ -111,11 +111,6 @@ const ChatBot = () => {
     }
 
     const fetchAIAnswer = async () => {
-        return {
-            response: "Test message",
-            message_id: SHA256(Date.now().toString()).toString(),
-            timestamp: new Date().toDateString(),
-        }
         setIsSending(true);
         try {
             const response = await fetch(ENDPOINTS.chatMessage, {
@@ -147,8 +142,13 @@ const ChatBot = () => {
                     <TouchableOpacity hitSlop={BASE_HIT_SLOP}>
                         <Image source={require('../../assets/images/chat-bot/chat-menu.png')} style={styles.headerIcon} />
                     </TouchableOpacity>
-                    <View style={styles.profileIcon}>
-                        <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
+                    <View style={styles.headerButtons}>
+                        <View style={styles.profileIcon}>
+                            <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
+                        </View>
+                        <DownloadSummaryButton chatHistory={messages} style={styles.profileIcon}>
+                            <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
+                        </DownloadSummaryButton>
                     </View>
                 </View>
 
@@ -171,7 +171,6 @@ const ChatBot = () => {
                         value={inputText}
                         maxLength={MAX_MESSAGE_LENGTH}
                     />
-                    <DownloadSummaryButton chatHistory={messages} />
                     {isLoading ? (
                         <ActivityIndicator size="small" color={COLORS.GRAY} style={{ padding: 8 }} />
                     ) : (

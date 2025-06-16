@@ -9,8 +9,9 @@ import {
   StyleSheet,
   Pressable,
   Alert,
+  Modal,
+  ScrollView,
 } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../assets/constants';
 import Button from '../../components/Button/Button';
@@ -24,12 +25,12 @@ const Feedback = () => {
   const [feedback, setFeedback] = useState('');
   const [email, setEmail] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [items, setItems] = useState([
+  const items = [
     { label: 'General Feedback', value: 'general' },
     { label: 'Bug Report', value: 'bug' },
     { label: 'Feature Suggestion', value: 'feature' },
     { label: 'Something Didn’t Work as Expected', value: 'issue' },
-  ]);
+  ];
 
   type FeedbackType = 'general' | 'bug' | 'feature' | 'issue';
   const [feedbackType, setFeedbackType] = useState<FeedbackType>('general');
@@ -109,17 +110,51 @@ const Feedback = () => {
         We would love to hear what you think! Help us improve MediWay by sharing your thoughts or reporting any issues.
       </Text>
 
-      <DropDownPicker
-        open={dropdownOpen}
-        value={feedbackType}
-        items={items}
-        setOpen={setDropdownOpen}
-        setValue={setFeedbackType}
-        setItems={setItems}
+      <TouchableOpacity 
         style={styles.dropdown}
-        dropDownContainerStyle={{ borderColor: '#ccc' }}
-        textStyle={{ fontSize: 14 }}
-      />
+        onPress={() => setDropdownOpen(true)}
+      >
+        <Text style={{ color: COLORS.BLACK }}>
+          {items.find(item => item.value === feedbackType)?.label || 'Select feedback type'}
+        </Text>
+      </TouchableOpacity>
+
+      {/* Custom Dropdown Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={dropdownOpen}
+        onRequestClose={() => setDropdownOpen(false)}
+      >
+        <TouchableOpacity 
+          style={styles.modalOverlay}
+          activeOpacity={1} 
+          onPress={() => setDropdownOpen(false)}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Select Feedback Type</Text>
+            <ScrollView>
+              {items.map((item) => (
+                <TouchableOpacity 
+                  key={item.value}
+                  style={styles.dropdownItem}
+                  onPress={() => {
+                    setFeedbackType(item.value as FeedbackType);
+                    setDropdownOpen(false);
+                  }}
+                >
+                  <Text style={{ 
+                    color: COLORS.BLACK,
+                    fontWeight: feedbackType === item.value ? '600' : 'normal' 
+                  }}>
+                    {item.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </TouchableOpacity>
+      </Modal>
 
       <TextInput
         style={styles.inputLarge}

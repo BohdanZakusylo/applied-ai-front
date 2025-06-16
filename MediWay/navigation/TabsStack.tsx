@@ -4,6 +4,7 @@ import HomeStack from './HomeStack';
 import Faq from '../screens/FaQ/Faq';
 import ChatBot from '../screens/ChatBot/ChatBot';
 import Profile from '../screens/Profile/Profile';
+import Deadlines from '../screens/Deadlines/Deadlines';
 import { COLORS } from '../assets/constants';
 
 const Tab = createBottomTabNavigator();
@@ -12,6 +13,7 @@ const ICONS: Record<string, ImageSourcePropType> = {
     Home: require('../assets/images/bottom-tabs/bottom-home.png'),
     FaQ: require('../assets/images/bottom-tabs/bottom-faq.png'),
     Chat: require('../assets/images/bottom-tabs/bottom-chat.png'),
+    Deadlines: require('../assets/images/bottom-tabs/bottom-chat.png'), // Reusing chat icon for deadlines
     Profile: require('../assets/images/bottom-tabs/bottom-profile.png'),
     Default: require('../assets/images/bottom-tabs/bottom-profile.png'),
 };
@@ -44,6 +46,7 @@ const TabsStack = () => {
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="FaQ" component={Faq} />
             <Tab.Screen name="Chat" component={ChatBot} />
+            <Tab.Screen name="Deadlines" component={Deadlines} />
             <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
     );

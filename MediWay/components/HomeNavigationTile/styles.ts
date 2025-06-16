@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     button: {
-        backgroundColor: COLORS.HOME_BUTTON_PRIMARY,
-        borderColor: COLORS.PRIMARY_LIGHT,
+        backgroundColor: getThemeColor('HOME_BUTTON_PRIMARY'),
+        borderColor: getThemeColor('PRIMARY_LIGHT'),
         borderWidth: 2,
         borderRadius: 8,
         width: 160,
@@ -15,13 +15,13 @@ export default StyleSheet.create({
         height: 80,
     },
     label: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         textAlign: 'center',
         width: '100%',
         paddingHorizontal: 16,
         marginTop: -8,
         flexWrap: 'wrap',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 16,
     },
 });

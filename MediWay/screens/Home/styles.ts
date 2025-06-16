@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
+// Create a theme-aware StyleSheet that will update with the theme
 export default StyleSheet.create({
     screen: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
         width: '100%',
         height: '100%',
         padding: 16,
@@ -15,9 +16,9 @@ export default StyleSheet.create({
         marginTop: 32,
     },
     intro: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         textAlign: 'center',
-        fontWeight: 500,
+        fontWeight: '500',
         fontSize: 20,
         paddingBottom: 32,
     },

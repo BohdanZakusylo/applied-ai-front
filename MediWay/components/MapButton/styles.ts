@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     button: {
         borderWidth: 2,
         borderRadius: 8,
-        borderColor: COLORS.SECONDARY_LIGHT,
+        borderColor: getThemeColor('SECONDARY_LIGHT'),
         padding: 10,
         width: '100%',
         height: 80,
@@ -14,25 +14,25 @@ export default StyleSheet.create({
         flexDirection: 'row',
     },
     buttonSelected: {
-        borderColor: COLORS.PRIMARY_LIGHT,
+        borderColor: getThemeColor('PRIMARY_LIGHT'),
     },
     name: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         fontWeight: 400,
         fontSize: 15,
     },
     address: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         fontWeight: 400,
         fontSize: 10,
     },
     distance: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         fontWeight: 400,
         fontSize: 15,
     },
     fromMe: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         fontWeight: 400,
         fontSize: 10,
     },

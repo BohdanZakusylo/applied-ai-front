@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { LIGHT_COLORS, DARK_COLORS } from '../assets/constants';
 import { MMKV } from 'react-native-mmkv';
+import { setGlobalTheme } from '../utils/useColors';
 
 // Storage to persist theme preference
 const storage = new MMKV();
@@ -54,6 +55,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         colors: savedTheme === 'dark' ? DARK_COLORS : LIGHT_COLORS,
         isDarkMode: savedTheme === 'dark',
     });
+    
+    // Set the global theme on initial load
+    useEffect(() => {
+        setGlobalTheme(themeState.theme);
+    }, []);
 
     /**
      * Toggle between light and dark themes
@@ -70,6 +76,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const setTheme = (theme: ThemeType) => {
         // Update theme in storage
         storage.set(THEME_STORAGE_KEY, theme);
+        
+        // Update global theme state for non-hook contexts
+        setGlobalTheme(theme);
         
         // Update state with new theme and corresponding colors
         setThemeState({

@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: getThemeColor('BACKGROUND'),
     },
     keyboardView: {
         flex: 1,
@@ -26,12 +26,12 @@ export default StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         marginBottom: 16,
     },
     subtitle: {
         fontSize: 16,
-        color: COLORS.GRAY,
+        color: getThemeColor('GRAY'),
         textAlign: 'center',
         lineHeight: 24,
     },
@@ -44,16 +44,16 @@ export default StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '500',
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         marginBottom: 8,
     },
     input: {
         borderWidth: 1,
-        borderColor: COLORS.GRAY,
+        borderColor: getThemeColor('GRAY'),
         borderRadius: 12,
         padding: 16,
         fontSize: 16,
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: getThemeColor('WHITE'),
     },
     disabledButton: {
         opacity: 0.6,
@@ -65,11 +65,11 @@ export default StyleSheet.create({
     },
     loginText: {
         fontSize: 14,
-        color: COLORS.GRAY,
+        color: getThemeColor('GRAY'),
     },
     loginLink: {
         fontSize: 14,
-        color: COLORS.TERTIARY,
+        color: getThemeColor('TERTIARY'),
         fontWeight: '500',
     },
 });

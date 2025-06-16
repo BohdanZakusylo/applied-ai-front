@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import { BASE_HIT_SLOP } from '../../assets/constants';
+import { useTheme } from '../../contexts/ThemeContext';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental &&
@@ -50,6 +51,7 @@ const FAQ_DATA = [
 ];
 
 const Faq = () => {
+    const { isDarkMode, colors } = useTheme();
     const [expanded, setExpanded] = useState<string | null>(null);
 
     const toggleItem = (key: string) => {
@@ -58,13 +60,19 @@ const Faq = () => {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
-            <Image source={LOGO} style={styles.logo} resizeMode="contain" />
-            <Text style={styles.title}>Frequently Asked Questions</Text>
+        <ScrollView 
+            contentContainerStyle={styles.contentContainer} 
+            style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
+            <Image 
+                source={LOGO} 
+                style={styles.logo} 
+                resizeMode="contain" 
+            />
+            <Text style={[styles.title, { color: colors.BLACK }]}>Frequently Asked Questions</Text>
 
             {FAQ_DATA.map((section, sectionIndex) => (
                 <View key={sectionIndex}>
-                    <Text style={styles.sectionTitle}>{section.section}</Text>
+                    <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>{section.section}</Text>
                     {section.items.map((item, index) => {
                         const key = `${sectionIndex}-${index}`;
                         const isOpen = expanded === key;
@@ -78,21 +86,30 @@ const Faq = () => {
                                     activeOpacity={0.7}
                                 >
                                     <Text
-                                        style={styles.questionText}
+                                        style={[styles.questionText, { color: colors.BLACK }]}
                                         numberOfLines={isOpen ? undefined : 1}
                                     >
                                         {item.question}
                                     </Text>
                                     {
                                         isOpen ?
-                                            <Image source={chevronUp} style={styles.chevron} /> :
-                                            <Image source={chevronDown} style={styles.chevron} />
+                                            <Image 
+                                                source={chevronUp} 
+                                                style={[styles.chevron, { tintColor: colors.BLACK }]} 
+                                            /> :
+                                            <Image 
+                                                source={chevronDown} 
+                                                style={[styles.chevron, { tintColor: colors.BLACK }]} 
+                                            />
                                     }
                                 </TouchableOpacity>
 
                                 {isOpen && (
-                                    <View style={styles.answerContainer}>
-                                        <Text style={styles.answerText} numberOfLines={undefined}>
+                                    <View style={[styles.answerContainer, {
+                                        backgroundColor: colors.SECONDARY_EXTRA_LIGHT,
+                                        borderLeftColor: colors.SECONDARY_LIGHT,
+                                    }]}>
+                                        <Text style={[styles.answerText, { color: colors.GRAY }]} numberOfLines={undefined}>
                                             {item.answer}
                                         </Text>
                                     </View>

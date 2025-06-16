@@ -14,7 +14,11 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
     return (
         <View style={[
             styles.container, 
-            { backgroundColor: colors.WHITE }
+            { 
+                backgroundColor: isDarkMode ? colors.GRAY_DARK : colors.WHITE,
+                borderColor: colors.LIGHT_GRAY,
+                borderWidth: 1
+            }
         ]}>
             <Text style={[
                 styles.label, 

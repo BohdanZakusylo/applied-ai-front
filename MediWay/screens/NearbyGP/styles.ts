@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     container: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
         paddingTop: 48,
         paddingHorizontal: 24,
         alignItems: 'center',
@@ -33,9 +33,9 @@ export default StyleSheet.create({
     currentLocationCircle: {
         width: 12,
         height: 12,
-        backgroundColor: COLORS.SECONDARY_LIGHT,
+        backgroundColor: getThemeColor('SECONDARY_LIGHT'),
         borderWidth: 2,
-        borderColor: COLORS.SECONDARY_DARK,
+        borderColor: getThemeColor('SECONDARY_DARK'),
         borderRadius: 100,
     },
     buttons: {

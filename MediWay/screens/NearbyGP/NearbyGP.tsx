@@ -8,6 +8,7 @@ import { getCrudeDistanceBetween, getDistanceBetween, getNearbyGPs } from '../..
 import Geolocation, { GeolocationError, GeolocationResponse } from '@react-native-community/geolocation';
 import { GooglePlaceResponse, GooglePlaceResult } from '../../services/location/locationTypes';
 import { CustomMapMarkerProps } from '../../components/MapMarker/MapMarker';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const LOGO = require('../../assets/images/logo.png');
 
@@ -16,6 +17,7 @@ export default function NearbyGP() {
     const [selectedMarker, setSelectedMarker] = useState<number>(-1);
     const [markers, setMarkers] = useState<CustomMapMarkerProps[]>([]);
     const map = useRef<MapRef>(null);
+    const { colors, isDarkMode } = useTheme();
 
     const onMarkerSelected = (index: number) => {
         map.current?.onMarkerSelected(index);
@@ -50,15 +52,18 @@ export default function NearbyGP() {
     }, [location, markers]);
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <Image source={LOGO} style={styles.logo} resizeMode="contain" />
 
             <View style={styles.contentWrapper}>
                 <Map markers={markers} ref={map} />
 
                 <View style={styles.legend}>
-                    <View style={styles.currentLocationCircle} />
-                    <Text>Current Location</Text>
+                    <View style={[styles.currentLocationCircle, { 
+                        backgroundColor: colors.SECONDARY_LIGHT,
+                        borderColor: colors.SECONDARY_DARK
+                    }]} />
+                    <Text style={{ color: colors.BLACK }}>Current Location</Text>
                 </View>
 
                 <ScrollView style={styles.buttons} contentContainerStyle={styles.buttonsContainer}>
@@ -72,7 +77,7 @@ export default function NearbyGP() {
                             selected={selectedMarker === index}
                             onPress={() => onMarkerSelected(index)}
                         />
-                    ) : <Text>No doctors found nearby...</Text>}
+                    ) : <Text style={{ color: colors.BLACK }}>No doctors found nearby...</Text>}
                 </ScrollView>
             </View>
 

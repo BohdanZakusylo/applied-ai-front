@@ -1,7 +1,7 @@
 import { ColorValue } from 'react-native';
 
 /**
- * Light theme colors (original colors)
+ * Light theme colors
  */
 export const LIGHT_COLORS: Record<string, ColorValue> = {
     PRIMARY_LIGHT: '#29FF78',
@@ -19,13 +19,19 @@ export const LIGHT_COLORS: Record<string, ColorValue> = {
 
     HOME_BUTTON_PRIMARY: '#DEF7E7',
     HOME_BUTTON_SECONDARY: '#E0EAF0',
+    
+    // Status colors
+    SUCCESS: '#4CAF50',
+    WARNING: '#FF9800',
+    ERROR: '#F44336',
+    INFO: '#2196F3',
 };
 
 /**
  * Dark theme colors
  */
 export const DARK_COLORS: Record<string, ColorValue> = {
-    // Primary colors (green range) - slightly darker/muted but still vibrant
+    // Primary colors (green range) - vibrant but suitable for dark backgrounds
     PRIMARY_LIGHT: '#20CC60',  // Darker version of light green
     PRIMARY_DARK: '#00CC4B',   // Adjusted to be visible on dark backgrounds
     
@@ -49,13 +55,52 @@ export const DARK_COLORS: Record<string, ColorValue> = {
     // Button colors - darker versions with enough contrast
     HOME_BUTTON_PRIMARY: '#1C4E31',   // Dark green
     HOME_BUTTON_SECONDARY: '#253540', // Dark blue-gray
+    
+    // Status colors - adjusted for dark theme
+    SUCCESS: '#66BB6A', // Lighter green for dark background
+    WARNING: '#FFA726', // Lighter orange for dark background
+    ERROR: '#EF5350',   // Lighter red for dark background
+    INFO: '#42A5F5',    // Lighter blue for dark background
 };
 
 // Export COLORS interface for typing
 export type AppColors = typeof LIGHT_COLORS;
 
-// Current app theme - exported as COLORS to maintain compatibility with existing code
-// Default to light theme
+/**
+ * COLORS export - defaults to light theme
+ * Components should ideally use useTheme() hook for theme-aware colors
+ */
 export const COLORS = LIGHT_COLORS;
+
+/**
+ * Get theme-aware colors from anywhere in the app
+ * This function will be used behind the scenes by our color utilities
+ */
+export function getThemeAwareColors(): Record<keyof AppColors, ColorValue> {
+  try {
+    // In a browser/Node environment, we may not have access to the adapter
+    if (typeof require === 'function') {
+      // This dynamic require ensures we don't get circular dependencies
+      const { getThemeColor } = require('../utils/useColors');
+      
+      // Create a proxy that will get the correct color based on current theme
+      return new Proxy(LIGHT_COLORS, {
+        get: (_target, prop: string) => {
+          try {
+            return getThemeColor(prop as keyof AppColors);
+          } catch (e) {
+            // Fall back to light theme if there's an error
+            return LIGHT_COLORS[prop as keyof AppColors];
+          }
+        }
+      });
+    }
+  } catch (e) {
+    // Fallback if any errors occur
+  }
+  
+  // Default fallback to light theme
+  return LIGHT_COLORS;
+}
 
 export const BASE_HIT_SLOP: number = 16;

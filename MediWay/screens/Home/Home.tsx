@@ -1,14 +1,15 @@
 import styles from './styles';
 import { Text, Image, View, ImageSourcePropType, ImageURISource, FlatList } from 'react-native';
 import HomeNavigationTile, { HomeNavigationTileProps } from '../../components/HomeNavigationTile/HomeNavigationTile';
-import { COLORS } from '../../assets/constants';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Home = () => {
     const navigation = useNavigation();
+    const { colors } = useTheme();
 
     const LOGO: ImageSourcePropType = require('../../assets/images/logo.png');
     const INSURANCE_POLICY: ImageURISource = require('../../assets/images/home_insurance_policy.png');
@@ -35,8 +36,8 @@ const Home = () => {
             imageSource: INSURANCE_POLICY,
             label: 'View My Insurance Policy',
             onPress: navigatePolicy,
-            color: COLORS.HOME_BUTTON_SECONDARY,
-            borderColor: COLORS.SECONDARY_DARK,
+            color: colors.HOME_BUTTON_SECONDARY,
+            borderColor: colors.SECONDARY_DARK,
         },
         {
             imageSource: COVERAGE,
@@ -52,15 +53,15 @@ const Home = () => {
             imageSource: SUBMIT,
             label: 'Submit a Claim or Get Help',
             onPress: navigatePolicy,
-            color: COLORS.HOME_BUTTON_SECONDARY,
-            borderColor: COLORS.SECONDARY_DARK,
+            color: colors.HOME_BUTTON_SECONDARY,
+            borderColor: colors.SECONDARY_DARK,
         },
     ];
 
     return (
-        <View style={styles.screen}>
+        <View style={[styles.screen, { backgroundColor: colors.BACKGROUND }]}>
             <Image source={LOGO} style={styles.logo} resizeMode="contain" />
-            <Text style={styles.intro}>Hi {user!.name}, how can I help you today?</Text>
+            <Text style={[styles.intro, { color: colors.BLACK }]}>Hi {user!.name}, how can I help you today?</Text>
             <View style={styles.tiles}>
                 <FlatList
                     data={TILES}

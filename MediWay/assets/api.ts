@@ -1,4 +1,5 @@
-const API_DOMAIN = 'http://172.27.112.1:8000';
+// 10.0.2.2 is the special IP Android emulators use to access the host machine's localhost
+const API_DOMAIN = 'http://10.0.2.2:8000';
 
 const ENDPOINTS = {
     forgotPassword: `${API_DOMAIN}/api/v1/auth/forgot-password`,

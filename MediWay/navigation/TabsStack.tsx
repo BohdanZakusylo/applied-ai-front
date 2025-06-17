@@ -13,7 +13,6 @@ const ICONS: Record<string, ImageSourcePropType> = {
     Home: require('../assets/images/bottom-tabs/bottom-home.png'),
     FaQ: require('../assets/images/bottom-tabs/bottom-faq.png'),
     Chat: require('../assets/images/bottom-tabs/bottom-chat.png'),
-    Deadlines: require('../assets/images/bottom-tabs/bottom-chat.png'), // Reusing chat icon for deadlines
     Profile: require('../assets/images/bottom-tabs/bottom-profile.png'),
     Default: require('../assets/images/bottom-tabs/bottom-profile.png'),
 };
@@ -25,20 +24,28 @@ const TabsStack = () => {
                 const icon = route.name in ICONS ? ICONS[route.name] : ICONS.Default;
 
                 return {
-                    tabBarIcon: ({ focused, size }) => (
-                        <Image
-                            source={icon}
-                            style={{
-                                width: size,
-                                height: size,
-                                tintColor: focused ? COLORS.PRIMARY_DARK : COLORS.GRAY,
-                            }}
-                            resizeMode="contain"
-                        />
-                    ),
+                    tabBarIcon: ({ focused, size }: { focused: boolean; color: string; size: number }) => {
+                        // Special case for Deadlines - use a text label instead of an icon
+                        if (route.name === 'Deadlines') {
+                            return null; // Return null to just show the label
+                        }
+                        
+                        // For other tabs, use the icon
+                        return (
+                            <Image
+                                source={icon}
+                                style={{
+                                    width: size,
+                                    height: size,
+                                    tintColor: focused ? COLORS.PRIMARY_DARK : COLORS.GRAY,
+                                }}
+                                resizeMode="contain"
+                            />
+                        );
+                    },
                     tabBarLabelStyle: { fontSize: 12 },
-                    tabBarActiveTintColor: COLORS.PRIMARY_DARK,
-                    tabBarInactiveTintColor: COLORS.GRAY,
+                    tabBarActiveTintColor: String(COLORS.PRIMARY_DARK),
+                    tabBarInactiveTintColor: String(COLORS.GRAY),
                     headerShown: false,
                 };
             }}

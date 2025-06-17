@@ -15,6 +15,18 @@ export default StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 8,
   },
+  headerWithButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 8,
+  },
+  screenTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: COLORS.BLACK,
+  },
   headerTitle: {
     fontSize: 24,
     fontWeight: '600',
@@ -158,8 +170,70 @@ export default StyleSheet.create({
   },
   saveButtonText: {
     color: COLORS.WHITE,
+    fontWeight: 'bold',
   },
   cancelButtonText: {
     color: COLORS.BLACK,
+  },
+  retryButton: {
+    backgroundColor: COLORS.PRIMARY,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  retryButtonText: {
+    color: COLORS.WHITE,
+    fontWeight: '500',
+  },
+  floatingActionButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    backgroundColor: '#2196F3', // Explicit blue color for better visibility
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  floatingActionButtonText: {
+    fontSize: 32,
+    fontWeight: '600',
+    color: COLORS.BLACK,
+    marginTop: -3,
+  },
+  addButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.WHITE,
+  },
+  editButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: COLORS.PRIMARY,
+    padding: 4,
+  },
+  deleteButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: COLORS.DANGER,
+    padding: 4,
+  },
+  deadlineActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 8,
+  },
+  deadlineContent: {
+    flex: 1,
+  },
+  deadlineHeader: {
+    marginBottom: 4,
   },
 });

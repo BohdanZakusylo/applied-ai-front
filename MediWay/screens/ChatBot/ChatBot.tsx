@@ -184,8 +184,18 @@ const ChatBot = () => {
                     <Text style={styles.questionsRemaining}>
                         Questions: {questionsRemaining}/{monthlyLimit}
                     </Text>
+<<<<<<< theme_system
                     <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
                         <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
+=======
+                    <View style={styles.headerButtons}>
+                        <View style={styles.profileIcon}>
+                            <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
+                        </View>
+                        <DownloadSummaryButton chatHistory={messages} style={styles.profileIcon}>
+                                <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
+                        </DownloadSummaryButton>
+>>>>>>> development
                     </View>
                 </View>
 
@@ -208,7 +218,6 @@ const ChatBot = () => {
                         value={inputText}
                         maxLength={MAX_MESSAGE_LENGTH}
                     />
-                    <DownloadSummaryButton chatHistory={messages} />
                     {isLoading ? (
                         <ActivityIndicator size="small" color={colors.GRAY} style={{ padding: 8 }} />
                     ) : (

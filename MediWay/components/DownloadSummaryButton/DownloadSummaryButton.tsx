@@ -1,10 +1,9 @@
 import { Alert, PermissionsAndroid, Platform, Text, TouchableOpacity, View, ViewProps } from 'react-native';
 import styles from './styles';
 import { ChatMessageProp } from '../ChatMessage/ChatMessage';
-import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP, COLORS, LOGO_BASE64 } from '../../assets/constants';
 import { downloadPdf } from '../../services/download/pdfDownload';
 import { PropsWithChildren } from 'react';
-import RNFS from 'react-native-fs';
 
 export type DownloadSummaryButtonProps = {
     chatHistory: ChatMessageProp[];
@@ -19,18 +18,8 @@ const DownloadSummaryButton = (props: DownloadSummaryButtonProps) => {
         return true;
     }
 
-    const getLogoPath = async (): Promise<string> => {
-        let filePath = '';
-
-        if (Platform.OS === 'android') {
-            filePath = 'logo.png';
-            await RNFS.copyFileAssets(filePath, `${RNFS.DocumentDirectoryPath}/logo.png`);
-            filePath = `${RNFS.DocumentDirectoryPath}/logo.png`;
-        } else {
-            filePath = `${RNFS.MainBundlePath}/logo.png`;
-        }
-
-        return filePath;
+    const getLogoBase64 = (): string => {
+        return LOGO_BASE64;
     }
 
     const onDownload = async () => {
@@ -52,7 +41,7 @@ const DownloadSummaryButton = (props: DownloadSummaryButtonProps) => {
             
             const filename = `MediWay Chat Summary (${date})`;
             
-            const logoB64 = `data:image/png;base64,${await RNFS.readFile(await getLogoPath(), 'base64')}`;
+            const logoB64 = getLogoBase64();
 
             const htmlContent = `
                 <html>

@@ -1,9 +1,10 @@
 import styles from './styles';
 import { Text, Image, View, ImageSourcePropType, ImageURISource, FlatList } from 'react-native';
+// Material Icons removed as we're using text instead of icons
 import HomeNavigationTile, { HomeNavigationTileProps } from '../../components/HomeNavigationTile/HomeNavigationTile';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -28,8 +29,14 @@ const Home = () => {
     };
 
     const navigateChat: () => void = () => {
-        (navigation as any).navigate('WorkInProgress');
+        (navigation as any).navigate('ChatScreen');
     };
+
+    const navigateFeedback: () => void = () => {
+        (navigation as any).navigate("FeedbackScreen");
+    };
+    
+    // Deadlines functionality has been moved to the tab navigation bar
 
     const TILES: HomeNavigationTileProps[] = [
         {
@@ -51,8 +58,8 @@ const Home = () => {
         },
         {
             imageSource: SUBMIT,
-            label: 'Submit a Claim or Get Help',
-            onPress: navigatePolicy,
+            label: 'Submit your feedback',
+            onPress: navigateFeedback,
             color: colors.HOME_BUTTON_SECONDARY,
             borderColor: colors.SECONDARY_DARK,
         },

@@ -5,6 +5,7 @@ import Faq from '../screens/FaQ/Faq';
 import ChatBot from '../screens/ChatBot/ChatBot';
 import Profile from '../screens/Profile/Profile';
 import { useTheme } from '../contexts/ThemeContext';
+import Deadlines from '../screens/Deadlines/Deadlines';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,17 +27,25 @@ const TabsStack = () => {
                 const icon = route.name in ICONS ? ICONS[route.name] : ICONS.Default;
 
                 return {
-                    tabBarIcon: ({ focused, size }) => (
-                        <Image
-                            source={icon}
-                            style={{
-                                width: size,
-                                height: size,
-                                tintColor: focused ? colors.PRIMARY_DARK : colors.GRAY,
-                            }}
-                            resizeMode="contain"
-                        />
-                    ),
+                    tabBarIcon: ({ focused, size }: { focused: boolean; color: string; size: number }) => {
+                        // Special case for Deadlines - use a text label instead of an icon
+                        if (route.name === 'Deadlines') {
+                            return null; // Return null to just show the label
+                        }
+                        
+                        // For other tabs, use the icon
+                        return (
+                            <Image
+                                source={icon}
+                                style={{
+                                    width: size,
+                                    height: size,
+                                    tintColor: focused ? colors.PRIMARY_DARK : colors.GRAY,
+                                }}
+                                resizeMode="contain"
+                            />
+                        );
+                    },
                     tabBarLabelStyle: { fontSize: 12 },
                     tabBarActiveTintColor: String(colors.PRIMARY_DARK),
                     tabBarInactiveTintColor: String(colors.GRAY),
@@ -47,6 +56,7 @@ const TabsStack = () => {
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="FaQ" component={Faq} />
             <Tab.Screen name="Chat" component={ChatBot} />
+            <Tab.Screen name="Deadlines" component={Deadlines} />
             <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
     );

@@ -12,7 +12,13 @@ export default StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 16,
+    },
+    questionsRemaining: {
+        fontSize: 14,
+        color: COLORS.BLACK,
+        fontWeight: '500',
     },
     headerIcon: {
         width: 24,

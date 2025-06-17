@@ -1,0 +1,90 @@
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../../assets/constants';
+
+export default StyleSheet.create({
+  screen: {
+    padding: 24,
+    flex: 1,
+    backgroundColor: '#FDF5F8',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '100%',
+    height: 96,
+    marginTop: 32,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 8,
+    color: '#000',
+  },
+  description: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#333',
+  },
+  dropdown: {
+    width: '100%',
+    marginBottom: 16,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 12,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    height: 48,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    maxHeight: 300,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 12,
+    color: '#000',
+  },
+  dropdownItem: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  inputLarge: {
+    width: '100%',
+    height: 120,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 12,
+    textAlignVertical: 'top',
+    backgroundColor: '#fff',
+    marginBottom: 16,
+  },
+  input: {
+    width: '100%',
+    height: 48,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    backgroundColor: '#fff',
+    marginBottom: 16,
+  },
+  link: {
+    marginTop: 12,
+    fontSize: 12,
+    color: '#000',
+    textDecorationLine: 'underline',
+  },
+});

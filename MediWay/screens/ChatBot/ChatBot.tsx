@@ -176,18 +176,16 @@ const ChatBot = () => {
                     <TouchableOpacity hitSlop={BASE_HIT_SLOP}>
                         <Image source={require('../../assets/images/chat-bot/chat-menu.png')} style={styles.headerIcon} />
                     </TouchableOpacity>
+                    <Text style={styles.questionsRemaining}>
+                        Questions: {questionsRemaining}/{monthlyLimit}
+                    </Text>
                     <View style={styles.headerButtons}>
                         <View style={styles.profileIcon}>
                             <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
                         </View>
                         <DownloadSummaryButton chatHistory={messages} style={styles.profileIcon}>
-                            <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
+                                <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
                         </DownloadSummaryButton>
-                    <Text style={styles.questionsRemaining}>
-                        Questions: {questionsRemaining}/{monthlyLimit}
-                    </Text>
-                    <View style={styles.profileIcon}>
-                        <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
                     </View>
                 </View>
 

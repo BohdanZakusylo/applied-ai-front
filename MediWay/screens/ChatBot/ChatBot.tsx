@@ -181,21 +181,16 @@ const ChatBot = () => {
                             style={[styles.headerIcon, { tintColor: colors.BLACK }]} 
                         />
                     </TouchableOpacity>
-                    <Text style={styles.questionsRemaining}>
+                    <Text style={[styles.questionsRemaining, { color: colors.BLACK }]}>
                         Questions: {questionsRemaining}/{monthlyLimit}
                     </Text>
-<<<<<<< theme_system
-                    <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
-                        <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
-=======
                     <View style={styles.headerButtons}>
-                        <View style={styles.profileIcon}>
+                        <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
                             <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
                         </View>
-                        <DownloadSummaryButton chatHistory={messages} style={styles.profileIcon}>
-                                <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
+                        <DownloadSummaryButton chatHistory={messages} style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
+                                <Image source={require('../../assets/images/chat-bot/download.png')} style={[styles.headerIcon, { tintColor: colors.BLACK }]} />
                         </DownloadSummaryButton>
->>>>>>> development
                     </View>
                 </View>
 

@@ -14,7 +14,7 @@ import {
   ScrollView
 } from 'react-native';
 import styles from './styles';
-import { COLORS } from '../../assets/constants';
+import { useTheme } from '../../contexts/ThemeContext';
 
 // Define the route param types
 type RootStackParamList = {
@@ -39,6 +39,7 @@ const formatDateTime = (isoString: string) => {
 };
 
 const DeadlinesScreen = () => {
+    const { colors } = useTheme();
   // Use properly typed route and navigation
   const route = useRoute<DeadlinesScreenRouteProp>();
   const navigation = useNavigation<DeadlinesScreenNavigationProp>();
@@ -205,22 +206,22 @@ const DeadlinesScreen = () => {
   // Render individual deadline item
   const renderDeadlineItem = ({ item }: { item: Deadline }) => {
     return (
-      <View style={styles.deadlineItem}>
+      <View style={[styles.deadlineItem, { backgroundColor: colors.WHITE }]}>
         <View style={styles.deadlineContent}>
           <View style={styles.deadlineHeader}>
-            <Text style={styles.deadlineMessage}>{item.title}</Text>
+            <Text style={[styles.deadlineMessage, { color: colors.BLACK }]}>{item.title}</Text>
           </View>
           
-          <Text style={styles.deadlineEmail}>Due: {formatDueDate(item.due_date)}</Text>
+          <Text style={[styles.deadlineEmail, { color: colors.GRAY }]}>Due: {formatDueDate(item.due_date)}</Text>
         </View>
         
         <View style={styles.deadlineActions}>
           <TouchableOpacity onPress={() => handleEditDeadline(item)} style={styles.actionButton}>
-            <Text style={styles.editButtonText}>Edit</Text>
+            <Text style={[styles.editButtonText, { color: colors.PRIMARY }]}>Edit</Text>
           </TouchableOpacity>
           
           <TouchableOpacity onPress={() => handleDeleteDeadline(item.id)} style={styles.actionButton}>
-            <Text style={styles.deleteButtonText}>Delete</Text>
+            <Text style={[styles.deleteButtonText, { color: colors.DANGER }]}>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -232,7 +233,7 @@ const DeadlinesScreen = () => {
     if (loading) {
       return (
         <View style={styles.emptyStateContainer}>
-          <Text style={styles.emptyStateText}>Loading deadlines...</Text>
+          <Text style={[styles.emptyStateText, { color: colors.GRAY }]}>Loading deadlines...</Text>
         </View>
       );
     }
@@ -240,9 +241,9 @@ const DeadlinesScreen = () => {
     if (error) {
       return (
         <View style={styles.emptyStateContainer}>
-          <Text style={[styles.emptyStateText, { color: COLORS.ERROR }]}>{error}</Text>
+          <Text style={[styles.emptyStateText, { color: colors.ERROR }]}>{error}</Text>
           <TouchableOpacity onPress={fetchDeadlines} style={styles.retryButton}>
-            <Text style={styles.retryButtonText}>Try Again</Text>
+            <Text style={[styles.retryButtonText, { color: colors.WHITE }]}>Try Again</Text>
           </TouchableOpacity>
         </View>
       );
@@ -250,7 +251,7 @@ const DeadlinesScreen = () => {
     
     return (
       <View style={styles.emptyStateContainer}>
-        <Text style={styles.emptyStateText}>
+        <Text style={[styles.emptyStateText, { color: colors.GRAY }]}>
           No deadlines yet. Tap the + button to add one!
         </Text>
       </View>
@@ -258,14 +259,14 @@ const DeadlinesScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <View style={styles.headerWithButton}>
-        <Text style={styles.screenTitle}>Deadlines</Text>
+        <Text style={[styles.screenTitle, { color: colors.BLACK }]}>Deadlines</Text>
         <TouchableOpacity 
           style={styles.addButton} 
           onPress={handleAddDeadline}
         >
-          <Text style={styles.addButtonText}>+</Text>
+          <Text style={[styles.addButtonText, { color: colors.WHITE }]}>+</Text>
         </TouchableOpacity>
       </View>
 
@@ -283,7 +284,7 @@ const DeadlinesScreen = () => {
         style={styles.floatingActionButton}
         onPress={handleAddDeadline}
       >
-        <Text style={styles.addButtonText}>Add</Text>
+        <Text style={[styles.addButtonText, { color: colors.WHITE }]}>Add</Text>
       </TouchableOpacity>
 
       {/* Modal for adding/editing deadlines */}
@@ -307,7 +308,7 @@ const DeadlinesScreen = () => {
                 setCurrentDeadline({...currentDeadline, title: text})
               }
               placeholder="Enter deadline title"
-              placeholderTextColor={COLORS.LIGHT_GRAY}
+              placeholderTextColor={colors.LIGHT_GRAY}
             />
             
             <Text style={styles.inputLabel}>Due Date and Time</Text>
@@ -318,7 +319,7 @@ const DeadlinesScreen = () => {
                 setCurrentDeadline({...currentDeadline, due_date: text})
               }
               placeholder="YYYY-MM-DDThh:mm:ss (e.g. 2025-06-25T15:00:00)"
-              placeholderTextColor={COLORS.LIGHT_GRAY}
+              placeholderTextColor={colors.LIGHT_GRAY}
             />
             
             <View style={styles.buttonRow}>

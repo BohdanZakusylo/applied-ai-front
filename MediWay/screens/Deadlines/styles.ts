@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
+    backgroundColor: getThemeColor('BACKGROUND'),
     paddingHorizontal: 16,
     paddingTop: 16,
   },
@@ -25,12 +26,12 @@ export default StyleSheet.create({
   screenTitle: {
     fontSize: 24,
     fontWeight: '600',
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: '600',
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
   },
   addButton: {
     backgroundColor: COLORS.PRIMARY,
@@ -43,7 +44,7 @@ export default StyleSheet.create({
   addButtonText: {
     fontSize: 24,
     fontWeight: '600',
-    color: COLORS.WHITE,
+    color: getThemeColor('WHITE'),
     marginTop: -2,
   },
   deadlinesList: {
@@ -56,16 +57,16 @@ export default StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 16,
-    color: COLORS.GRAY,
+    color: getThemeColor('GRAY'),
     textAlign: 'center',
     marginTop: 8,
   },
   deadlineItem: {
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: getThemeColor('WHITE'),
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
-    shadowColor: COLORS.BLACK,
+    shadowColor: getThemeColor('BLACK'),
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
@@ -81,17 +82,17 @@ export default StyleSheet.create({
   categoryText: {
     fontSize: 12,
     fontWeight: '500',
-    color: COLORS.WHITE,
+    color: getThemeColor('WHITE'),
   },
   deadlineMessage: {
     fontSize: 16,
     fontWeight: '500',
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
     marginBottom: 8,
   },
   deadlineEmail: {
     fontSize: 14,
-    color: COLORS.GRAY,
+    color: getThemeColor('GRAY'),
   },
   actionButtons: {
     flexDirection: 'row',
@@ -110,11 +111,11 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: getThemeColor('WHITE'),
     borderRadius: 8,
     padding: 20,
     width: '85%',
-    shadowColor: COLORS.BLACK,
+    shadowColor: getThemeColor('BLACK'),
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -124,25 +125,25 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 16,
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
   },
   inputLabel: {
     fontSize: 14,
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
     marginBottom: 4,
   },
   input: {
     borderWidth: 1,
-    borderColor: COLORS.LIGHT_GRAY,
+    borderColor: getThemeColor('LIGHT_GRAY'),
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 8,
     marginBottom: 16,
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: COLORS.LIGHT_GRAY,
+    borderColor: getThemeColor('LIGHT_GRAY'),
     borderRadius: 4,
     marginBottom: 16,
   },
@@ -160,7 +161,7 @@ export default StyleSheet.create({
     marginHorizontal: 4,
   },
   cancelButton: {
-    backgroundColor: COLORS.LIGHT_GRAY,
+    backgroundColor: getThemeColor('LIGHT_GRAY'),
   },
   saveButton: {
     backgroundColor: COLORS.PRIMARY,
@@ -169,11 +170,11 @@ export default StyleSheet.create({
     fontWeight: '500',
   },
   saveButtonText: {
-    color: COLORS.WHITE,
+    color: getThemeColor('WHITE'),
     fontWeight: 'bold',
   },
   cancelButtonText: {
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
   },
   retryButton: {
     backgroundColor: COLORS.PRIMARY,
@@ -183,7 +184,7 @@ export default StyleSheet.create({
     marginTop: 16,
   },
   retryButtonText: {
-    color: COLORS.WHITE,
+    color: getThemeColor('WHITE'),
     fontWeight: '500',
   },
   floatingActionButton: {
@@ -205,13 +206,13 @@ export default StyleSheet.create({
   floatingActionButtonText: {
     fontSize: 32,
     fontWeight: '600',
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
     marginTop: -3,
   },
   addButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: COLORS.WHITE,
+    color: getThemeColor('WHITE'),
   },
   editButtonText: {
     fontSize: 14,

@@ -1,5 +1,6 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from 'react-native';
 import { getThemeColor } from '../../utils/useColors';
+import { COLORS } from '../../assets/constants';
 
 interface HomeStyles {
     screen: ViewStyle;

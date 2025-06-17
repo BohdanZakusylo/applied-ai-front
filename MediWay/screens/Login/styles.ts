@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
     },
     keyboardView: {
         flex: 1,
@@ -26,7 +26,7 @@ export default StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         marginBottom: 8,
     },
     form: {
@@ -38,23 +38,23 @@ export default StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '500',
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         marginBottom: 8,
     },
     input: {
         borderWidth: 1,
-        borderColor: COLORS.GRAY,
+        borderColor: getThemeColor('GRAY'),
         borderRadius: 12,
         padding: 16,
         fontSize: 16,
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: getThemeColor('WHITE'),
     },
     forgotPassword: {
         alignSelf: 'flex-start',
         marginBottom: 30,
     },
     forgotPasswordText: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         fontSize: 14,
         fontWeight: '500',
     },
@@ -68,11 +68,11 @@ export default StyleSheet.create({
     },
     registerText: {
         fontSize: 14,
-        color: COLORS.GRAY,
+        color: getThemeColor('GRAY'),
     },
     registerLink: {
         fontSize: 14,
-        color: COLORS.TERTIARY,
+        color: getThemeColor('TERTIARY'),
         fontWeight: '500',
     },
 });

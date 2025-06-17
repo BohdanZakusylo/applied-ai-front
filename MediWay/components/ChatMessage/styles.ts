@@ -1,17 +1,17 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     incomingMessage: {
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: getThemeColor('WHITE'),
         padding: 10,
         borderRadius: 8,
         marginBottom: 8,
         alignSelf: 'flex-start',
     },
     outgoingMessage: {
-        backgroundColor: COLORS.BACKGROUND,
-        borderColor: COLORS.SECONDARY_DARK,
+        backgroundColor: getThemeColor('BACKGROUND'),
+        borderColor: getThemeColor('SECONDARY_DARK'),
         borderWidth: 1.5,
         padding: 10,
         borderRadius: 8,

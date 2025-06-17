@@ -15,7 +15,8 @@ import SHA256 from 'crypto-js/sha256';
 import { ActivityIndicator } from 'react-native';
 import ChatMessage, { ChatMessageProp, ChatResponse } from '../../components/ChatMessage/ChatMessage';
 import styles from './styles';
-import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP } from '../../assets/constants';
+import { useTheme } from '../../contexts/ThemeContext';
 import { ENDPOINTS } from '../../assets/api';
 import { secureStorage } from '../../services/storage/storage';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -26,6 +27,7 @@ const MAX_MESSAGE_LENGTH = 1000;
 const RATE_LIMIT = 1000;
 
 const ChatBot = () => {
+    const { colors } = useTheme();
     const [messages, setMessages] = useState<ChatMessageProp[]>([{ id: '1', text: 'Hi, how can I help you?', isIncoming: true }]);
     const [inputText, setInputText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -170,26 +172,29 @@ const ChatBot = () => {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
-            <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'android' ? 'padding' : 'height'}>
+        <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.BACKGROUND }]}>
+            <KeyboardAvoidingView style={[styles.container, { backgroundColor: colors.BACKGROUND }]} behavior={Platform.OS === 'android' ? 'padding' : 'height'}>
                 <View style={styles.header}>
                     <TouchableOpacity hitSlop={BASE_HIT_SLOP}>
-                        <Image source={require('../../assets/images/chat-bot/chat-menu.png')} style={styles.headerIcon} />
+                        <Image 
+                            source={require('../../assets/images/chat-bot/chat-menu.png')} 
+                            style={[styles.headerIcon, { tintColor: colors.BLACK }]} 
+                        />
                     </TouchableOpacity>
-                    <Text style={styles.questionsRemaining}>
+                    <Text style={[styles.questionsRemaining, { color: colors.BLACK }]}>
                         Questions: {questionsRemaining}/{monthlyLimit}
                     </Text>
                     <View style={styles.headerButtons}>
-                        <View style={styles.profileIcon}>
+                        <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
                             <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
                         </View>
-                        <DownloadSummaryButton chatHistory={messages} style={styles.profileIcon}>
-                                <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
+                        <DownloadSummaryButton chatHistory={messages} style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
+                                <Image source={require('../../assets/images/chat-bot/download.png')} style={[styles.headerIcon, { tintColor: colors.BLACK }]} />
                         </DownloadSummaryButton>
                     </View>
                 </View>
 
-                {messages.length === 0 ? <Text style={[styles.messagesContainer]}>Empty</Text> :
+                {messages.length === 0 ? <Text style={[styles.messagesContainer, { color: colors.BLACK }]}>Empty</Text> :
                     <FlatList
                         ref={flatListRef}
                         data={messages}
@@ -199,17 +204,17 @@ const ChatBot = () => {
                         ItemSeparatorComponent={() => <View style={styles.separator} />}
                     />}
 
-                <View style={styles.inputContainer}>
+                <View style={[styles.inputContainer, { borderColor: colors.LIGHT_GRAY }]}>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, { backgroundColor: colors.BACKGROUND, color: colors.BLACK }]}
                         placeholder="Send a message..."
-                        placeholderTextColor={COLORS.LIGHT_GRAY}
+                        placeholderTextColor={colors.LIGHT_GRAY}
                         onChangeText={setInputText}
                         value={inputText}
                         maxLength={MAX_MESSAGE_LENGTH}
                     />
                     {isLoading ? (
-                        <ActivityIndicator size="small" color={COLORS.GRAY} style={{ padding: 8 }} />
+                        <ActivityIndicator size="small" color={colors.GRAY} style={{ padding: 8 }} />
                     ) : (
                         <TouchableOpacity
                             onPress={async () => {
@@ -227,7 +232,7 @@ const ChatBot = () => {
                                     width: 26,
                                     height: 26,
                                     resizeMode: 'contain',
-                                    tintColor: isSending ? COLORS.LIGHT_GRAY : COLORS.BLACK,
+                                    tintColor: isSending ? colors.LIGHT_GRAY : colors.BLACK,
                                 }}
                             />
                         </TouchableOpacity>

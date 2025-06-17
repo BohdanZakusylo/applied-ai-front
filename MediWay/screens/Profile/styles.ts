@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../assets/constants";
+import { getThemeColor } from "../../utils/useColors";
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: COLORS.BACKGROUND,
+    backgroundColor: getThemeColor('BACKGROUND'),
     paddingHorizontal: 20,
     paddingTop: 70,
     paddingBottom: 70,
@@ -21,14 +21,14 @@ export default StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: 25,
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
   },
   section: {
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: getThemeColor('WHITE'),
     padding: 16,
     borderRadius: 12,
     marginBottom: 20,
-    shadowColor: COLORS.BLACK,
+    shadowColor: getThemeColor('BLACK'),
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.07,
     shadowRadius: 6,
@@ -43,23 +43,23 @@ export default StyleSheet.create({
   sectionTitle: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: COLORS.GRAY,
+    color: getThemeColor('GRAY'),
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 6,
     borderBottomWidth: 0.5,
-    borderBottomColor: COLORS.LIGHT_GRAY,
+    borderBottomColor: getThemeColor('LIGHT_GRAY'),
   },
   label: {
     fontSize: 15,
-    color: COLORS.GRAY,
+    color: getThemeColor('GRAY'),
     flex: 1,
   },
   value: {
     fontSize: 15,
-    color: COLORS.BLACK,
+    color: getThemeColor('BLACK'),
     textAlign: 'right',
     flex: 1,
   },

@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     screen: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
         width: '100%',
         height: '100%',
         padding: 16,
@@ -20,13 +20,13 @@ export default StyleSheet.create({
         height: 240,
     },
     error: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         textAlign: 'center',
         fontWeight: 500,
         fontSize: 18,
     },
     link: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         textAlign: 'center',
         fontWeight: 500,
         fontSize: 12,

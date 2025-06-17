@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native';
 import styles from './styles';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export interface ChatResponse {
     response: string;
@@ -14,9 +15,16 @@ export interface ChatMessageProp {
 }
 
 const ChatMessage = ({ isIncoming, text }: ChatMessageProp) => {
+    const { colors } = useTheme();
+    
     return (
-        <View style={isIncoming ? styles.incomingMessage : styles.outgoingMessage}>
-            <Text>{text}</Text>
+        <View style={[
+            isIncoming ? styles.incomingMessage : styles.outgoingMessage,
+            isIncoming 
+                ? { backgroundColor: colors.WHITE } 
+                : { backgroundColor: colors.BACKGROUND, borderColor: colors.SECONDARY_DARK }
+        ]}>
+            <Text style={{ color: colors.BLACK }}>{text}</Text>
         </View>
     );
 };

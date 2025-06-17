@@ -4,6 +4,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { secureStorage } from '../../services/storage/storage';
 import EditModal from '../../components/Modal/EditModal';
 import { ENDPOINTS } from '../../assets/api';
+import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './styles';
 
 const USER = require('../../assets/images/User.png');
@@ -21,6 +23,7 @@ const Profile = () => {
 
   const jwt = useRef<string>("");
   const { dispatch } = useContext(AuthContext);
+  const { colors, isDarkMode } = useTheme();
 
   useEffect(() => {
       const dbJWT = secureStorage.getString("jwt");
@@ -84,49 +87,59 @@ const Profile = () => {
 
 
   return (
-    <View>
-      <ScrollView contentContainerStyle={styles.container}>
+    <View style={{ flex: 1, backgroundColor: colors.BACKGROUND }}>
+      <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
         <Image source={USER} style={styles.user} resizeMode="contain" />
-        <Text style={styles.name}>{name}</Text>
+        <Text style={[styles.name, { color: colors.BLACK }]}>{name}</Text>
 
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Personal Information</Text>
+        <View style={[styles.section, { backgroundColor: isDarkMode ? colors.GRAY_DARK : colors.WHITE, borderRadius: 8, marginTop: 16 }]}>
+          <View style={[styles.sectionHeader, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>Personal Information</Text>
             <TouchableOpacity onPress={() => setIsPersonalModalVisible(true)}>
               <Image source={EDIT} style={styles.editIcon} resizeMode="contain" />
             </TouchableOpacity>
           </View>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>Email</Text>
-            <Text style={styles.value}>{email}</Text>
+          <View style={[styles.row, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.label, { color: colors.BLACK }]}>Email</Text>
+            <Text style={[styles.value, { color: colors.GRAY }]}>{email}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Password</Text>
-            <Text style={styles.value}>••••••</Text>
+          <View style={[styles.row, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.label, { color: colors.BLACK }]}>Password</Text>
+            <Text style={[styles.value, { color: colors.GRAY }]}>••••••</Text>
           </View>
         </View>
 
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Other</Text>
+        <View style={[styles.section, { backgroundColor: isDarkMode ? colors.GRAY_DARK : colors.WHITE, borderRadius: 8, marginTop: 16 }]}>
+          <View style={[styles.sectionHeader, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>Other</Text>
             <TouchableOpacity onPress={() => setIsOtherModalVisible(true)}>
               <Image source={EDIT} style={styles.editIcon} resizeMode="contain" />
             </TouchableOpacity>
           </View>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>Insurance Provider</Text>
-            <Text style={styles.value}>{insuranceProvider}</Text>
+          <View style={[styles.row, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.label, { color: colors.BLACK }]}>Insurance Provider</Text>
+            <Text style={[styles.value, { color: colors.GRAY }]}>{insuranceProvider}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>General Practitioner</Text>
-            <Text style={styles.value}>{generalPractitioner}</Text>
+          <View style={[styles.row, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.label, { color: colors.BLACK }]}>General Practitioner</Text>
+            <Text style={[styles.value, { color: colors.GRAY }]}>{generalPractitioner}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Medical Information</Text>
-            <Text style={styles.value}>{medicalInformation}</Text>
+          <View style={[styles.row, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.label, { color: colors.BLACK }]}>Medical Information</Text>
+            <Text style={[styles.value, { color: colors.GRAY }]}>{medicalInformation}</Text>
           </View>
+        </View>
+
+        {/* App Preferences Section */}
+        <View style={[styles.section, { backgroundColor: isDarkMode ? colors.GRAY_DARK : colors.WHITE, borderRadius: 8, marginTop: 16 }]}>
+          <View style={[styles.sectionHeader, { borderBottomColor: colors.LIGHT_GRAY }]}>
+            <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>App Preferences</Text>
+          </View>
+          
+          {/* Theme Toggle */}
+          <ThemeToggle label="Dark Mode" />
         </View>
       </ScrollView>
 

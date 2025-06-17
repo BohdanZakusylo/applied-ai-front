@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { getThemeColor } from '../../utils/useColors';
 import { COLORS } from '../../assets/constants';
 
 export default StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
     },
     container: {
         flex: 1,
@@ -35,7 +36,7 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     profileIcon: {
-        backgroundColor: COLORS.LIGHT_GRAY,
+        backgroundColor: getThemeColor('LIGHT_GRAY'),
         padding: 8,
         borderRadius: 999,
     },
@@ -45,22 +46,22 @@ export default StyleSheet.create({
         padding: 16,
     },
     outgoingText: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
     },
     inputContainer: {
         flexDirection: 'row',
         padding: 12,
         borderTopWidth: 1,
-        borderColor: COLORS.BLACK,
+        borderColor: getThemeColor('BLACK'),
         alignItems: 'center',
     },
     input: {
         flex: 1,
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
         padding: 10,
         borderRadius: 8,
         marginRight: 10,
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
     },
     sendButton: {
         padding: 8,

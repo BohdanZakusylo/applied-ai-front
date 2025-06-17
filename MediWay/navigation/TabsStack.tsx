@@ -4,8 +4,8 @@ import HomeStack from './HomeStack';
 import Faq from '../screens/FaQ/Faq';
 import ChatBot from '../screens/ChatBot/ChatBot';
 import Profile from '../screens/Profile/Profile';
+import { useTheme } from '../contexts/ThemeContext';
 import Deadlines from '../screens/Deadlines/Deadlines';
-import { COLORS } from '../assets/constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +18,9 @@ const ICONS: Record<string, ImageSourcePropType> = {
 };
 
 const TabsStack = () => {
+    // Get theme colors
+    const { colors } = useTheme();
+    
     return (
         <Tab.Navigator
             screenOptions={({ route }) => {
@@ -37,15 +40,15 @@ const TabsStack = () => {
                                 style={{
                                     width: size,
                                     height: size,
-                                    tintColor: focused ? COLORS.PRIMARY_DARK : COLORS.GRAY,
+                                    tintColor: focused ? colors.PRIMARY_DARK : colors.GRAY,
                                 }}
                                 resizeMode="contain"
                             />
                         );
                     },
                     tabBarLabelStyle: { fontSize: 12 },
-                    tabBarActiveTintColor: String(COLORS.PRIMARY_DARK),
-                    tabBarInactiveTintColor: String(COLORS.GRAY),
+                    tabBarActiveTintColor: String(colors.PRIMARY_DARK),
+                    tabBarInactiveTintColor: String(colors.GRAY),
                     headerShown: false,
                 };
             }}

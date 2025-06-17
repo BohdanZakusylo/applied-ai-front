@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     mapWrapper: {
         borderWidth: 2,
-        borderColor: COLORS.GRAY,
+        borderColor: getThemeColor('GRAY'),
         borderRadius: 2,
     },
     map: {

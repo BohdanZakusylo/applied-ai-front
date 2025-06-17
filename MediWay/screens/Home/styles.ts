@@ -1,4 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import { getThemeColor } from '../../utils/useColors';
 import { COLORS } from '../../assets/constants';
 
 interface HomeStyles {
@@ -31,7 +32,7 @@ interface HomeStyles {
 
 const styles = StyleSheet.create<HomeStyles>({
     screen: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
         width: '100%',
         height: '100%',
         padding: 16,
@@ -43,9 +44,9 @@ const styles = StyleSheet.create<HomeStyles>({
         marginTop: 32,
     },
     intro: {
-        color: COLORS.BLACK,
+        color: getThemeColor('BLACK'),
         textAlign: 'center',
-        fontWeight: 500,
+        fontWeight: '500',
         fontSize: 20,
         paddingBottom: 32,
     },

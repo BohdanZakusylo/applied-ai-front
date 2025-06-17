@@ -4,6 +4,7 @@ import { BASE_HIT_SLOP } from '../../assets/constants';
 import { LatLng } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import { getDistanceBetween } from '../../services/location/location';
+import { getThemeColor } from '../../utils/useColors';
 
 export type MapButtonProps = TouchableOpacityProps & {
     locationName: string;

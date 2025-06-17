@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../assets/constants';
+import { getThemeColor } from '../../utils/useColors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: getThemeColor('BACKGROUND'),
     },
     content: {
         flex: 1,
@@ -27,7 +27,7 @@ export default StyleSheet.create({
         fontWeight: '500',
         textAlign: 'center',
         marginBottom: 40,
-        color: COLORS.GRAY,
+        color: getThemeColor('GRAY'),
         lineHeight: 24,
     },
     buttonContainer: {
@@ -38,7 +38,7 @@ export default StyleSheet.create({
         marginBottom: 20,
     },
     getStartedButton: {
-        backgroundColor: COLORS.TERTIARY,
+        backgroundColor: getThemeColor('TERTIARY'),
         paddingVertical: 16,
         paddingHorizontal: 24,
         borderRadius: 15,
@@ -46,12 +46,12 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     getStartedButtonText: {
-        color: COLORS.WHITE,
+        color: getThemeColor('WHITE'),
         fontWeight: 'bold',
         fontSize: 16,
     },
     loginButton: {
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: getThemeColor('WHITE'),
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 15,
@@ -59,7 +59,7 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     loginButtonText: {
-        color: COLORS.TERTIARY,
+        color: getThemeColor('TERTIARY'),
         fontWeight: 'bold',
         fontSize: 16,
     },
@@ -68,7 +68,7 @@ export default StyleSheet.create({
         marginBottom: 40,
     },
     helpText: {
-        color: COLORS.GRAY,
+        color: getThemeColor('GRAY'),
         fontSize: 14,
         textDecorationLine: 'underline',
     },

@@ -149,7 +149,7 @@ const ChatBot = () => {
                     <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
                         <Image 
                             source={require('../../assets/images/chat-bot/profile.png')} 
-                            style={[styles.headerIcon, { tintColor: colors.BLACK }]} 
+                            style={styles.headerIcon} 
                         />
                     </View>
                 </View>

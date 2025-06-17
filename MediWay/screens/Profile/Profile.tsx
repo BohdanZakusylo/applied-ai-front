@@ -96,7 +96,7 @@ const Profile = () => {
           <View style={[styles.sectionHeader, { borderBottomColor: colors.LIGHT_GRAY }]}>
             <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>Personal Information</Text>
             <TouchableOpacity onPress={() => setIsPersonalModalVisible(true)}>
-              <Image source={EDIT} style={[styles.editIcon, { tintColor: colors.BLACK }]} resizeMode="contain" />
+              <Image source={EDIT} style={styles.editIcon} resizeMode="contain" />
             </TouchableOpacity>
           </View>
 
@@ -114,7 +114,7 @@ const Profile = () => {
           <View style={[styles.sectionHeader, { borderBottomColor: colors.LIGHT_GRAY }]}>
             <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>Other</Text>
             <TouchableOpacity onPress={() => setIsOtherModalVisible(true)}>
-              <Image source={EDIT} style={[styles.editIcon, { tintColor: colors.BLACK }]} resizeMode="contain" />
+              <Image source={EDIT} style={styles.editIcon} resizeMode="contain" />
             </TouchableOpacity>
           </View>
 

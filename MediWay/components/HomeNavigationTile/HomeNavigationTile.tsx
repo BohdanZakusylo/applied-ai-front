@@ -15,8 +15,8 @@ const HomeNavigationTile = (props: HomeNavigationTileProps) => {
     const { colors, isDarkMode } = useTheme();
     
     // Default colors based on theme
-    const defaultBackgroundColor = isDarkMode ? colors.GRAY_DARK : colors.PRIMARY_LIGHT;
-    const defaultBorderColor = isDarkMode ? colors.PRIMARY_DARK : colors.PRIMARY;
+    const defaultBackgroundColor = isDarkMode ? colors.GRAY_DARK : colors.HOME_BUTTON_PRIMARY;
+    const defaultBorderColor = isDarkMode ? colors.PRIMARY_DARK : colors.PRIMARY_DARK;
     
     return (
         <TouchableOpacity

@@ -30,6 +30,8 @@ const ChatBot = () => {
     const [inputText, setInputText] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSending, setIsSending] = useState<boolean>(false);
+    const [questionsRemaining, setQuestionsRemaining] = useState<number>(100);
+    const [monthlyLimit, setMonthlyLimit] = useState<number>(100);
 
     const jwt = useRef<string>("");
     const flatListRef = useRef<FlatList>(null);
@@ -43,11 +45,31 @@ const ChatBot = () => {
         console.log(dbJWT);
         if (dbJWT) {
             jwt.current = dbJWT;
+            fetchQuestionsRemaining();
         }
         else {
             dispatch({ type: 'SET_LOGGED_IN', payload: false });
         }
     }, [])
+
+    const fetchQuestionsRemaining = async () => {
+        try {
+            const response = await fetch(ENDPOINTS.questionsRemaining, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${jwt.current}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setQuestionsRemaining(data.questions_remaining);
+                setMonthlyLimit(data.monthly_limit);
+            }
+        } catch (error) {
+            console.error("Failed to fetch questions remaining", error);
+        }
+    };
 
     const addMessage = (message: ChatMessageProp) => {
         setMessages(prevMessages => {
@@ -122,7 +144,19 @@ const ChatBot = () => {
                 body: JSON.stringify({ message: inputText })
             });
 
+            if (response.status === 429) {
+                Alert.alert("Question Limit Exceeded", `You have reached your monthly limit of ${monthlyLimit} questions. Please try again next month.`);
+                return null;
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
             const data = await response.json();
+            
+            // Update questions remaining after successful question
+            fetchQuestionsRemaining();
 
             return data ?? null;
         } catch (error) {
@@ -149,6 +183,11 @@ const ChatBot = () => {
                         <DownloadSummaryButton chatHistory={messages} style={styles.profileIcon}>
                             <Image source={require('../../assets/images/chat-bot/download.png')} style={styles.headerIcon} />
                         </DownloadSummaryButton>
+                    <Text style={styles.questionsRemaining}>
+                        Questions: {questionsRemaining}/{monthlyLimit}
+                    </Text>
+                    <View style={styles.profileIcon}>
+                        <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
                     </View>
                 </View>
 

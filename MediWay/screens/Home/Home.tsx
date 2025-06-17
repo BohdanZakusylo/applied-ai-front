@@ -1,10 +1,11 @@
 import styles from './styles';
 import { Text, Image, View, ImageSourcePropType, ImageURISource, FlatList } from 'react-native';
+// Material Icons removed as we're using text instead of icons
 import HomeNavigationTile, { HomeNavigationTileProps } from '../../components/HomeNavigationTile/HomeNavigationTile';
 import { COLORS } from '../../assets/constants';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 
 const Home = () => {
@@ -33,6 +34,8 @@ const Home = () => {
     const navigateFeedback: () => void = () => {
         (navigation as any).navigate("FeedbackScreen");
     };
+    
+    // Deadlines functionality has been moved to the tab navigation bar
 
     const TILES: HomeNavigationTileProps[] = [
         {

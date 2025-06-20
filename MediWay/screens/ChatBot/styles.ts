@@ -30,11 +30,6 @@ export default StyleSheet.create({
         height: 24,
         resizeMode: 'contain',
     },
-    sendIcon: {
-        width: 26,
-        height: 26,
-        resizeMode: 'contain',
-    },
     profileIcon: {
         backgroundColor: getThemeColor('LIGHT_GRAY'),
         padding: 8,
@@ -65,6 +60,11 @@ export default StyleSheet.create({
     },
     sendButton: {
         padding: 8,
+    },
+    sendIcon: {
+        width: 26,
+        height: 26,
+        resizeMode: 'contain',
     },
     empty: {
         justifyContent: 'center',

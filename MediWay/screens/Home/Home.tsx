@@ -4,7 +4,7 @@ import { Text, Image, View, ImageSourcePropType, ImageURISource, FlatList } from
 import HomeNavigationTile, { HomeNavigationTileProps } from '../../components/HomeNavigationTile/HomeNavigationTile';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -33,9 +33,9 @@ const Home = () => {
     };
 
     const navigateFeedback: () => void = () => {
-        (navigation as any).navigate("FeedbackScreen");
+        (navigation as any).navigate('FeedbackScreen');
     };
-    
+
     // Deadlines functionality has been moved to the tab navigation bar
 
     const TILES: HomeNavigationTileProps[] = [
@@ -86,7 +86,7 @@ const Home = () => {
                     columnWrapperStyle={styles.row}
                 />
             </View>
-            <Button buttonProps={{ onPress: navigateChat }} label="Chat with me for more help" />
+            <Button onPress={navigateChat} label="Chat with me for more help" />
         </View>
     );
 };

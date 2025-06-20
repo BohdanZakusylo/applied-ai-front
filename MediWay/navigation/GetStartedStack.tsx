@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 function GetStartedStack() {
     // Get theme colors
     const { colors } = useTheme();
-    
+
     return (
         <Stack.Navigator
             screenOptions={{
@@ -24,8 +24,8 @@ function GetStartedStack() {
                 headerTintColor: String(colors.WHITE),
                 // Theme-aware card styles
                 cardStyle: {
-                    backgroundColor: String(colors.BACKGROUND)
-                }
+                    backgroundColor: String(colors.BACKGROUND),
+                },
             }}
         >
             <Stack.Screen name="SplashScreen" component={Splash} />

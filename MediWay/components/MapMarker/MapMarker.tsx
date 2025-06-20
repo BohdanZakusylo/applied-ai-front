@@ -1,5 +1,5 @@
 import React, { forwardRef, Ref } from 'react';
-import { MapMarker as RNMapMarker, MapMarkerProps, LatLng } from 'react-native-maps';
+import { MapMarker as RNMapMarker, MapMarkerProps } from 'react-native-maps';
 
 export type CustomMapMarkerProps = MapMarkerProps & {
     address?: string;

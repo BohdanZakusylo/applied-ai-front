@@ -103,11 +103,9 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
 
                         <Button
                             label={loading ? 'Sending Code...' : 'Send Reset Code'}
-                            buttonProps={{
-                                onPress: handleSendCode,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleSendCode}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.loginContainer}>

@@ -16,13 +16,13 @@ export interface ChatMessageProp {
 
 const ChatMessage = ({ isIncoming, text }: ChatMessageProp) => {
     const { colors } = useTheme();
-    
+
     return (
         <View style={[
             isIncoming ? styles.incomingMessage : styles.outgoingMessage,
-            isIncoming 
-                ? { backgroundColor: colors.WHITE } 
-                : { backgroundColor: colors.BACKGROUND, borderColor: colors.SECONDARY_DARK }
+            isIncoming
+                ? { backgroundColor: colors.WHITE }
+                : { backgroundColor: colors.BACKGROUND, borderColor: colors.SECONDARY_DARK },
         ]}>
             <Text style={{ color: colors.BLACK }}>{text}</Text>
         </View>

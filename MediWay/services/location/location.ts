@@ -1,6 +1,6 @@
-import { LatLng } from "react-native-maps";
+import { LatLng } from 'react-native-maps';
 import { GOOGLE_MAPS_API_KEY } from '@env';
-import { GooglePlaceResponse } from "./locationTypes";
+import { GooglePlaceResponse } from './locationTypes';
 
 const ROUGH_KM_PER_DEGREE: number = 111;
 
@@ -8,7 +8,7 @@ export const getCrudeDistanceBetween = (a: LatLng, b: LatLng) => {
     const dx = (b.latitude - a.latitude) * ROUGH_KM_PER_DEGREE;
     const dy = (b.longitude - a.longitude) * ROUGH_KM_PER_DEGREE;
     return Math.sqrt(dx * dx + dy * dy);
-}
+};
 
 export const getDistanceBetween = async (a: LatLng, b: LatLng) => {
     const params: Record<string, string> = {
@@ -31,7 +31,7 @@ export const getNearbyGPs = async (location: LatLng, radius: number = 5000, type
     };
 
     return await locationFetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json', params);
-}
+};
 
 export const locationFetch = async (url: string, params: Record<string, string>) => {
     const concatUrl = `${url}?${Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&')}`;

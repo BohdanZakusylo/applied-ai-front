@@ -1,4 +1,4 @@
-import { Alert, PermissionsAndroid, Platform, Text, TouchableOpacity, View, ViewProps } from 'react-native';
+import { Alert, PermissionsAndroid, Platform, TouchableOpacity, View, ViewProps } from 'react-native';
 import styles from './styles';
 import { ChatMessageProp } from '../ChatMessage/ChatMessage';
 import { BASE_HIT_SLOP, COLORS, LOGO_BASE64 } from '../../assets/constants';
@@ -16,11 +16,11 @@ const DownloadSummaryButton = (props: DownloadSummaryButtonProps) => {
             return granted === PermissionsAndroid.RESULTS.GRANTED;
         }
         return true;
-    }
+    };
 
     const getLogoBase64 = (): string => {
         return LOGO_BASE64;
-    }
+    };
 
     const onDownload = async () => {
         try {
@@ -36,11 +36,11 @@ const DownloadSummaryButton = (props: DownloadSummaryButtonProps) => {
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false
+                hour12: false,
             }).replaceAll(',', '').replaceAll('/', '-').replaceAll(':', '.');
-            
+
             const filename = `MediWay Chat Summary (${date})`;
-            
+
             const logoB64 = getLogoBase64();
 
             const htmlContent = `
@@ -119,8 +119,8 @@ const DownloadSummaryButton = (props: DownloadSummaryButtonProps) => {
         } catch (error: any) {
             console.error(error.message);
             throw new Error(error.message);
-        };
-    }
+        }
+    };
 
     return (
         <TouchableOpacity style={styles.button} hitSlop={BASE_HIT_SLOP} onPress={onDownload}>

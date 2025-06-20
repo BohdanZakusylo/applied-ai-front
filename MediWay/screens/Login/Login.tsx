@@ -62,7 +62,7 @@ const LoginScreen: React.FC<LoginProps> = ({
             const data = await response.json();
 
             if (response.ok && data.access_token) {
-                secureStorage.set("jwt", data.access_token);
+                secureStorage.set('jwt', data.access_token);
                 let user = await fetchUser(data.access_token);
                 userDispatch({ type: 'SET_USER', payload: user });
                 Alert.alert('Success', 'Login successful', [
@@ -133,11 +133,9 @@ const LoginScreen: React.FC<LoginProps> = ({
 
                         <Button
                             label={loading ? 'Logging in...' : 'Login'}
-                            buttonProps={{
-                                onPress: handleLogin,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleLogin}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.registerContainer}>

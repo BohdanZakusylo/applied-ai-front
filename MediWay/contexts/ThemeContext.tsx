@@ -33,8 +33,8 @@ const initialThemeState: ThemeState = {
 // Create context with initial state and empty methods
 export const ThemeContext = createContext<ThemeContextType>({
     ...initialThemeState,
-    toggleTheme: () => {},
-    setTheme: () => {},
+    toggleTheme: () => { },
+    setTheme: () => { },
 });
 
 // Custom hook for easier context use
@@ -48,18 +48,18 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     // Get stored theme or default to light
     const savedTheme = storage.getString(THEME_STORAGE_KEY) as ThemeType | undefined;
-    
+
     // Initialize state with saved theme or default
     const [themeState, setThemeState] = useState<ThemeState>({
         theme: savedTheme || 'light',
         colors: savedTheme === 'dark' ? DARK_COLORS : LIGHT_COLORS,
         isDarkMode: savedTheme === 'dark',
     });
-    
+
     // Set the global theme on initial load
     useEffect(() => {
         setGlobalTheme(themeState.theme);
-    }, []);
+    }, [themeState.theme]);
 
     /**
      * Toggle between light and dark themes
@@ -76,10 +76,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const setTheme = (theme: ThemeType) => {
         // Update theme in storage
         storage.set(THEME_STORAGE_KEY, theme);
-        
+
         // Update global theme state for non-hook contexts
         setGlobalTheme(theme);
-        
+
         // Update state with new theme and corresponding colors
         setThemeState({
             theme,

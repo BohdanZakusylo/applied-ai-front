@@ -9,7 +9,7 @@ import Deadlines from '../screens/Deadlines/Deadlines';
 const Stack = createStackNavigator();
 
 const HomeStack = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='HomeScreen'>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeScreen">
         <Stack.Screen name="HomeScreen" component={Home} />
         <Stack.Screen name="NearbyGP" component={NearbyGP} />
         <Stack.Screen name="WorkInProgress" component={WorkInProgress} />

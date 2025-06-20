@@ -1,5 +1,3 @@
-import { LatLng } from "react-native-maps"
-
 export type GooglePlaceResponse = {
     html_attributions: string[]
     results: GooglePlaceResult[]

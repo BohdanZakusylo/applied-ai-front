@@ -54,18 +54,14 @@ export default function MoreInfo() {
                 <View style={styles.buttonContainer}>
                     <Button
                         label="Get started"
-                        buttonProps={{
-                            onPress: handleRegister,
-                            style: styles.primaryButton,
-                        }}
+                        onPress={handleRegister}
+                        style={styles.primaryButton}
                         textProps={{ style: styles.primaryButtonText }}
                     />
                     <Button
                         label="Login"
-                        buttonProps={{
-                            onPress: handleLogin,
-                            style: styles.secondaryButton,
-                        }}
+                        onPress={handleLogin}
+                        style={styles.secondaryButton}
                         textProps={{ style: styles.secondaryButtonText }}
                     />
                 </View>

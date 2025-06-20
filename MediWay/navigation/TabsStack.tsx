@@ -20,7 +20,7 @@ const ICONS: Record<string, ImageSourcePropType> = {
 const TabsStack = () => {
     // Get theme colors
     const { colors } = useTheme();
-    
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => {
@@ -32,7 +32,7 @@ const TabsStack = () => {
                         if (route.name === 'Deadlines') {
                             return null; // Return null to just show the label
                         }
-                        
+
                         // For other tabs, use the icon
                         return (
                             <Image

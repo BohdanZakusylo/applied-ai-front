@@ -4,7 +4,6 @@ import { BASE_HIT_SLOP } from '../../assets/constants';
 import { LatLng } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import { getDistanceBetween } from '../../services/location/location';
-import { getThemeColor } from '../../utils/useColors';
 
 export type MapButtonProps = TouchableOpacityProps & {
     locationName: string;
@@ -19,13 +18,13 @@ const MapButton = (props: MapButtonProps) => {
 
     useEffect(() => {
         if (props.originalLocation) {
-            getDistanceBetween(props.originalLocation, props.location).then((res) => setDistance(res.rows[0].elements[0].distance.text))
+            getDistanceBetween(props.originalLocation, props.location).then((res) => setDistance(res.rows[0].elements[0].distance.text));
         }
-    }, []);
+    }, [props.location, props.originalLocation]);
 
     return (
         <TouchableOpacity hitSlop={BASE_HIT_SLOP} style={props.selected ? [styles.button, styles.buttonSelected] : styles.button} {...props}>
-            <Image style={styles.icon} source={require('../../assets/images/map/gp-icon.png')}/>
+            <Image style={styles.icon} source={require('../../assets/images/map/gp-icon.png')} />
 
             <View style={styles.descriptionRegion}>
                 <Text numberOfLines={1} style={styles.name}>{props.locationName}</Text>

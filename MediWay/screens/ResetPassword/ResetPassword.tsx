@@ -188,11 +188,9 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
 
                         <Button
                             label={loading ? 'Resetting Password...' : 'Reset Password'}
-                            buttonProps={{
-                                onPress: handleResetPassword,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleResetPassword}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.resendContainer}>

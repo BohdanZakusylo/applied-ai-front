@@ -1,4 +1,4 @@
-import React, { use, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -12,7 +12,6 @@ import {
     Image,
 } from 'react-native';
 import Button from '../../components/Button/Button';
-import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -37,12 +36,10 @@ const RegisterScreen: React.FC<RegisterProps> = ({
     });
     const [loading, setLoading] = useState(false);
 
-    const { dispatch } = useContext(AuthContext);
-
     const navigation = useNavigation();
 
     const onRegisterSuccess = () => {
-        (navigation as any).navigate("Login");
+        (navigation as any).navigate('Login');
     };
 
     const handleInputChange = (field: string, value: string) => {
@@ -223,11 +220,9 @@ const RegisterScreen: React.FC<RegisterProps> = ({
 
                         <Button
                             label={loading ? 'Creating Account...' : 'Create Account'}
-                            buttonProps={{
-                                onPress: handleRegister,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleRegister}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.loginContainer}>

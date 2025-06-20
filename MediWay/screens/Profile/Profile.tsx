@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../../contexts/AuthContext';
 import { secureStorage } from '../../services/storage/storage';
@@ -7,6 +7,10 @@ import { ENDPOINTS } from '../../assets/api';
 import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './styles';
+import { UserContext } from '../../contexts/UserContext';
+import { User } from '../../assets/interfaces';
+import Button from '../../components/Button/Button';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 
 const USER = require('../../assets/images/User.png');
 const EDIT = require('../../assets/images/EditButton.png');
@@ -22,49 +26,34 @@ const Profile = () => {
   const [isOtherModalVisible, setIsOtherModalVisible] = useState(false);
 
   const jwt = useRef<string>("");
-  const { dispatch } = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
+  const { fetchUser } = useContext(UserContext);
   const { colors, isDarkMode } = useTheme();
+
+  const refreshUserData = useCallback(() => {
+    fetchUser(jwt.current).then((userResponse: User | null) => {
+        if (!userResponse) {
+            return;
+        }
+        setName(userResponse.name);
+        setEmail(userResponse.email);
+        setInsuranceProvider(userResponse.insurance_provider);
+        setGeneralPractitioner(userResponse.general_practitioner);
+        setMedicalInformation(userResponse.medical_information);
+    });
+  }, [fetchUser]);
 
   useEffect(() => {
       const dbJWT = secureStorage.getString("jwt");
 
-      console.log(secureStorage.getAllKeys());
-      console.log(dbJWT);
       if (dbJWT) {
           jwt.current = dbJWT;
+          refreshUserData();
       }
       else {
-          dispatch({ type: 'SET_LOGGED_IN', payload: false });
+          signOut();
       }
-
-      fetchUser();
-  }, [])
-
-  const fetchUser = async () => {
-    try {
-      const response = await fetch(ENDPOINTS.userProfile, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          "Authorization": `Bearer ${jwt.current}`
-        }
-      });
-
-      console.log("response", response);
-
-      const data = await response.json();
-      console.log("data", data);
-
-      setName(data.user.name);
-      setEmail(data.user.email);
-      setInsuranceProvider(data.user.insurance_provider);
-      setGeneralPractitioner(data.user.general_practitioner);
-      setMedicalInformation(data.user.medical_information);
-
-    } catch (err) {
-      console.error("Fetch failed:", err);
-    }
-  };
+  }, [fetchUser, refreshUserData, signOut]);
 
   const updateUserProfile = async (updatedFields: Record<string, string>) => {
   try {
@@ -79,7 +68,7 @@ const Profile = () => {
 
     const data = await response.json();
     console.log("Update response:", data);
-    fetchUser();
+    refreshUserData();
   } catch (err) {
     console.error("Update failed:", err);
   }
@@ -140,6 +129,13 @@ const Profile = () => {
           
           {/* Theme Toggle */}
           <ThemeToggle label="Dark Mode" />
+        </View>
+
+        <View style={[styles.section, { backgroundColor: isDarkMode ? colors.GRAY_DARK : colors.WHITE, borderRadius: 8, marginTop: 16 }]}>
+            <View style={[styles.sectionHeader, { borderBottomColor: colors.LIGHT_GRAY }]}>
+                <Text style={[styles.sectionTitle, { color: colors.BLACK }]}>Logout</Text>
+            </View>
+            <Button label={'Logout'} buttonProps={ { onPress: () => signOut(true) }} />
         </View>
       </ScrollView>
 

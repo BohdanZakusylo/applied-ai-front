@@ -38,7 +38,7 @@ const ChatBot = () => {
     const jwt = useRef<string>("");
     const flatListRef = useRef<FlatList>(null);
 
-    const { dispatch } = useContext(AuthContext);
+    const { signOut } = useContext(AuthContext);
 
     useEffect(() => {
         const dbJWT = secureStorage.getString("jwt");
@@ -50,7 +50,7 @@ const ChatBot = () => {
             fetchQuestionsRemaining();
         }
         else {
-            dispatch({ type: 'SET_LOGGED_IN', payload: false });
+            signOut();
         }
     }, [])
 

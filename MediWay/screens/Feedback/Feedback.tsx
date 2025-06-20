@@ -36,7 +36,7 @@ const Feedback = () => {
   const [feedbackType, setFeedbackType] = useState<FeedbackType>('general');
 
   const jwt = useRef<string>("");
-  const { dispatch } = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
 
   useEffect(() => {
         const dbJWT = secureStorage.getString("jwt");
@@ -47,7 +47,7 @@ const Feedback = () => {
             jwt.current = dbJWT;
         }
         else {
-            dispatch({ type: 'SET_LOGGED_IN', payload: false });
+            signOut();
         }
     }, [])
 

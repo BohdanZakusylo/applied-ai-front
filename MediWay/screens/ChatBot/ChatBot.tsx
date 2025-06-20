@@ -21,6 +21,7 @@ import { ENDPOINTS } from '../../assets/api';
 import { secureStorage } from '../../services/storage/storage';
 import { AuthContext } from '../../contexts/AuthContext';
 import DownloadSummaryButton from '../../components/DownloadSummaryButton/DownloadSummaryButton';
+import { useNavigation } from '@react-navigation/native';
 
 const MAX_MESSAGE_LENGTH = 1000;
 // Minimum milliseconds between sending requests.
@@ -37,6 +38,7 @@ const ChatBot = () => {
 
     const jwt = useRef<string>('');
     const flatListRef = useRef<FlatList>(null);
+    const navigation = useNavigation();
 
     const { signOut } = useContext(AuthContext);
 
@@ -53,6 +55,10 @@ const ChatBot = () => {
             signOut();
         }
     }, [signOut]);
+
+    const navigateProfile = () => {
+        navigation.navigate('Profile' as never);
+    };
 
     const fetchQuestionsRemaining = async () => {
         try {
@@ -185,9 +191,9 @@ const ChatBot = () => {
                         Questions: {questionsRemaining}/{monthlyLimit}
                     </Text>
                     <View style={styles.headerButtons}>
-                        <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
+                        <TouchableOpacity style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]} hitSlop={BASE_HIT_SLOP} onPress={navigateProfile}>
                             <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
-                        </View>
+                        </TouchableOpacity>
                         <DownloadSummaryButton chatHistory={messages} style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
                             <Image source={require('../../assets/images/chat-bot/download.png')} style={[styles.headerIcon, { tintColor: colors.BLACK }]} />
                         </DownloadSummaryButton>

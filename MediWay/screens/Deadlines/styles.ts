@@ -7,7 +7,7 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: getThemeColor('BACKGROUND'),
         paddingHorizontal: 16,
-        paddingTop: 16,
+        paddingTop: 32,
     },
     header: {
         flexDirection: 'row',
@@ -203,10 +203,10 @@ export default StyleSheet.create({
         color: getThemeColor('BLACK'),
         marginTop: -3,
     },
-    addButtonText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: getThemeColor('WHITE'),
+    addButtonIcon: {
+        resizeMode: 'contain',
+        width: 32,
+        height: 32,
     },
     editButtonText: {
         fontSize: 14,

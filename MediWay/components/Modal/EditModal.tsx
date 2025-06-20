@@ -3,13 +3,15 @@ import {
     Modal,
     View,
     TextInput,
-    StyleSheet,
     ScrollView,
     Text,
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
 } from 'react-native';
+import { useTheme } from '../../contexts/ThemeContext';
+import styles from './styles';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 
 type Field = {
     name: string;
@@ -27,6 +29,8 @@ type EditModalProps = {
 
 const EditModal: React.FC<EditModalProps> = ({ visible, onClose, onSave, fields }) => {
     const [formState, setFormState] = useState<Record<string, string>>({});
+
+    const { colors } = useTheme();
 
     useEffect(() => {
         const initialValues: Record<string, string> = {};
@@ -54,13 +58,14 @@ const EditModal: React.FC<EditModalProps> = ({ visible, onClose, onSave, fields 
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.overlay}>
-                    <View style={styles.modalBox}>
+                    <View style={[styles.modalBox, { backgroundColor: colors.WHITE }]}>
                         <ScrollView>
                             {fields.map(field => (
                                 <TextInput
                                     key={field.name}
                                     placeholder={field.label}
-                                    style={styles.input}
+                                    placeholderTextColor={colors.LIGHT_GRAY}
+                                    style={[styles.input, { borderColor: colors.GRAY, color: colors.BLACK }]}
                                     value={formState[field.name]}
                                     onChangeText={value => handleChange(field.name, value)}
                                     secureTextEntry={field.secure || false}
@@ -68,12 +73,12 @@ const EditModal: React.FC<EditModalProps> = ({ visible, onClose, onSave, fields 
                             ))}
 
                             <View style={styles.buttonRow}>
-                                <TouchableOpacity style={styles.button} onPress={handleSave}>
-                                    <Text style={styles.buttonText}>Save</Text>
+                                <TouchableOpacity hitSlop={BASE_HIT_SLOP} style={styles.button} onPress={handleSave}>
+                                    <Text style={[styles.buttonText, { color: colors.WHITE }]}>Save</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
-                                    <Text style={styles.buttonText}>Cancel</Text>
+                                <TouchableOpacity hitSlop={BASE_HIT_SLOP} style={[styles.button, styles.cancelButton, { backgroundColor: colors.LIGHT_GRAY }]} onPress={onClose}>
+                                    <Text style={[styles.buttonText, { color: colors.WHITE }]}>Cancel</Text>
                                 </TouchableOpacity>
                             </View>
                         </ScrollView>
@@ -85,46 +90,3 @@ const EditModal: React.FC<EditModalProps> = ({ visible, onClose, onSave, fields 
 };
 
 export default EditModal;
-
-const styles = StyleSheet.create({
-    overlay: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        padding: 20,
-    },
-    modalBox: {
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        padding: 20,
-        elevation: 5,
-    },
-    input: {
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
-        marginBottom: 15,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        borderRadius: 5,
-    },
-    buttonRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 10,
-    },
-    button: {
-        flex: 1,
-        padding: 12,
-        backgroundColor: '#007BFF',
-        borderRadius: 8,
-        alignItems: 'center',
-        marginHorizontal: 5,
-    },
-    cancelButton: {
-        backgroundColor: '#6c757d',
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-});

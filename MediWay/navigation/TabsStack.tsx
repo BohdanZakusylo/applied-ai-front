@@ -14,6 +14,7 @@ const ICONS: Record<string, ImageSourcePropType> = {
     FaQ: require('../assets/images/bottom-tabs/bottom-faq.png'),
     Chat: require('../assets/images/bottom-tabs/bottom-chat.png'),
     Profile: require('../assets/images/bottom-tabs/bottom-profile.png'),
+    Deadlines: require('../assets/images/bottom-tabs/bottom-deadline.png'),
     Default: require('../assets/images/bottom-tabs/bottom-profile.png'),
 };
 
@@ -28,12 +29,6 @@ const TabsStack = () => {
 
                 return {
                     tabBarIcon: ({ focused, size }: { focused: boolean; color: string; size: number }) => {
-                        // Special case for Deadlines - use a text label instead of an icon
-                        if (route.name === 'Deadlines') {
-                            return null; // Return null to just show the label
-                        }
-
-                        // For other tabs, use the icon
                         return (
                             <Image
                                 source={icon}

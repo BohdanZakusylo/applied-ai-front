@@ -10,6 +10,7 @@ import {
     Modal,
     TextInput,
     Alert,
+    Image,
 } from 'react-native';
 import styles from './styles';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -253,12 +254,6 @@ const DeadlinesScreen = () => {
         <View style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <View style={styles.headerWithButton}>
                 <Text style={[styles.screenTitle, { color: colors.BLACK }]}>Deadlines</Text>
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={handleAddDeadline}
-                >
-                    <Text style={[styles.addButtonText, { color: colors.WHITE }]}>+</Text>
-                </TouchableOpacity>
             </View>
 
             <FlatList
@@ -275,7 +270,7 @@ const DeadlinesScreen = () => {
                 style={styles.floatingActionButton}
                 onPress={handleAddDeadline}
             >
-                <Text style={[styles.addButtonText, { color: colors.WHITE }]}>Add</Text>
+                <Image source={require('../../assets/images/deadlines/add.png')} style={styles.addButtonIcon} tintColor={colors.WHITE} />
             </TouchableOpacity>
 
             {/* Modal for adding/editing deadlines */}

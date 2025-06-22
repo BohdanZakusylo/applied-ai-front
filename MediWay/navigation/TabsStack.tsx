@@ -6,6 +6,9 @@ import ChatBot from '../screens/ChatBot/ChatBot';
 import Profile from '../screens/Profile/Profile';
 import { useTheme } from '../contexts/ThemeContext';
 import Deadlines from '../screens/Deadlines/Deadlines';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import { secureStorage } from '../services/storage/storage';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,9 +25,23 @@ const TabsStack = () => {
     // Get theme colors
     const { colors } = useTheme();
 
+    const { signOut } = useContext(AuthContext);
+
+    const authorizationCheck = () => {
+        const dbJWT = secureStorage.getString('jwt');
+
+        // TODO: Send an authorization request to the backend to confirm jwt is still valid.
+
+        if (!dbJWT) {
+            signOut();
+        }
+    };
+
     return (
         <Tab.Navigator
-            screenOptions={({ route }) => {
+            screenOptions={({ route, navigation }) => {
+                navigation.addListener('blur', authorizationCheck);
+
                 const icon = route.name in ICONS ? ICONS[route.name] : ICONS.Default;
 
                 return {

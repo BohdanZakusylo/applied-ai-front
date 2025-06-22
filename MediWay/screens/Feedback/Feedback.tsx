@@ -6,17 +6,17 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
-    Pressable,
     Alert,
     Modal,
     ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 import Button from '../../components/Button/Button';
 import { ENDPOINTS } from '../../assets/api';
 import { AuthContext } from '../../contexts/AuthContext';
 import { secureStorage } from '../../services/storage/storage';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Feedback = () => {
     const navigation = useNavigation();
@@ -36,6 +36,7 @@ const Feedback = () => {
 
     const jwt = useRef<string>('');
     const { signOut } = useContext(AuthContext);
+    const { colors } = useTheme();
 
     useEffect(() => {
         const dbJWT = secureStorage.getString('jwt');
@@ -78,13 +79,13 @@ const Feedback = () => {
             });
 
             if (response.ok) {
-                Alert.alert('Thanks for your feedback!');
+                Alert.alert('Sent!', 'Thanks for your feedback!');
                 setFeedback('');
                 setEmail('');
                 setFeedbackType('general');
             } else {
                 const data = await response.json();
-                Alert.alert(`Error: ${data.detail || 'Something went wrong.'}`);
+                Alert.alert('Error', `${data.detail[0].msg || 'Something went wrong.'}`);
             }
         } catch (error) {
             console.error('Feedback error:', error);
@@ -94,26 +95,26 @@ const Feedback = () => {
 
 
     const handleGoBack = () => {
-        (navigation as any).navigate('Home');
+        (navigation as any).navigate('HomeScreen');
     };
 
     return (
-        <View style={styles.screen}>
+        <View style={[styles.screen, { backgroundColor: colors.BACKGROUND }]}>
             <Image
                 source={require('../../assets/images/logo.png')}
                 style={styles.logo}
                 resizeMode="contain"
             />
-            <Text style={styles.title}>Give Feedback</Text>
-            <Text style={styles.description}>
+            <Text style={[styles.title, { color: colors.BLACK }]}>Give Feedback</Text>
+            <Text style={[styles.description, { color: colors.BLACK }]}>
                 We would love to hear what you think! Help us improve MediWay by sharing your thoughts or reporting any issues.
             </Text>
 
             <TouchableOpacity
-                style={styles.dropdown}
+                style={[styles.dropdown, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY }]}
                 onPress={() => setDropdownOpen(true)}
             >
-                <Text style={{ color: COLORS.BLACK }}>
+                <Text style={{ color: colors.GRAY }}>
                     {items.find(item => item.value === feedbackType)?.label || 'Select feedback type'}
                 </Text>
             </TouchableOpacity>
@@ -126,12 +127,12 @@ const Feedback = () => {
                 onRequestClose={() => setDropdownOpen(false)}
             >
                 <TouchableOpacity
-                    style={styles.modalOverlay}
+                    style={[styles.modalOverlay, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY }]}
                     activeOpacity={1}
                     onPress={() => setDropdownOpen(false)}
                 >
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Select Feedback Type</Text>
+                    <View style={[styles.modalContent, { backgroundColor: colors.WHITE }]}>
+                        <Text style={[styles.modalTitle, { color: colors.BLACK }]}>Select Feedback Type</Text>
                         <ScrollView>
                             {items.map((item) => (
                                 <TouchableOpacity
@@ -143,7 +144,7 @@ const Feedback = () => {
                                     }}
                                 >
                                     <Text style={{
-                                        color: COLORS.BLACK,
+                                        color: colors.BLACK,
                                         fontWeight: feedbackType === item.value ? '600' : 'normal',
                                     }}>
                                         {item.label}
@@ -156,8 +157,9 @@ const Feedback = () => {
             </Modal>
 
             <TextInput
-                style={styles.inputLarge}
+                style={[styles.inputLarge, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY, color: colors.BLACK }]}
                 placeholder="Write your feedback here…"
+                placeholderTextColor={colors.LIGHT_GRAY}
                 multiline
                 numberOfLines={6}
                 value={feedback}
@@ -165,8 +167,9 @@ const Feedback = () => {
             />
 
             <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY, color: colors.BLACK }]}
                 placeholder="Email Address (Optional)"
+                placeholderTextColor={colors.LIGHT_GRAY}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -175,12 +178,12 @@ const Feedback = () => {
             <Button
                 label="Send"
                 onPress={handleSend}
-                textProps={{ style: { color: COLORS.PRIMARY } }}
+                textProps={{ style: { color: colors.WHITE } }}
             />
 
-            <Pressable onPress={handleGoBack}>
-                <Text style={styles.link}>Go back to the home page</Text>
-            </Pressable>
+            <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={handleGoBack}>
+                <Text style={[styles.link, { color: colors.BLACK }]}>Go back to the home page</Text>
+            </TouchableOpacity>
         </View>
     );
 };

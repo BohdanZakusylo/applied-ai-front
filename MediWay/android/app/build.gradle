@@ -133,6 +133,8 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-masked-view_masked-view')
 
+    implementation "com.facebook.fresco:animated-gif:3.6.0"
+
     // Apply all native modules auto-link dependencies
     implementation fileTree(dir: "libs", include: ["*.jar"])
 }

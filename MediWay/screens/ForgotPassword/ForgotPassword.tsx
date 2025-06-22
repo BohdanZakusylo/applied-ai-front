@@ -14,7 +14,8 @@ import {
 import Button from '../../components/Button/Button';
 import { ENDPOINTS } from '../../assets/api';
 import styles from './styles';
-import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP } from '../../assets/constants';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface ForgotPasswordProps {
     onBack?: () => void;
@@ -28,6 +29,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
 }) => {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
+    const { colors } = useTheme();
 
     const handleSendCode = async () => {
         if (!email.trim()) {
@@ -71,7 +73,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardView}
@@ -83,18 +85,18 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
                             style={styles.logo}
                             resizeMode="contain"
                         />
-                        <Text style={styles.title}>Reset your Password</Text>
+                        <Text style={[styles.title, { color: colors.BLACK }]}>Reset your Password</Text>
                     </View>
 
                     <View style={styles.form}>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Email Address</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Email Address</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY, color: colors.BLACK }]}
                                 value={email}
                                 onChangeText={setEmail}
                                 placeholder="Enter your email"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -109,9 +111,9 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
                         />
 
                         <View style={styles.loginContainer}>
-                            <Text style={styles.loginText}>Remembered your password? </Text>
+                            <Text style={[styles.loginText, { color: colors.GRAY }]}>Remembered your password? </Text>
                             <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onLoginPress}>
-                                <Text style={styles.loginLink}>Back to Login</Text>
+                                <Text style={[styles.loginLink, { color: colors.TERTIARY }]}>Back to Login</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

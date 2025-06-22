@@ -171,7 +171,7 @@ export default StyleSheet.create({
         color: getThemeColor('BLACK'),
     },
     retryButton: {
-        backgroundColor: COLORS.PRIMARY,
+        backgroundColor: COLORS.PRIMARY_LIGHT,
         paddingHorizontal: 16,
         paddingVertical: 8,
         borderRadius: 8,

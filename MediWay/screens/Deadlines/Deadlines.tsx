@@ -209,11 +209,11 @@ const DeadlinesScreen = () => {
 
                 <View style={styles.deadlineActions}>
                     <TouchableOpacity onPress={() => handleEditDeadline(item)} style={styles.actionButton}>
-                        <Text style={[styles.editButtonText, { color: colors.PRIMARY }]}>Edit</Text>
+                        <Text style={[styles.editButtonText, { color: colors.PRIMARY_DARK }]}>Edit</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => handleDeleteDeadline(item.id)} style={styles.actionButton}>
-                        <Text style={[styles.deleteButtonText, { color: colors.DANGER }]}>Delete</Text>
+                        <Text style={[styles.deleteButtonText, { color: colors.ERROR }]}>Delete</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -234,7 +234,7 @@ const DeadlinesScreen = () => {
             return (
                 <View style={styles.emptyStateContainer}>
                     <Text style={[styles.emptyStateText, { color: colors.ERROR }]}>{error}</Text>
-                    <TouchableOpacity onPress={fetchDeadlines} style={styles.retryButton}>
+                    <TouchableOpacity onPress={fetchDeadlines} style={[styles.retryButton, { backgroundColor: colors.PRIMARY_LIGHT }]}>
                         <Text style={[styles.retryButtonText, { color: colors.WHITE }]}>Try Again</Text>
                     </TouchableOpacity>
                 </View>
@@ -281,14 +281,14 @@ const DeadlinesScreen = () => {
                 onRequestClose={() => setModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>
+                    <View style={[styles.modalContent, { backgroundColor: colors.WHITE }]}>
+                        <Text style={[styles.modalTitle, { color: colors.BLACK }]}>
                             {isEditing ? 'Edit Deadline' : 'Add New Deadline'}
                         </Text>
 
-                        <Text style={styles.inputLabel}>Title</Text>
+                        <Text style={[styles.inputLabel, { color: colors.BLACK }]}>Title</Text>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, { color: colors.BLACK, borderColor: colors.LIGHT_GRAY }]}
                             value={currentDeadline.title}
                             onChangeText={(text) =>
                                 setCurrentDeadline({ ...currentDeadline, title: text })
@@ -297,9 +297,9 @@ const DeadlinesScreen = () => {
                             placeholderTextColor={colors.LIGHT_GRAY}
                         />
 
-                        <Text style={styles.inputLabel}>Due Date and Time</Text>
+                        <Text style={[styles.inputLabel, { color: colors.BLACK }]}>Due Date and Time</Text>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, { color: colors.BLACK, borderColor: colors.LIGHT_GRAY }]}
                             value={currentDeadline.due_date}
                             onChangeText={(text) =>
                                 setCurrentDeadline({ ...currentDeadline, due_date: text })
@@ -310,17 +310,17 @@ const DeadlinesScreen = () => {
 
                         <View style={styles.buttonRow}>
                             <TouchableOpacity
-                                style={[styles.button, styles.cancelButton]}
+                                style={[styles.button, styles.cancelButton, { backgroundColor: colors.LIGHT_GRAY }]}
                                 onPress={() => setModalVisible(false)}
                             >
-                                <Text style={[styles.buttonText, styles.cancelButtonText]}>Cancel</Text>
+                                <Text style={[styles.buttonText, styles.cancelButtonText, { color: colors.BLACK }]}>Cancel</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                style={[styles.button, styles.saveButton]}
+                                style={[styles.button, styles.saveButton, { backgroundColor: colors.PRIMARY_LIGHT }]}
                                 onPress={handleEditSubmit}
                             >
-                                <Text style={[styles.buttonText, styles.saveButtonText]}>Save</Text>
+                                <Text style={[styles.buttonText, styles.saveButtonText, { color: colors.WHITE }]}>Save</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -14,8 +14,40 @@ export interface ChatMessageProp {
     text: string;
 }
 
+const formatTextToParagraphsAndList = (text: string): string[] => {
+  return text
+    .replace(/(\d+)\.(?=\S)/g, '$1. ')
+    .replace(/(?<!^)(?<!\n)(\d+\.\s)/g, '\n\n$1')
+    .replace(/(\d+\..*?\n)(?=[A-Z])/g, '$1\n')
+    .replace(/\[(.*?)\]\((.*?)\)/g, '$1 ($2)')
+    .split(/\n{2,}/)
+    .map(line => line.trim())
+    .filter(Boolean);
+};
+
+const renderParagraphWithBold = (paragraph: string, colors: any) => {
+  const parts = paragraph.split(/(\*\*.*?\*\*)/);
+
+  return parts.map((part, idx) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <Text key={idx} style={{ fontWeight: 'bold', color: colors.BLACK }}>
+          {part.slice(2, -2)}
+        </Text>
+      );
+    }
+
+    return (
+      <Text key={idx} style={{ color: colors.BLACK }}>
+        {part}
+      </Text>
+    );
+  });
+};
+
 const ChatMessage = ({ isIncoming, text }: ChatMessageProp) => {
     const { colors } = useTheme();
+    const formattedBlocks = isIncoming ? formatTextToParagraphsAndList(text) : [text];
 
     return (
         <View style={[
@@ -24,7 +56,20 @@ const ChatMessage = ({ isIncoming, text }: ChatMessageProp) => {
                 ? { backgroundColor: colors.WHITE }
                 : { backgroundColor: colors.BACKGROUND, borderColor: colors.SECONDARY_DARK },
         ]}>
-            <Text style={{ color: colors.BLACK }}>{text}</Text>
+        {formattedBlocks.map((block, index) => (
+            <Text
+                key={index}
+                style={{
+                  fontSize: 14,
+                  lineHeight: 20,
+                  marginBottom: 10,
+                  flexWrap: 'wrap',
+                  flexDirection: 'row',
+                  color: colors.BLACK,
+                }}>
+                {isIncoming ? renderParagraphWithBold(block, colors) : block}
+            </Text>
+        ))}
         </View>
     );
 };

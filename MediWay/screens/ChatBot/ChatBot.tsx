@@ -57,7 +57,7 @@ const ChatBot = () => {
     const flatListRef = useRef<FlatList>(null);
     const navigation = useNavigation();
 
-    const mainChatName = useRef<string>("");
+    const [mainChatName, setMainChatName] = useState<string>("");
 
     const { signOut } = useContext(AuthContext);
 
@@ -112,7 +112,8 @@ const ChatBot = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                mainChatName.current = data.chat_name;
+                setMainChatName(data.chat_name);
+                setPreviousChat(data.chat_name);
                 Alert.alert('Success!', 'New chat has been created!');
             }
         } catch (error) {
@@ -184,7 +185,6 @@ const ChatBot = () => {
 
     const fetchAIAnswer = async () => {
         setIsSending(true);
-        console.log(mainChatName.current);
         try {
             const response = await fetch(ENDPOINTS.chatMessage, {
                 method: 'POST',
@@ -192,7 +192,7 @@ const ChatBot = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${jwt.current}`,
                 },
-                body: JSON.stringify({ message: inputText, chat_name: mainChatName.current }),
+                body: JSON.stringify({ message: inputText, chat_name: mainChatName }),
             });
 
             if (response.status === 429) {
@@ -249,7 +249,7 @@ const ChatBot = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                const messages: any[] = [];
+                const messages: any[] = [{ id: '0', text: 'Hi, how can I help you?', isIncoming: true }];
 
                 if (Array.isArray(data.conversations)) {
                     data.conversations.forEach((message: any) => {
@@ -371,38 +371,41 @@ const ChatBot = () => {
                             contentContainerStyle={styles.messagesContainer}
                             ItemSeparatorComponent={() => <View style={styles.separator} />}
                         />}
-
-                    <View style={[styles.inputContainer, { borderColor: colors.LIGHT_GRAY }]}>
-                        <TextInput
-                            style={[styles.input, { backgroundColor: colors.BACKGROUND, color: colors.BLACK }]}
-                            placeholder="Send a message..."
-                            placeholderTextColor={colors.LIGHT_GRAY}
-                            onChangeText={setInputText}
-                            value={inputText}
-                            maxLength={MAX_MESSAGE_LENGTH}
-                        />
-                        {isLoading ? (
-                            <ActivityIndicator size="small" color={colors.GRAY} style={styles.sendButton} />
-                        ) : (
-                            <TouchableOpacity
-                                onPress={async () => {
-                                    if (inputText.trim()) {
-                                        await askMessage();
-                                    }
-                                }}
-                                style={styles.sendButton}
-                                hitSlop={BASE_HIT_SLOP}
-                                disabled={isSending}
-                            >
-                                <Image
-                                    source={require('../../assets/images/chat-bot/send.png')}
-                                    style={[styles.sendIcon, {
-                                        tintColor: isSending ? colors.LIGHT_GRAY : colors.BLACK,
-                                    }]}
-                                />
-                            </TouchableOpacity>
-                        )}
-                    </View>
+                    {previousChat == mainChatName ? (
+                        <View style={[styles.inputContainer, { borderColor: colors.LIGHT_GRAY }]}>
+                            <TextInput
+                                style={[styles.input, { backgroundColor: colors.BACKGROUND, color: colors.BLACK }]}
+                                placeholder="Send a message..."
+                                placeholderTextColor={colors.LIGHT_GRAY}
+                                onChangeText={setInputText}
+                                value={inputText}
+                                maxLength={MAX_MESSAGE_LENGTH}
+                            />
+                            {isLoading ? (
+                                <ActivityIndicator size="small" color={colors.GRAY} style={styles.sendButton} />
+                            ) : (
+                                <TouchableOpacity
+                                    onPress={async () => {
+                                        if (inputText.trim()) {
+                                            await askMessage();
+                                        }
+                                    }}
+                                    style={styles.sendButton}
+                                    hitSlop={BASE_HIT_SLOP}
+                                    disabled={isSending}
+                                >
+                                    <Image
+                                        source={require('../../assets/images/chat-bot/send.png')}
+                                        style={[styles.sendIcon, {
+                                            tintColor: isSending ? colors.LIGHT_GRAY : colors.BLACK,
+                                        }]}
+                                    />
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    ) : (
+                        <></>
+                    )}
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </>

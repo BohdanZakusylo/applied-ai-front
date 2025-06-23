@@ -3,11 +3,13 @@ import { View, Text, ScrollView, Image } from 'react-native';
 import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const LOGO = require('../../assets/images/logo.png');
 
 export default function MoreInfo() {
     const { dispatch } = useContext(AuthContext);
+    const { colors } = useTheme();
 
     const handleRegister = () => {
         dispatch({ type: 'SET_INITIAL_ROUTE', payload: 'Register' });
@@ -20,52 +22,48 @@ export default function MoreInfo() {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <Image source={LOGO} style={styles.logo} resizeMode="contain" />
 
             <View style={styles.contentWrapper}>
-                <Text style={styles.title}>Why do I need an account?</Text>
+                <Text style={[styles.title, { color: colors.BLACK }]}>Why do I need an account?</Text>
 
-                <Text style={styles.paragraph}>
+                <Text style={[styles.paragraph, { color: colors.BLACK }]}>
                     This app helps international students in the Netherlands understand their health insurance and avoid unexpected costs.
                 </Text>
 
-                <Text style={styles.paragraph}>Creating an account lets us:</Text>
+                <Text style={[styles.paragraph, { color: colors.BLACK }]}>Creating an account lets us:</Text>
 
                 <View style={styles.bullets}>
                     <View style={styles.bulletItem}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>Save your insurance details securely</Text>
+                        <Text style={[styles.bulletSymbol, { color: colors.BLACK }]}>•</Text>
+                        <Text style={[styles.bulletText, { color: colors.BLACK }]}>Save your insurance details securely</Text>
                     </View>
                     <View style={styles.bulletItem}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>Keep track of your questions and chatbot history</Text>
+                        <Text style={[styles.bulletSymbol, { color: colors.BLACK }]}>•</Text>
+                        <Text style={[styles.bulletText, { color: colors.BLACK }]}>Keep track of your questions and chatbot history</Text>
                     </View>
                     <View style={styles.bulletItem}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>Give you personalized advice when you need it</Text>
+                        <Text style={[styles.bulletSymbol, { color: colors.BLACK }]}>•</Text>
+                        <Text style={[styles.bulletText, { color: colors.BLACK }]}>Give you personalized advice when you need it</Text>
                     </View>
                 </View>
 
-                <Text style={styles.paragraph}>
+                <Text style={[styles.paragraph, { color: colors.BLACK }]}>
                     Your information stays private and is only used to help you navigate the Dutch healthcare system more easily.
                 </Text>
 
                 <View style={styles.buttonContainer}>
                     <Button
                         label="Get started"
-                        buttonProps={{
-                            onPress: handleRegister,
-                            style: styles.primaryButton,
-                        }}
+                        onPress={handleRegister}
+                        style={styles.primaryButton}
                         textProps={{ style: styles.primaryButtonText }}
                     />
                     <Button
                         label="Login"
-                        buttonProps={{
-                            onPress: handleLogin,
-                            style: styles.secondaryButton,
-                        }}
+                        onPress={handleLogin}
+                        style={styles.secondaryButton}
                         textProps={{ style: styles.secondaryButtonText }}
                     />
                 </View>

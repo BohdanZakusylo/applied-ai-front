@@ -6,7 +6,7 @@ import { getThemeColor } from './useColors';
  * This allows code that uses COLORS directly to automatically receive themed colors
  */
 export const getColor = (key: keyof AppColors): string => {
-  return getThemeColor(key);
+    return getThemeColor(key);
 };
 
 /**

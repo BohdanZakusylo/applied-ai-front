@@ -17,11 +17,11 @@ interface AuthStackProps {
 function AuthStack({ onBack }: AuthStackProps) {
     const [resetEmail, setResetEmail] = useState<string>('');
     const { state: { initialRoute } } = useContext(AuthContext);
-    const { colors, isDarkMode } = useTheme();
+    const { colors } = useTheme();
 
     return (
-        <Stack.Navigator 
-            screenOptions={{ 
+        <Stack.Navigator
+            screenOptions={{
                 headerShown: false,
                 // Apply theme-aware styling to any headers that might be shown
                 headerStyle: {
@@ -30,9 +30,9 @@ function AuthStack({ onBack }: AuthStackProps) {
                 headerTintColor: String(colors.WHITE),
                 // Apply theme-aware styling to cards
                 cardStyle: {
-                    backgroundColor: String(colors.BACKGROUND)
-                }
-            }} 
+                    backgroundColor: String(colors.BACKGROUND),
+                },
+            }}
             initialRouteName={initialRoute}>
             <Stack.Screen name="Login">
                 {(props) => (

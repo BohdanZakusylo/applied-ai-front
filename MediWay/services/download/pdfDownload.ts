@@ -1,4 +1,4 @@
-import { Alert } from "react-native";
+import { Alert } from 'react-native';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import FileViewer from 'react-native-file-viewer';
 
@@ -22,4 +22,4 @@ export const downloadPdf = async (html: string, filename: string): Promise<boole
         Alert.alert('Error', err.message);
         return false;
     }
-}
+};

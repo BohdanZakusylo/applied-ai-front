@@ -44,5 +44,6 @@ export default StyleSheet.create({
     },
     buttonsContainer: {
         gap: 10,
+        paddingHorizontal: 8,
     },
 });

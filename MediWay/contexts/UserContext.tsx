@@ -19,7 +19,7 @@ function userReducer(state: User | null, action: UserAction): User | null {
     }
 }
 
-export const UserContext = createContext<{state: User | null; dispatch: React.Dispatch<UserAction>; fetchUser: (jwt: string) => Promise<User | null>}>({
+export const UserContext = createContext<{ state: User | null; dispatch: React.Dispatch<UserAction>; fetchUser: (jwt: string) => Promise<User | null> }>({
     state: initialUserState,
     dispatch: () => null,
     fetchUser: async () => null,
@@ -33,8 +33,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             const response = await fetch(ENDPOINTS.userProfile, {
                 method: 'GET',
                 headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${jwt}`,
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`,
                 },
             });
 

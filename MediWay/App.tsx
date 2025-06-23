@@ -25,7 +25,7 @@ const AppContent = () => {
     // Get current theme to determine navigation theme
     const { isDarkMode } = useTheme();
     const navigationTheme = getNavigationTheme(isDarkMode);
-    
+
     return (
         <AuthProvider>
             <UserProvider>

@@ -7,6 +7,7 @@ import { BASE_HIT_SLOP } from '../../assets/constants';
 import { UserContext } from '../../contexts/UserContext';
 import { secureStorage } from '../../services/storage/storage';
 import { User } from '../../assets/interfaces';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const GetStarted = () => {
     const [persistentLoginReady, setPersistentLoginReady] = useState<boolean>(false);
@@ -14,6 +15,7 @@ const GetStarted = () => {
     const navigation = useNavigation();
     const { dispatch } = useContext(AuthContext);
     const { dispatch: userDispatch, fetchUser } = useContext(UserContext);
+        const { colors } = useTheme();
 
     useEffect(() => {
         const checkLogin = (token?: string) => {
@@ -62,7 +64,7 @@ const GetStarted = () => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <View style={styles.content}>
                 <Image
                     source={require('../../assets/images/logo.png')}
@@ -76,7 +78,7 @@ const GetStarted = () => {
                     resizeMode="contain"
                 />
 
-                <Text style={styles.tagline}>
+                <Text style={[styles.tagline, { color: colors.BLACK }]}>
                     A clear path through the{'\n'}
                     medical system
                 </Text>
@@ -84,18 +86,18 @@ const GetStarted = () => {
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         hitSlop={BASE_HIT_SLOP}
-                        style={styles.getStartedButton}
+                        style={[styles.getStartedButton, { backgroundColor: colors.TERTIARY }]}
                         onPress={handleGetStarted}
                     >
-                        <Text style={styles.getStartedButtonText}>Get started</Text>
+                        <Text style={[styles.getStartedButtonText, { color: colors.WHITE }]}>Get started</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         hitSlop={BASE_HIT_SLOP}
-                        style={styles.loginButton}
+                        style={[styles.loginButton, { backgroundColor: colors.WHITE }]}
                         onPress={handleLogin}
                     >
-                        <Text style={styles.loginButtonText}>Login</Text>
+                        <Text style={[styles.loginButtonText, { color: colors.BLACK }]}>Login</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -104,7 +106,7 @@ const GetStarted = () => {
                     style={styles.helpTextContainer}
                     onPress={handleWhyAccount}
                 >
-                    <Text style={styles.helpText}>Why do I need an account?</Text>
+                    <Text style={[styles.helpText, { color: colors.BLACK }]}>Why do I need an account?</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

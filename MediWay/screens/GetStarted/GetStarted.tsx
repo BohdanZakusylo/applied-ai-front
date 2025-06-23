@@ -15,7 +15,7 @@ const GetStarted = () => {
     const navigation = useNavigation();
     const { dispatch } = useContext(AuthContext);
     const { dispatch: userDispatch, fetchUser } = useContext(UserContext);
-        const { colors } = useTheme();
+    const { colors } = useTheme();
 
     useEffect(() => {
         const checkLogin = (token?: string) => {

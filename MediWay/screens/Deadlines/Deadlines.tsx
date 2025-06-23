@@ -12,6 +12,7 @@ import {
     Alert,
     Image,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -251,7 +252,7 @@ const DeadlinesScreen = () => {
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND, flex: 1 }]}>
             <View style={styles.headerWithButton}>
                 <Text style={[styles.screenTitle, { color: colors.BLACK }]}>Deadlines</Text>
             </View>
@@ -326,7 +327,7 @@ const DeadlinesScreen = () => {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 };
 

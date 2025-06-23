@@ -14,10 +14,11 @@ import {
 import Button from '../../components/Button/Button';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
-import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 import { secureStorage } from '../../services/storage/storage';
 import { ENDPOINTS } from '../../assets/api';
 import { UserContext } from '../../contexts/UserContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface LoginProps {
     onBack?: () => void;
@@ -35,6 +36,7 @@ const LoginScreen: React.FC<LoginProps> = ({
 
     const { dispatch } = useContext(AuthContext);
     const { dispatch: userDispatch, fetchUser } = useContext(UserContext);
+    const { colors } = useTheme();
 
     const onLoginSuccess = () => {
         dispatch({ type: 'SET_LOGGED_IN', payload: true });
@@ -62,7 +64,7 @@ const LoginScreen: React.FC<LoginProps> = ({
             const data = await response.json();
 
             if (response.ok && data.access_token) {
-                secureStorage.set("jwt", data.access_token);
+                secureStorage.set('jwt', data.access_token);
                 let user = await fetchUser(data.access_token);
                 userDispatch({ type: 'SET_USER', payload: user });
                 Alert.alert('Success', 'Login successful', [
@@ -79,7 +81,7 @@ const LoginScreen: React.FC<LoginProps> = ({
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardView}
@@ -91,18 +93,18 @@ const LoginScreen: React.FC<LoginProps> = ({
                             style={styles.logo}
                             resizeMode="contain"
                         />
-                        <Text style={styles.title}>Login here</Text>
+                        <Text style={[styles.title, { color: colors.BLACK }]}>Login here</Text>
                     </View>
 
                     <View style={styles.form}>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Email</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Email</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { borderColor: colors.LIGHT_GRAY, backgroundColor: colors.WHITE, color: colors.BLACK }]}
                                 value={email}
                                 onChangeText={setEmail}
                                 placeholder="Enter your email"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -110,13 +112,13 @@ const LoginScreen: React.FC<LoginProps> = ({
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Password</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Password</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { borderColor: colors.LIGHT_GRAY, backgroundColor: colors.WHITE, color: colors.BLACK }]}
                                 value={password}
                                 onChangeText={setPassword}
                                 placeholder="Enter your password"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -128,22 +130,20 @@ const LoginScreen: React.FC<LoginProps> = ({
                         </View>
 
                         <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onForgotPasswordPress} style={styles.forgotPassword}>
-                            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                            <Text style={[styles.forgotPasswordText, { color: colors.BLACK }]}>Forgot Password?</Text>
                         </TouchableOpacity>
 
                         <Button
                             label={loading ? 'Logging in...' : 'Login'}
-                            buttonProps={{
-                                onPress: handleLogin,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleLogin}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.registerContainer}>
-                            <Text style={styles.registerText}>If you don't have an account yet,{' '}</Text>
+                            <Text style={[styles.registerText, { color: colors.GRAY }]}>If you don't have an account yet,{' '}</Text>
                             <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onRegisterPress}>
-                                <Text style={styles.registerLink}>Register here</Text>
+                                <Text style={[styles.registerLink, { color: colors.TERTIARY }]}>Register here</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

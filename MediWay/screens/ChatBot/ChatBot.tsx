@@ -21,6 +21,7 @@ import { ENDPOINTS } from '../../assets/api';
 import { secureStorage } from '../../services/storage/storage';
 import { AuthContext } from '../../contexts/AuthContext';
 import DownloadSummaryButton from '../../components/DownloadSummaryButton/DownloadSummaryButton';
+import { useNavigation } from '@react-navigation/native';
 
 const MAX_MESSAGE_LENGTH = 1000;
 // Minimum milliseconds between sending requests.
@@ -35,13 +36,14 @@ const ChatBot = () => {
     const [questionsRemaining, setQuestionsRemaining] = useState<number>(100);
     const [monthlyLimit, setMonthlyLimit] = useState<number>(100);
 
-    const jwt = useRef<string>("");
+    const jwt = useRef<string>('');
     const flatListRef = useRef<FlatList>(null);
+    const navigation = useNavigation();
 
     const { signOut } = useContext(AuthContext);
 
     useEffect(() => {
-        const dbJWT = secureStorage.getString("jwt");
+        const dbJWT = secureStorage.getString('jwt');
 
         console.log(secureStorage.getAllKeys());
         console.log(dbJWT);
@@ -52,15 +54,19 @@ const ChatBot = () => {
         else {
             signOut();
         }
-    }, [])
+    }, [signOut]);
+
+    const navigateProfile = () => {
+        navigation.navigate('Profile' as never);
+    };
 
     const fetchQuestionsRemaining = async () => {
         try {
             const response = await fetch(ENDPOINTS.questionsRemaining, {
-                method: "GET",
+                method: 'GET',
                 headers: {
-                    "Authorization": `Bearer ${jwt.current}`
-                }
+                    'Authorization': `Bearer ${jwt.current}`,
+                },
             });
 
             if (response.ok) {
@@ -69,7 +75,7 @@ const ChatBot = () => {
                 setMonthlyLimit(data.monthly_limit);
             }
         } catch (error) {
-            console.error("Failed to fetch questions remaining", error);
+            console.error('Failed to fetch questions remaining', error);
         }
     };
 
@@ -92,24 +98,24 @@ const ChatBot = () => {
 
     const checkMessageLength = (): boolean => {
         if (!inputText.trim()) {
-            Alert.alert("Error", "Cannot send an empty message.");
+            Alert.alert('Error', 'Cannot send an empty message.');
             return false;
         }
 
         if (inputText.length > MAX_MESSAGE_LENGTH) {
-            Alert.alert("Error", `Message too long (${inputText.length} / ${MAX_MESSAGE_LENGTH}).`);
+            Alert.alert('Error', `Message too long (${inputText.length} / ${MAX_MESSAGE_LENGTH}).`);
             return false;
         }
 
         return true;
-    }
+    };
 
     const sanitizeMessage = (message: string): string => {
         return message
             .replace(/[\u0000-\u001F\u007F]/g, '')
             .replace(/[\u202E]/g, '')
             .trim();
-    }
+    };
 
     const askMessage = async () => {
         if (isSending) {
@@ -120,34 +126,34 @@ const ChatBot = () => {
             return;
         }
 
-        setInputText("");
-        addMessage({ id: SHA256(Date.now().toString()).toString(), text: sanitizeMessage(inputText), isIncoming: false })
+        setInputText('');
+        addMessage({ id: SHA256(Date.now().toString()).toString(), text: sanitizeMessage(inputText), isIncoming: false });
 
         setIsLoading(true);
         const data: ChatResponse | null = await fetchAIAnswer();
 
         if (data) {
-            addMessage({ id: SHA256(data.timestamp).toString(), text: sanitizeMessage(data.response), isIncoming: true })
+            addMessage({ id: SHA256(data.timestamp).toString(), text: sanitizeMessage(data.response), isIncoming: true });
         }
         else {
-            addMessage({ id: SHA256(Date.now().toString()).toString(), text: "An error occured", isIncoming: true })
+            addMessage({ id: SHA256(Date.now().toString()).toString(), text: 'An error occured', isIncoming: true });
         }
-    }
+    };
 
     const fetchAIAnswer = async () => {
         setIsSending(true);
         try {
             const response = await fetch(ENDPOINTS.chatMessage, {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${jwt.current}`
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt.current}`,
                 },
-                body: JSON.stringify({ message: inputText })
+                body: JSON.stringify({ message: inputText }),
             });
 
             if (response.status === 429) {
-                Alert.alert("Question Limit Exceeded", `You have reached your monthly limit of ${monthlyLimit} questions. Please try again next month.`);
+                Alert.alert('Question Limit Exceeded', `You have reached your monthly limit of ${monthlyLimit} questions. Please try again next month.`);
                 return null;
             }
 
@@ -156,14 +162,14 @@ const ChatBot = () => {
             }
 
             const data = await response.json();
-            
+
             // Update questions remaining after successful question
             fetchQuestionsRemaining();
 
             return data ?? null;
         } catch (error) {
-            console.error("Fetch failed", error);
-            Alert.alert("Error", "Something went wrong, please try again.")
+            console.error('Fetch failed', error);
+            Alert.alert('Error', 'Something went wrong, please try again.');
             return null;
         } finally {
             setIsLoading(false);
@@ -176,20 +182,20 @@ const ChatBot = () => {
             <KeyboardAvoidingView style={[styles.container, { backgroundColor: colors.BACKGROUND }]} behavior={Platform.OS === 'android' ? 'padding' : 'height'}>
                 <View style={styles.header}>
                     <TouchableOpacity hitSlop={BASE_HIT_SLOP}>
-                        <Image 
-                            source={require('../../assets/images/chat-bot/chat-menu.png')} 
-                            style={[styles.headerIcon, { tintColor: colors.BLACK }]} 
+                        <Image
+                            source={require('../../assets/images/chat-bot/chat-menu.png')}
+                            style={[styles.headerIcon, { tintColor: colors.BLACK }]}
                         />
                     </TouchableOpacity>
                     <Text style={[styles.questionsRemaining, { color: colors.BLACK }]}>
                         Questions: {questionsRemaining}/{monthlyLimit}
                     </Text>
                     <View style={styles.headerButtons}>
-                        <View style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
+                        <TouchableOpacity style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]} hitSlop={BASE_HIT_SLOP} onPress={navigateProfile}>
                             <Image source={require('../../assets/images/chat-bot/profile.png')} style={styles.headerIcon} />
-                        </View>
+                        </TouchableOpacity>
                         <DownloadSummaryButton chatHistory={messages} style={[styles.profileIcon, { backgroundColor: colors.LIGHT_GRAY }]}>
-                                <Image source={require('../../assets/images/chat-bot/download.png')} style={[styles.headerIcon, { tintColor: colors.BLACK }]} />
+                            <Image source={require('../../assets/images/chat-bot/download.png')} style={[styles.headerIcon, { tintColor: colors.BLACK }]} />
                         </DownloadSummaryButton>
                     </View>
                 </View>
@@ -214,7 +220,7 @@ const ChatBot = () => {
                         maxLength={MAX_MESSAGE_LENGTH}
                     />
                     {isLoading ? (
-                        <ActivityIndicator size="small" color={colors.GRAY} style={{ padding: 8 }} />
+                        <ActivityIndicator size="small" color={colors.GRAY} style={styles.sendButton} />
                     ) : (
                         <TouchableOpacity
                             onPress={async () => {
@@ -227,13 +233,10 @@ const ChatBot = () => {
                             disabled={isSending}
                         >
                             <Image
-                                source={require("../../assets/images/chat-bot/send.png")}
-                                style={{
-                                    width: 26,
-                                    height: 26,
-                                    resizeMode: 'contain',
+                                source={require('../../assets/images/chat-bot/send.png')}
+                                style={[styles.sendIcon, {
                                     tintColor: isSending ? colors.LIGHT_GRAY : colors.BLACK,
-                                }}
+                                }]}
                             />
                         </TouchableOpacity>
                     )}

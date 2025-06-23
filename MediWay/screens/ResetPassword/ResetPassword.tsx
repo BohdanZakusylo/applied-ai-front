@@ -14,7 +14,8 @@ import {
 import Button from '../../components/Button/Button';
 import { ENDPOINTS } from '../../assets/api';
 import styles from './styles';
-import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP } from '../../assets/constants';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface ResetPasswordProps {
     email: string;
@@ -32,6 +33,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const { colors } = useTheme();
 
     const validateForm = () => {
         if (!code.trim()) {
@@ -120,7 +122,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardView}
@@ -132,18 +134,18 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                             style={styles.logo}
                             resizeMode="contain"
                         />
-                        <Text style={styles.title}>Reset Password</Text>
+                        <Text style={[styles.title, { color: colors.BLACK }]}>Reset Password</Text>
                     </View>
 
                     <View style={styles.form}>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>6-Digit Code</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>6-Digit Code</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY, color: colors.BLACK }]}
                                 value={code}
                                 onChangeText={setCode}
                                 placeholder="Enter 6-digit code"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 keyboardType="numeric"
                                 maxLength={6}
                                 autoCapitalize="none"
@@ -151,13 +153,13 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>New Password</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>New Password</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY, color: colors.BLACK }]}
                                 value={newPassword}
                                 onChangeText={setNewPassword}
                                 placeholder="Enter new password (8+ characters)"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -169,13 +171,13 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Confirm New Password</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Confirm New Password</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.LIGHT_GRAY, color: colors.BLACK }]}
                                 value={confirmPassword}
                                 onChangeText={setConfirmPassword}
                                 placeholder="Confirm new password"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -188,17 +190,15 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
 
                         <Button
                             label={loading ? 'Resetting Password...' : 'Reset Password'}
-                            buttonProps={{
-                                onPress: handleResetPassword,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleResetPassword}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.resendContainer}>
-                            <Text style={styles.resendText}>Didn't receive the code? </Text>
+                            <Text style={[styles.resendText, { color: colors.BLACK }]}>Didn't receive the code? </Text>
                             <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onResendCode}>
-                                <Text style={styles.resendLink}>Resend Code</Text>
+                                <Text style={[styles.resendLink, { color: colors.TERTIARY }]}>Resend Code</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

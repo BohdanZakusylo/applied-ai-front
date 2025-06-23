@@ -45,6 +45,12 @@ export default StyleSheet.create({
         color: getThemeColor('BLACK'),
         marginBottom: 8,
     },
+    required: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: getThemeColor('TERTIARY'),
+        marginBottom: 8,
+    },
     input: {
         borderWidth: 1,
         borderColor: getThemeColor('GRAY'),

@@ -13,7 +13,7 @@ const Main = () => {
     return (
         <>
             <StatusBar
-                barStyle={isDarkMode ? "light-content" : "dark-content"}
+                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             />
             {ready ? (
                 loggedIn ? (

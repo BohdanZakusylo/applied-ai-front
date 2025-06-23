@@ -6,6 +6,9 @@ import ChatBot from '../screens/ChatBot/ChatBot';
 import Profile from '../screens/Profile/Profile';
 import { useTheme } from '../contexts/ThemeContext';
 import Deadlines from '../screens/Deadlines/Deadlines';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import { secureStorage } from '../services/storage/storage';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,26 +17,35 @@ const ICONS: Record<string, ImageSourcePropType> = {
     FaQ: require('../assets/images/bottom-tabs/bottom-faq.png'),
     Chat: require('../assets/images/bottom-tabs/bottom-chat.png'),
     Profile: require('../assets/images/bottom-tabs/bottom-profile.png'),
+    Deadlines: require('../assets/images/bottom-tabs/bottom-deadline.png'),
     Default: require('../assets/images/bottom-tabs/bottom-profile.png'),
 };
 
 const TabsStack = () => {
     // Get theme colors
     const { colors } = useTheme();
-    
+
+    const { signOut } = useContext(AuthContext);
+
+    const authorizationCheck = () => {
+        const dbJWT = secureStorage.getString('jwt');
+
+        // TODO: Send an authorization request to the backend to confirm jwt is still valid.
+
+        if (!dbJWT) {
+            signOut();
+        }
+    };
+
     return (
         <Tab.Navigator
-            screenOptions={({ route }) => {
+            screenOptions={({ route, navigation }) => {
+                navigation.addListener('blur', authorizationCheck);
+
                 const icon = route.name in ICONS ? ICONS[route.name] : ICONS.Default;
 
                 return {
                     tabBarIcon: ({ focused, size }: { focused: boolean; color: string; size: number }) => {
-                        // Special case for Deadlines - use a text label instead of an icon
-                        if (route.name === 'Deadlines') {
-                            return null; // Return null to just show the label
-                        }
-                        
-                        // For other tabs, use the icon
                         return (
                             <Image
                                 source={icon}

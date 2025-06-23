@@ -4,7 +4,7 @@ import { BASE_HIT_SLOP } from '../../assets/constants';
 import { LatLng } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 import { getDistanceBetween } from '../../services/location/location';
-import { getThemeColor } from '../../utils/useColors';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export type MapButtonProps = TouchableOpacityProps & {
     locationName: string;
@@ -17,24 +17,26 @@ export type MapButtonProps = TouchableOpacityProps & {
 const MapButton = (props: MapButtonProps) => {
     const [distance, setDistance] = useState<string>('');
 
+    const { colors } = useTheme();
+
     useEffect(() => {
         if (props.originalLocation) {
-            getDistanceBetween(props.originalLocation, props.location).then((res) => setDistance(res.rows[0].elements[0].distance.text))
+            getDistanceBetween(props.originalLocation, props.location).then((res) => setDistance(res.rows[0].elements[0].distance.text));
         }
-    }, []);
+    }, [props.location, props.originalLocation]);
 
     return (
         <TouchableOpacity hitSlop={BASE_HIT_SLOP} style={props.selected ? [styles.button, styles.buttonSelected] : styles.button} {...props}>
-            <Image style={styles.icon} source={require('../../assets/images/map/gp-icon.png')}/>
+            <Image style={[styles.icon, { tintColor: colors.GRAY }]} source={require('../../assets/images/map/gp-icon.png')} />
 
             <View style={styles.descriptionRegion}>
-                <Text numberOfLines={1} style={styles.name}>{props.locationName}</Text>
-                <Text numberOfLines={1} style={styles.address}>{props.address}</Text>
+                <Text numberOfLines={1} style={[styles.name, { color: colors.BLACK }]}>{props.locationName}</Text>
+                <Text numberOfLines={1} style={[styles.address, { color: colors.BLACK }]}>{props.address}</Text>
             </View>
 
             <View style={styles.distanceRegion}>
-                <Text numberOfLines={1} style={styles.distance}>{distance}</Text>
-                <Text numberOfLines={1} style={styles.fromMe}>from me</Text>
+                <Text numberOfLines={1} style={[styles.distance, { color: colors.BLACK }]}>{distance}</Text>
+                <Text numberOfLines={1} style={[styles.fromMe, { color: colors.BLACK }]}>from me</Text>
             </View>
         </TouchableOpacity>
     );

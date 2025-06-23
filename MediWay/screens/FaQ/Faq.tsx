@@ -51,7 +51,7 @@ const FAQ_DATA = [
 ];
 
 const Faq = () => {
-    const { isDarkMode, colors } = useTheme();
+    const { colors } = useTheme();
     const [expanded, setExpanded] = useState<string | null>(null);
 
     const toggleItem = (key: string) => {
@@ -60,13 +60,13 @@ const Faq = () => {
     };
 
     return (
-        <ScrollView 
-            contentContainerStyle={styles.contentContainer} 
+        <ScrollView
+            contentContainerStyle={styles.contentContainer}
             style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
-            <Image 
-                source={LOGO} 
-                style={styles.logo} 
-                resizeMode="contain" 
+            <Image
+                source={LOGO}
+                style={styles.logo}
+                resizeMode="contain"
             />
             <Text style={[styles.title, { color: colors.BLACK }]}>Frequently Asked Questions</Text>
 
@@ -93,13 +93,13 @@ const Faq = () => {
                                     </Text>
                                     {
                                         isOpen ?
-                                            <Image 
-                                                source={chevronUp} 
-                                                style={[styles.chevron, { tintColor: colors.BLACK }]} 
+                                            <Image
+                                                source={chevronUp}
+                                                style={[styles.chevron, { tintColor: colors.BLACK }]}
                                             /> :
-                                            <Image 
-                                                source={chevronDown} 
-                                                style={[styles.chevron, { tintColor: colors.BLACK }]} 
+                                            <Image
+                                                source={chevronDown}
+                                                style={[styles.chevron, { tintColor: colors.BLACK }]}
                                             />
                                     }
                                 </TouchableOpacity>

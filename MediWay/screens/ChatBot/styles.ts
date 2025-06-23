@@ -15,6 +15,7 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 16,
+        paddingTop: 32,
     },
     headerButtons: {
         flexDirection: 'row',
@@ -28,11 +29,6 @@ export default StyleSheet.create({
     headerIcon: {
         width: 24,
         height: 24,
-        resizeMode: 'contain',
-    },
-    sendIcon: {
-        width: 26,
-        height: 26,
         resizeMode: 'contain',
     },
     profileIcon: {
@@ -65,6 +61,11 @@ export default StyleSheet.create({
     },
     sendButton: {
         padding: 8,
+    },
+    sendIcon: {
+        width: 26,
+        height: 26,
+        resizeMode: 'contain',
     },
     empty: {
         justifyContent: 'center',

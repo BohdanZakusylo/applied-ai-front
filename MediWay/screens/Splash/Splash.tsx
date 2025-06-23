@@ -2,11 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { View, Image, Animated, Dimensions, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Splash = () => {
     const navigation = useNavigation();
     const loadingAnimation = useRef(new Animated.Value(0)).current;
     const { width } = Dimensions.get('window');
+    const { colors } = useTheme();
 
     // Loading bar width (80% of screen width)
     const loadingBarWidth = width * 0.6;
@@ -30,7 +32,7 @@ const Splash = () => {
     });
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <View style={styles.content}>
                 <Image
                     source={require('../../assets/images/logo.png')}
@@ -38,11 +40,11 @@ const Splash = () => {
                     resizeMode="contain"
                 />
 
-                <View style={[styles.loadingBar, { width: loadingBarWidth }]}>
+                <View style={[styles.loadingBar, { width: loadingBarWidth, backgroundColor: colors.LIGHT_GRAY }]}>
                     <Animated.View
                         style={[
                             styles.loadingFill,
-                            { width: fillWidth },
+                            { width: fillWidth, backgroundColor: colors.SECONDARY_LIGHT },
                         ]}
                     />
                 </View>

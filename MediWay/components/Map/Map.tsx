@@ -1,12 +1,10 @@
-import { Alert, Linking, Text, View } from 'react-native';
+import { Linking, Text, View } from 'react-native';
 import styles from './styles';
-import { BASE_HIT_SLOP } from '../../assets/constants';
 import Geolocation, { GeolocationResponse, GeolocationError } from '@react-native-community/geolocation';
 import { useState, useEffect, useRef, Ref, forwardRef, useImperativeHandle } from 'react';
 import Button from '../Button/Button';
-import MapView, { Circle, Details, Region, LatLng, MapMarkerProps, MapMarker as RNMapMarker } from 'react-native-maps';
+import MapView, { Circle, Details, Region, LatLng, MapMarker as RNMapMarker } from 'react-native-maps';
 import MapMarker, { CustomMapMarkerProps } from '../MapMarker/MapMarker';
-import { getThemeColor } from '../../utils/useColors';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export type MapProps = {
@@ -30,8 +28,8 @@ const Map = forwardRef(({ locationOverride, markers }: MapProps, ref: Ref<MapRef
     useImperativeHandle(ref, () => ({
         onMarkerSelected(index: number) {
             markerRefs.current[index]?.showCallout();
-            mapViewRef.current?.animateCamera({ center: markers![index].coordinate })
-        }
+            mapViewRef.current?.animateCamera({ center: markers![index].coordinate });
+        },
     }));
 
     const onRegionChanged = (region: Region, _details: Details) => {
@@ -40,35 +38,35 @@ const Map = forwardRef(({ locationOverride, markers }: MapProps, ref: Ref<MapRef
 
     const onPositionError = (error: GeolocationError) => {
         console.warn(error);
-        if (error.PERMISSION_DENIED == 1) {
+        if (error.PERMISSION_DENIED === 1) {
             setCanRequest(false);
         }
         setLocation(undefined);
     };
 
     const requestGeoPermission = () => {
-        Geolocation.requestAuthorization(() => {}, onPositionError);
-    }
-
-    const getCurrentPosition = () => {
-        Geolocation.getCurrentPosition((position: GeolocationResponse) => setLocation({latitude: position.coords.latitude, longitude: position.coords.longitude}), onPositionError);
-    }
+        Geolocation.requestAuthorization(() => { }, onPositionError);
+    };
 
     useEffect(() => {
+        const getCurrentPosition = () => {
+            Geolocation.getCurrentPosition((position: GeolocationResponse) => setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }), onPositionError);
+        };
+
         if (!locationOverride) {
             getCurrentPosition();
         }
-    }, []);
+    }, [locationOverride]);
 
     if (!location) {
         return (
-            <View style={{ padding: 16, backgroundColor: colors.BACKGROUND, alignItems: 'center' }}>
-                <Text style={{ color: colors.BLACK, marginBottom: 16 }}>No permission granted</Text>
+            <View style={[styles.noPermissionWrapper, { backgroundColor: colors.BACKGROUND }]}>
+                <Text style={[styles.noPermissionText, { color: colors.BLACK }]}>No permission granted</Text>
                 {canRequest
-                ? <Button label='Request Permission' buttonProps={ { onPress: requestGeoPermission } } />
-                : <Button label='Go to Settings' buttonProps={ { onPress: Linking.openSettings } } />}
+                    ? <Button label="Request Permission" onPress={requestGeoPermission} />
+                    : <Button label="Go to Settings" onPress={Linking.openSettings} />}
             </View>
-        )
+        );
     }
 
     return (
@@ -80,7 +78,7 @@ const Map = forwardRef(({ locationOverride, markers }: MapProps, ref: Ref<MapRef
                     latitude: location.latitude,
                     longitude: location.longitude,
                     latitudeDelta: zoom,
-                    longitudeDelta: zoom*0.5,
+                    longitudeDelta: zoom * 0.5,
                 }}
                 onRegionChange={onRegionChanged}
                 ref={mapViewRef}
@@ -92,15 +90,15 @@ const Map = forwardRef(({ locationOverride, markers }: MapProps, ref: Ref<MapRef
                         {...marker}
                     />
                 )}
-                <Circle 
-                    strokeColor={colors.SECONDARY_DARK} 
-                    strokeWidth={4} 
+                <Circle
+                    strokeColor={colors.SECONDARY_DARK.toString()}
+                    strokeWidth={4}
                     center={{
                         latitude: location.latitude,
                         longitude: location.longitude,
-                    }} 
-                    radius={2000*zoom} 
-                    fillColor={colors.SECONDARY_LIGHT} 
+                    }}
+                    radius={2000 * zoom}
+                    fillColor={colors.SECONDARY_LIGHT.toString()}
                 />
             </MapView>
         </View>

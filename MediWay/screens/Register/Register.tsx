@@ -1,4 +1,4 @@
-import React, { use, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -12,11 +12,11 @@ import {
     Image,
 } from 'react-native';
 import Button from '../../components/Button/Button';
-import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
-import { BASE_HIT_SLOP, COLORS } from '../../assets/constants';
+import { BASE_HIT_SLOP } from '../../assets/constants';
 import { useNavigation } from '@react-navigation/native';
 import { ENDPOINTS } from '../../assets/api';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface RegisterProps {
     onBack?: () => void;
@@ -37,12 +37,11 @@ const RegisterScreen: React.FC<RegisterProps> = ({
     });
     const [loading, setLoading] = useState(false);
 
-    const { dispatch } = useContext(AuthContext);
-
     const navigation = useNavigation();
+    const { colors } = useTheme();
 
     const onRegisterSuccess = () => {
-        (navigation as any).navigate("Login");
+        (navigation as any).navigate('Login');
     };
 
     const handleInputChange = (field: string, value: string) => {
@@ -121,7 +120,7 @@ const RegisterScreen: React.FC<RegisterProps> = ({
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardView}
@@ -133,30 +132,30 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                             style={styles.logo}
                             resizeMode="contain"
                         />
-                        <Text style={styles.title}>Register here</Text>
+                        <Text style={[styles.title, { color: colors.BLACK }]}>Register here</Text>
                     </View>
 
                     <View style={styles.form}>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Name *</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Name <Text style={[styles.required, { color: colors.TERTIARY }]}>*</Text></Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.GRAY, color: colors.BLACK }]}
                                 value={formData.name}
                                 onChangeText={(value) => handleInputChange('name', value)}
                                 placeholder="Enter your full name"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 autoCapitalize="words"
                             />
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Email *</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Email <Text style={[styles.required, { color: colors.TERTIARY }]}>*</Text></Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.GRAY, color: colors.BLACK }]}
                                 value={formData.email}
                                 onChangeText={(value) => handleInputChange('email', value)}
                                 placeholder="Enter your email"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -164,13 +163,13 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Password *</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Password <Text style={[styles.required, { color: colors.TERTIARY }]}>*</Text></Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.GRAY, color: colors.BLACK }]}
                                 value={formData.password}
                                 onChangeText={(value) => handleInputChange('password', value)}
                                 placeholder="Enter your password (8+ characters)"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -182,13 +181,13 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Confirm Password *</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Confirm Password <Text style={[styles.required, { color: colors.TERTIARY }]}>*</Text></Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.GRAY, color: colors.BLACK }]}
                                 value={formData.confirmPassword}
                                 onChangeText={(value) => handleInputChange('confirmPassword', value)}
                                 placeholder="Confirm your password"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                                 secureTextEntry
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -200,40 +199,38 @@ const RegisterScreen: React.FC<RegisterProps> = ({
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Insurance Provider</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>Insurance Provider</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.GRAY, color: colors.BLACK }]}
                                 value={formData.insuranceProvider}
                                 onChangeText={(value) => handleInputChange('insuranceProvider', value)}
                                 placeholder="e.g., Zilveren Kruis, VGZ (optional)"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                             />
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.label}>General Practitioner</Text>
+                            <Text style={[styles.label, { color: colors.BLACK }]}>General Practitioner</Text>
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { backgroundColor: colors.WHITE, borderColor: colors.GRAY, color: colors.BLACK }]}
                                 value={formData.generalPractitioner}
                                 onChangeText={(value) => handleInputChange('generalPractitioner', value)}
                                 placeholder="Your GP name (optional)"
-                                placeholderTextColor={COLORS.LIGHT_GRAY}
+                                placeholderTextColor={colors.LIGHT_GRAY}
                             />
                         </View>
 
                         <Button
                             label={loading ? 'Creating Account...' : 'Create Account'}
-                            buttonProps={{
-                                onPress: handleRegister,
-                                disabled: loading,
-                                style: loading && styles.disabledButton,
-                            }}
+                            onPress={handleRegister}
+                            disabled={loading}
+                            style={loading && styles.disabledButton}
                         />
 
                         <View style={styles.loginContainer}>
-                            <Text style={styles.loginText}>If you already have an account </Text>
+                            <Text style={[styles.loginText, { color: colors.BLACK }]}>If you already have an account </Text>
                             <TouchableOpacity hitSlop={BASE_HIT_SLOP} onPress={onLoginPress}>
-                                <Text style={styles.loginLink}>Login here</Text>
+                                <Text style={[styles.loginLink, { color: colors.TERTIARY }]}>Login here</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

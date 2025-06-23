@@ -25,40 +25,43 @@ const removeCitations = (text: string): string => {
       .trim();
 };
 
-const formatTextToParagraphsAndList = (text: string): string[] => {
-  return removeCitations(text)
-    .replace(/(\d+)\.(?=\S)/g, '$1. ')
-    .replace(/(?<!^)(?<!\n)(\d+\.\s)/g, '\n\n$1')
-    .replace(/(\d+\..*?\n)(?=[A-Z])/g, '$1\n')
-    .replace(/\[(.*?)\]\((.*?)\)/g, '$1 ($2)')
-    .split(/\n{2,}/)
-    .map(line => line.trim())
-    .filter(Boolean);
-};
-
-const renderParagraphWithBold = (paragraph: string, colors: any) => {
-  const parts = paragraph.split(/(\*\*.*?\*\*)/);
-
-  return parts.map((part, idx) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return (
-        <Text key={idx} style={{ fontWeight: 'bold', color: colors.BLACK }}>
-          {part.slice(2, -2)}
-        </Text>
-      );
-    }
-
+const renderTextWithFormatting = (text: string, colors: any) => {
+  // Split by double newlines to get paragraphs
+  const paragraphs = text.split(/\n\s*\n/);
+  
+  return paragraphs.map((paragraph, paraIndex) => {
+    // Split each paragraph by single newlines to handle list items
+    const lines = paragraph.split('\n');
+    
     return (
-      <Text key={idx} style={{ color: colors.BLACK }}>
-        {part}
-      </Text>
+      <View key={`para-${paraIndex}`} style={{ marginBottom: paraIndex < paragraphs.length - 1 ? 12 : 0 }}>
+        {lines.map((line, lineIndex) => {
+          // Parse bold text in each line
+          const parts = line.split(/(\*\*.*?\*\*)/);
+          
+          return (
+            <Text key={`line-${lineIndex}`} style={{ fontSize: 14, lineHeight: 22, color: colors.BLACK }}>
+              {parts.map((part, partIndex) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                  return (
+                    <Text key={partIndex} style={{ fontWeight: 'bold' }}>
+                      {part.slice(2, -2)}
+                    </Text>
+                  );
+                }
+                return part;
+              })}
+            </Text>
+          );
+        })}
+      </View>
     );
   });
 };
 
 const ChatMessage = ({ isIncoming, text }: ChatMessageProp) => {
     const { colors } = useTheme();
-    const formattedBlocks = isIncoming ? formatTextToParagraphsAndList(text) : [text];
+    const cleanText = isIncoming ? removeCitations(text) : text;
 
     return (
         <View style={[
@@ -67,20 +70,13 @@ const ChatMessage = ({ isIncoming, text }: ChatMessageProp) => {
                 ? { backgroundColor: colors.WHITE }
                 : { backgroundColor: colors.BACKGROUND, borderColor: colors.SECONDARY_DARK },
         ]}>
-        {formattedBlocks.map((block, index) => (
-            <Text
-                key={index}
-                style={{
-                  fontSize: 14,
-                  lineHeight: 20,
-                  marginBottom: 10,
-                  flexWrap: 'wrap',
-                  flexDirection: 'row',
-                  color: colors.BLACK,
-                }}>
-                {isIncoming ? renderParagraphWithBold(block, colors) : block}
-            </Text>
-        ))}
+            {isIncoming ? (
+                renderTextWithFormatting(cleanText, colors)
+            ) : (
+                <Text style={{ fontSize: 14, lineHeight: 22, color: colors.BLACK }}>
+                    {cleanText}
+                </Text>
+            )}
         </View>
     );
 };

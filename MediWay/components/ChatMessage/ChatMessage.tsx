@@ -14,8 +14,19 @@ export interface ChatMessageProp {
     text: string;
 }
 
+
+const removeCitations = (text: string): string => {
+    return text
+      .replace(/\【\d+:\d+†source\】/g, '') // Unicode brackets
+      .replace(/\[\d+:\d+†source\]/g, '')  // Regular brackets  
+      .replace(/\【\d+†source\】/g, '')     // Unicode brackets short form
+      .replace(/\[\d+†source\]/g, '')      // Regular brackets short form
+      .replace(/[ \t]+/g, ' ')             // Clean up extra horizontal spaces
+      .trim();
+};
+
 const formatTextToParagraphsAndList = (text: string): string[] => {
-  return text
+  return removeCitations(text)
     .replace(/(\d+)\.(?=\S)/g, '$1. ')
     .replace(/(?<!^)(?<!\n)(\d+\.\s)/g, '\n\n$1')
     .replace(/(\d+\..*?\n)(?=[A-Z])/g, '$1\n')

@@ -1,4 +1,4 @@
-const API_DOMAIN = 'http://localhost:8000';
+const API_DOMAIN = 'https://applied-ai-back.onrender.com';
 
 const ENDPOINTS = {
     forgotPassword: `${API_DOMAIN}/api/v1/auth/forgot-password`,

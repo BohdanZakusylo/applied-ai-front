@@ -10,6 +10,10 @@ const ENDPOINTS = {
     login: `${API_DOMAIN}/api/v1/auth/login`,
     userFeedback: `${API_DOMAIN}/api/v1/feedback`,
     deadlines: `${API_DOMAIN}/api/v1/deadlines`,
+    newCHat: `${API_DOMAIN}/api/v1/chat/new-chat`,
+    getHistory: `${API_DOMAIN}/api/v1/chat/history`,
+    getChats: `${API_DOMAIN}/api/v1/chat/chats`,
+    deleteChats: `${API_DOMAIN}/api/v1/chat/delete`
 };
 
 export { API_DOMAIN, ENDPOINTS };

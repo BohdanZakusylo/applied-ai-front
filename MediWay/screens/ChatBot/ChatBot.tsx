@@ -109,7 +109,11 @@ const ChatBot = () => {
     };
 
     const sanitizeMessage = (message: string): string => {
-        return message.replace(/[\u0000-\u001F\u007F]/g, '').replace(/[\u202E]/g, '').trim();
+        return message
+            // Preserve newlines (0x0A) and tabs (0x09) while removing other control characters
+            .replace(/[\u0000-\u0008\u000B-\u001F\u007F]/g, '')
+            .replace(/[\u202E]/g, '')
+            .trim();
     };
 
     const askMessage = async () => {

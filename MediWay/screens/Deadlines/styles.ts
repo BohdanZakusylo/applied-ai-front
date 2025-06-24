@@ -7,7 +7,7 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: getThemeColor('BACKGROUND'),
         paddingHorizontal: 16,
-        paddingTop: 32,
+        // Removed paddingTop: 32 to avoid double spacing with SafeAreaView
     },
     header: {
         flexDirection: 'row',
@@ -22,6 +22,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
         paddingHorizontal: 8,
+        marginTop: 32, // Added to move header lower
     },
     screenTitle: {
         fontSize: 24,

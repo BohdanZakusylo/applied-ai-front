@@ -1,0 +1,94 @@
+import styles from './styles';
+import { Text, Image, View, ImageSourcePropType, ImageURISource, FlatList } from 'react-native';
+// Material Icons removed as we're using text instead of icons
+import HomeNavigationTile, { HomeNavigationTileProps } from '../../components/HomeNavigationTile/HomeNavigationTile';
+import Button from '../../components/Button/Button';
+import { useNavigation } from '@react-navigation/native';
+import React, { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
+import { useTheme } from '../../contexts/ThemeContext';
+
+const Home = () => {
+    const navigation = useNavigation();
+    const { colors } = useTheme();
+
+    const LOGO: ImageSourcePropType = require('../../assets/images/logo.png');
+    const INSURANCE_POLICY: ImageURISource = require('../../assets/images/home_insurance_policy.png');
+    const COVERAGE: ImageURISource = require('../../assets/images/home_coverage.png');
+    const CLINICS: ImageURISource = require('../../assets/images/home_clinics.png');
+    const SUBMIT: ImageURISource = require('../../assets/images/home_submit.png');
+
+    const { state: user } = useContext(UserContext);
+
+    const navigatePolicy: () => void = () => {
+        (navigation as any).navigate('WorkInProgress');
+    };
+
+    const navigateNearbyGP: () => void = () => {
+        (navigation as any).navigate('NearbyGP');
+    };
+
+    const navigateChat: () => void = () => {
+        (navigation as any).navigate('ChatScreen');
+    };
+
+    const navigateFeedback: () => void = () => {
+        (navigation as any).navigate('FeedbackScreen');
+    };
+
+    // Deadlines functionality has been moved to the tab navigation bar
+
+    const TILES: HomeNavigationTileProps[] = [
+        {
+            imageSource: INSURANCE_POLICY,
+            label: 'View My Insurance Policy',
+            onPress: navigatePolicy,
+            color: colors.HOME_BUTTON_SECONDARY,
+            borderColor: colors.SECONDARY_DARK,
+        },
+        {
+            imageSource: COVERAGE,
+            label: 'Understand What’s Covered',
+            onPress: navigatePolicy,
+        },
+        {
+            imageSource: CLINICS,
+            label: 'Find nearby General Practitioners',
+            onPress: navigateNearbyGP,
+        },
+        {
+            imageSource: SUBMIT,
+            label: 'Submit your feedback',
+            onPress: navigateFeedback,
+            color: colors.HOME_BUTTON_SECONDARY,
+            borderColor: colors.SECONDARY_DARK,
+        },
+    ];
+
+    return (
+        <View style={[styles.screen, { backgroundColor: colors.BACKGROUND }]}>
+            <Image source={LOGO} style={styles.logo} resizeMode="contain" />
+            <Text style={[styles.intro, { color: colors.BLACK }]}>Hi {user!.name}, how can I help you today?</Text>
+            <View style={styles.tiles}>
+                <FlatList
+                    data={TILES}
+                    renderItem={(tile) =>
+                        <HomeNavigationTile
+                            key={'NavigationButton' + tile.index}
+                            imageSource={tile.item.imageSource}
+                            label={tile.item.label}
+                            onPress={tile.item.onPress}
+                            color={tile.item.color}
+                            borderColor={tile.item.borderColor}
+                        />
+                    }
+                    numColumns={2}
+                    columnWrapperStyle={styles.row}
+                />
+            </View>
+            <Button onPress={navigateChat} label="Chat with me for more help" />
+        </View>
+    );
+};
+
+export default Home;

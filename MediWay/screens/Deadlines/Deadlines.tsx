@@ -1,0 +1,334 @@
+import React, { useState, useEffect } from 'react';
+import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import DeadlinesService, { Deadline, DeadlineCreate, DeadlineUpdate } from '../../services/deadline/deadlinesService';
+import {
+    View,
+    Text,
+    FlatList,
+    TouchableOpacity,
+    Modal,
+    TextInput,
+    Alert,
+    Image,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import styles from './styles';
+import { useTheme } from '../../contexts/ThemeContext';
+
+// Define the route param types
+type RootStackParamList = {
+    Deadlines: {
+        newDeadline?: {
+            title: string;
+            due_date: string;
+        };
+    } | undefined;
+};
+
+// Get the types for route and navigation
+type DeadlinesScreenRouteProp = RouteProp<RootStackParamList, 'Deadlines'>;
+type DeadlinesScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Deadlines'>;
+
+// Using the Deadline interface from deadlinesService.ts
+
+const DeadlinesScreen = () => {
+    const { colors } = useTheme();
+    // Use properly typed route and navigation
+    const route = useRoute<DeadlinesScreenRouteProp>();
+    const navigation = useNavigation<DeadlinesScreenNavigationProp>();
+
+    // Check if a new deadline was passed through navigation params
+    const [deadlines, setDeadlines] = useState<Deadline[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [selectedDeadlineId, setSelectedDeadlineId] = useState<number | null>(null);
+    const [currentDeadline, setCurrentDeadline] = useState<Omit<Deadline, 'id' | 'user_id' | 'created_at' | 'updated_at'>>({
+        title: '',
+        due_date: new Date().toISOString().split('T')[0] + 'T15:00:00', // Default to today at 3:00 PM
+    });
+
+    // No longer need category modal
+
+    // Fetch deadlines from API
+    const fetchDeadlines = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await DeadlinesService.getAllDeadlines();
+            setDeadlines(response.items);
+        } catch (err) {
+            console.error('Error fetching deadlines:', err);
+            setError('Failed to load deadlines. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Initial fetch of deadlines
+    useEffect(() => {
+        fetchDeadlines();
+    }, []);
+
+    // Check if we have a new deadline from navigation params
+    useEffect(() => {
+        if (route.params?.newDeadline) {
+            const { title, due_date } = route.params.newDeadline;
+
+            // Create deadline through API
+            const createNewDeadline = async () => {
+                try {
+                    await DeadlinesService.createDeadline({
+                        title,
+                        due_date,
+                    });
+                    // Refresh deadlines list
+                    fetchDeadlines();
+                } catch (err) {
+                    console.error('Error creating deadline:', err);
+                    setError('Failed to create deadline. Please try again.');
+                }
+            };
+
+            createNewDeadline();
+
+            // Clear the navigation params
+            navigation.setParams({ newDeadline: undefined });
+        }
+    }, [navigation, route.params?.newDeadline]);
+
+    // Reset form to default values
+    const resetForm = () => {
+        setCurrentDeadline({
+            title: '',
+            due_date: new Date().toISOString().split('T')[0] + 'T15:00:00', // Default to today at 3:00 PM
+        });
+        setSelectedDeadlineId(null);
+        setIsEditing(false);
+    };
+
+    // Open modal to add a new deadline
+    const handleAddDeadline = () => {
+        resetForm();
+        setModalVisible(true);
+    };
+
+    // Handle editing a deadline
+    const handleEditDeadline = (deadline: Deadline) => {
+        setCurrentDeadline({
+            title: deadline.title,
+            due_date: deadline.due_date,
+        });
+        setSelectedDeadlineId(deadline.id);
+        setIsEditing(true);
+        setModalVisible(true);
+    };
+
+    // Handle deleting a deadline
+    const handleDeleteDeadline = (id: number) => {
+        Alert.alert(
+            'Delete Deadline',
+            'Are you sure you want to delete this deadline?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await DeadlinesService.deleteDeadline(id);
+                            // Update local state
+                            setDeadlines(deadlines.filter((deadline) => deadline.id !== id));
+                        } catch (err) {
+                            console.error('Error deleting deadline:', err);
+                            setError('Failed to delete deadline. Please try again.');
+                        }
+                    },
+                },
+            ]
+        );
+    };
+
+    // Handle editing a deadline
+    const handleEditSubmit = async () => {
+        if (currentDeadline.title.trim() === '') {
+            Alert.alert('Error', 'Please enter a title for your deadline.');
+            return;
+        }
+
+        try {
+            if (isEditing && selectedDeadlineId) {
+                // Update existing deadline via API
+                const updateData: DeadlineUpdate = {
+                    title: currentDeadline.title,
+                    due_date: currentDeadline.due_date,
+                };
+
+                await DeadlinesService.updateDeadline(selectedDeadlineId, updateData);
+                // Refresh the list
+                fetchDeadlines();
+            } else {
+                // Create new deadline
+                const createData: DeadlineCreate = {
+                    title: currentDeadline.title,
+                    due_date: currentDeadline.due_date,
+                };
+                console.log('Creating deadline with data:', createData);
+
+                await DeadlinesService.createDeadline(createData);
+                // Refresh the list
+                fetchDeadlines();
+            }
+
+            setModalVisible(false);
+            resetForm();
+        } catch (err) {
+            console.error('Error saving deadline:', err);
+            setError('Failed to save deadline. Please try again.');
+        }
+    };
+
+    // Format the due date for display
+    const formatDueDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
+    // Render individual deadline item
+    const renderDeadlineItem = ({ item }: { item: Deadline }) => {
+        return (
+            <View style={[styles.deadlineItem, { backgroundColor: colors.WHITE }]}>
+                <View style={styles.deadlineContent}>
+                    <View style={styles.deadlineHeader}>
+                        <Text style={[styles.deadlineMessage, { color: colors.BLACK }]}>{item.title}</Text>
+                    </View>
+
+                    <Text style={[styles.deadlineEmail, { color: colors.GRAY }]}>Due: {formatDueDate(item.due_date)}</Text>
+                </View>
+
+                <View style={styles.deadlineActions}>
+                    <TouchableOpacity onPress={() => handleEditDeadline(item)} style={styles.actionButton}>
+                        <Text style={[styles.editButtonText, { color: colors.PRIMARY_DARK }]}>Edit</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => handleDeleteDeadline(item.id)} style={styles.actionButton}>
+                        <Text style={[styles.deleteButtonText, { color: colors.ERROR }]}>Delete</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    };
+
+    // Empty state when no deadlines
+    const renderEmptyState = () => {
+        if (loading) {
+            return (
+                <View style={styles.emptyStateContainer}>
+                    <Text style={[styles.emptyStateText, { color: colors.GRAY }]}>Loading deadlines...</Text>
+                </View>
+            );
+        }
+
+        if (error) {
+            return (
+                <View style={styles.emptyStateContainer}>
+                    <Text style={[styles.emptyStateText, { color: colors.ERROR }]}>{error}</Text>
+                    <TouchableOpacity onPress={fetchDeadlines} style={[styles.retryButton, { backgroundColor: colors.PRIMARY_LIGHT }]}>
+                        <Text style={[styles.retryButtonText, { color: colors.WHITE }]}>Try Again</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+
+        return (
+            <View style={styles.emptyStateContainer}>
+                <Text style={[styles.emptyStateText, { color: colors.GRAY }]}>
+                    No deadlines yet. Tap the + button to add one!
+                </Text>
+            </View>
+        );
+    };
+
+    return (
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.BACKGROUND, flex: 1 }]}>
+            <View style={styles.headerWithButton}>
+                <Text style={[styles.screenTitle, { color: colors.BLACK }]}>Deadlines</Text>
+            </View>
+
+            <FlatList
+                style={styles.deadlinesList}
+                data={deadlines}
+                renderItem={renderDeadlineItem}
+                keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={renderEmptyState}
+            />
+
+            {/* Floating Action Button for creating deadlines */}
+            <TouchableOpacity
+                style={styles.floatingActionButton}
+                onPress={handleAddDeadline}
+            >
+                <Image source={require('../../assets/images/deadlines/add.png')} style={styles.addButtonIcon} tintColor={colors.WHITE} />
+            </TouchableOpacity>
+
+            {/* Modal for adding/editing deadlines */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={[styles.modalContent, { backgroundColor: colors.WHITE }]}>
+                        <Text style={[styles.modalTitle, { color: colors.BLACK }]}>
+                            {isEditing ? 'Edit Deadline' : 'Add New Deadline'}
+                        </Text>
+
+                        <Text style={[styles.inputLabel, { color: colors.BLACK }]}>Title</Text>
+                        <TextInput
+                            style={[styles.input, { color: colors.BLACK, borderColor: colors.LIGHT_GRAY }]}
+                            value={currentDeadline.title}
+                            onChangeText={(text) =>
+                                setCurrentDeadline({ ...currentDeadline, title: text })
+                            }
+                            placeholder="Enter deadline title"
+                            placeholderTextColor={colors.LIGHT_GRAY}
+                        />
+
+                        <Text style={[styles.inputLabel, { color: colors.BLACK }]}>Due Date and Time</Text>
+                        <TextInput
+                            style={[styles.input, { color: colors.BLACK, borderColor: colors.LIGHT_GRAY }]}
+                            value={currentDeadline.due_date}
+                            onChangeText={(text) =>
+                                setCurrentDeadline({ ...currentDeadline, due_date: text })
+                            }
+                            placeholder="YYYY-MM-DDThh:mm:ss (e.g. 2025-06-25T15:00:00)"
+                            placeholderTextColor={colors.LIGHT_GRAY}
+                        />
+
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity
+                                style={[styles.button, styles.cancelButton, { backgroundColor: colors.LIGHT_GRAY }]}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={[styles.buttonText, styles.cancelButtonText, { color: colors.BLACK }]}>Cancel</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={[styles.button, styles.saveButton, { backgroundColor: colors.PRIMARY_LIGHT }]}
+                                onPress={handleEditSubmit}
+                            >
+                                <Text style={[styles.buttonText, styles.saveButtonText, { color: colors.WHITE }]}>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        </SafeAreaView>
+    );
+};
+
+export default DeadlinesScreen;
